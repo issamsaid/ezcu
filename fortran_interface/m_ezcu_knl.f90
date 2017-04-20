@@ -1,0 +1,718 @@
+!>
+!! @copyright Copyright (c) 2016-, Issam SAID <said.issam@gmail.com>
+!! All rights reserved.
+!!
+!! Redistribution and use in source and binary forms, with or without
+!! modification, are permetted provided that the following conditions
+!! are met:
+!!
+!! 1. Redistributions of source code must retain the above copyright
+!!    notice, this list of conditions and the following disclaimer.
+!! 2. Redistributions in binary form must reproduce the above copyright
+!!    notice, this list of conditions and the following disclaimer inthe
+!!    documentation and/or other materials provided with the distribution.
+!! 3. Neither the name of the copyright holder nor the names of its contributors
+!!    may be used to endorse or promote products derived from this software
+!!    without specific prior written permission.
+!!
+!! THIS SOFTWARE IS PROVIDED "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES,
+!! INCLUDING, BUT NOT LIMITED TO, WARRANTIES OF MERCHANTABILITY AND FITNESS
+!! FOR A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT 
+!! HOLDER OR ITS CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, 
+!! SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO,
+!! PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR
+!! PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF 
+!! LIABILITY, WETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING
+!! NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
+!! SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+!!
+!! @file m_ezcu_knl.f90
+!! @author Issam SAID
+!! @brief This file implements the Fortran interface of the ezCU kernels
+!! manipulation routines.
+!! @see ezCU/knl.h
+!<
+module m_ezcu_knl
+    use, intrinsic :: iso_c_binding
+    use m_ezcu_types
+
+    implicit none
+
+    private
+
+    interface        
+
+        subroutine c_ezcu_knl_set_int32(name, index, arg) &
+            bind(c, name="ezcu_knl_set_int32")
+            use, intrinsic :: iso_c_binding, only: c_char, c_int, c_int32_t
+            character(kind=c_char), intent(in)         :: name
+            integer(kind=c_int), value, intent(in)     :: index
+            integer(kind=c_int32_t), value, intent(in) :: arg
+        end subroutine c_ezcu_knl_set_int32
+
+        subroutine c_ezcu_knl_set_int64(name, index, arg) &
+            bind(c, name="ezcu_knl_set_int64")
+            use, intrinsic :: iso_c_binding, only: c_int, c_int64_t, c_char
+            character(kind=c_char), intent(in)         :: name
+            integer(kind=c_int),     value, intent(in) :: index
+            integer(kind=c_int64_t), value, intent(in) :: arg
+        end subroutine c_ezcu_knl_set_int64
+
+        subroutine c_ezcu_knl_set_float(name, index, arg) &
+            bind(c, name="ezcu_knl_set_float")
+            use, intrinsic :: iso_c_binding, only: c_float, c_int, c_char
+            character(kind=c_char), intent(in)     :: name
+            integer(kind=c_int), value, intent(in) :: index
+            real(kind=c_float),  value, intent(in) :: arg
+        end subroutine c_ezcu_knl_set_float
+
+        subroutine c_ezcu_knl_set_double(name, index, arg) &
+            bind(c, name="ezcu_knl_set_double")
+            use, intrinsic :: iso_c_binding, only: c_double, c_int, c_char
+            character(kind=c_char), intent(in)     :: name
+            integer(kind=c_int), value, intent(in) :: index
+            real(kind=c_double), value, intent(in) :: arg
+        end subroutine c_ezcu_knl_set_double
+
+        subroutine c_ezcu_knl_set_mem(name, index, arg) &
+            bind(c, name="ezcu_knl_set_mem")
+            use, intrinsic :: iso_c_binding, only: c_int, c_char, c_ptr
+            character(kind=c_char), intent(in)     :: name
+            integer(kind=c_int), value, intent(in) :: index
+            type(c_ptr),         value, intent(in) :: arg
+        end subroutine c_ezcu_knl_set_mem
+
+        subroutine c_ezcu_knl_set_wrk(name, wrk, grid, block) &
+            bind(c, name="ezcu_knl_set_wrk")
+            use, intrinsic :: iso_c_binding, only: c_char, c_int
+            character(kind=c_char), intent(in)             :: name
+            integer(kind=c_int),         value, intent(in) :: wrk
+            integer(kind=c_int), dimension(3), intent(in) :: grid
+            integer(kind=c_int), dimension(3), intent(in) :: block
+        end subroutine c_ezcu_knl_set_wrk
+        
+        subroutine c_ezcu_knl_set_shared(name, bytes) &
+            bind(c, name="ezcu_knl_set_shared")
+            use, intrinsic :: iso_c_binding, only: c_int, c_char
+            character(kind=c_char), intent(in)     :: name
+            integer(kind=c_int), value, intent(in) :: bytes
+        end subroutine c_ezcu_knl_set_shared
+
+        real(kind=c_double) &
+        function c_ezcu_knl_timed_exec(name, dev) &
+            bind(c, name="ezcu_knl_timed_exec")
+            use, intrinsic :: iso_c_binding, only: c_char, c_double, c_ptr
+            character(kind=c_char), intent(in) :: name
+            type(c_ptr),     value, intent(in) :: dev
+        end function c_ezcu_knl_timed_exec
+
+        subroutine c_ezcu_knl_sync_exec(name, dev) &
+            bind(c, name="ezcu_knl_sync_exec")
+            use, intrinsic :: iso_c_binding, only: c_char, c_ptr
+            character(kind=c_char), intent(in) :: name
+            type(c_ptr),     value, intent(in) :: dev
+        end subroutine c_ezcu_knl_sync_exec
+
+        subroutine c_ezcu_knl_exec(name, dev) &
+            bind(c, name="ezcu_knl_exec")
+            use, intrinsic :: iso_c_binding, only: c_ptr, c_char
+            character(kind=c_char), intent(in) :: name
+            type(c_ptr),     value, intent(in) :: dev
+        end subroutine c_ezcu_knl_exec
+    end interface
+    
+    public :: ezcu_knl_set_wrk
+    public :: ezcu_knl_set
+    interface ezcu_knl_set
+        module procedure ezcu_knl_set_shared
+
+        module procedure ezcu_knl_set_int32
+        module procedure ezcu_knl_set_int64
+        module procedure ezcu_knl_set_float
+        module procedure ezcu_knl_set_double
+        
+        !! ezcu_knl_set_mem
+        module procedure ezcu_knl_set_mem_int32_1d
+        module procedure ezcu_knl_set_mem_int32_1d_allocatable
+        module procedure ezcu_knl_set_mem_int64_1d
+        module procedure ezcu_knl_set_mem_int64_1d_allocatable
+        module procedure ezcu_knl_set_mem_float_1d
+        module procedure ezcu_knl_set_mem_float_1d_allocatable
+        module procedure ezcu_knl_set_mem_double_1d
+        module procedure ezcu_knl_set_mem_double_1d_allocatable
+        
+        module procedure ezcu_knl_set_mem_int32_2d
+        module procedure ezcu_knl_set_mem_int32_2d_allocatable
+        module procedure ezcu_knl_set_mem_int64_2d
+        module procedure ezcu_knl_set_mem_int64_2d_allocatable
+        module procedure ezcu_knl_set_mem_float_2d
+        module procedure ezcu_knl_set_mem_float_2d_allocatable
+        module procedure ezcu_knl_set_mem_double_2d
+        module procedure ezcu_knl_set_mem_double_2d_allocatable
+        
+        module procedure ezcu_knl_set_mem_int32_3d
+        module procedure ezcu_knl_set_mem_int32_3d_allocatable
+        module procedure ezcu_knl_set_mem_int64_3d
+        module procedure ezcu_knl_set_mem_int64_3d_allocatable
+        module procedure ezcu_knl_set_mem_float_3d
+        module procedure ezcu_knl_set_mem_float_3d_allocatable
+        module procedure ezcu_knl_set_mem_double_3d
+        module procedure ezcu_knl_set_mem_double_3d_allocatable
+
+        module procedure ezcu_knl_set_mem_int32_4d
+        module procedure ezcu_knl_set_mem_int32_4d_allocatable
+        module procedure ezcu_knl_set_mem_int64_4d
+        module procedure ezcu_knl_set_mem_int64_4d_allocatable
+        module procedure ezcu_knl_set_mem_float_4d
+        module procedure ezcu_knl_set_mem_float_4d_allocatable
+        module procedure ezcu_knl_set_mem_double_4d
+        module procedure ezcu_knl_set_mem_double_4d_allocatable
+    end interface ezcu_knl_set
+
+    !!
+    !!  NOTE: With the CRAY and PGI compilers, subroutines
+    !!  with the same signature except the arrays for one are allocatable
+    !!  and pointers for the other, are TKR incompatible and thus ambiguous.
+    !!  In order to remove the ambiguity, the _ptr extension is added.
+    !!
+    public :: ezcu_knl_set_ptr
+    interface ezcu_knl_set_ptr
+        module procedure ezcu_knl_set_mem_int32_1d_pointer
+        module procedure ezcu_knl_set_mem_int64_1d_pointer
+        module procedure ezcu_knl_set_mem_float_1d_pointer
+        module procedure ezcu_knl_set_mem_double_1d_pointer
+        
+        module procedure ezcu_knl_set_mem_int32_2d_pointer
+        module procedure ezcu_knl_set_mem_int64_2d_pointer
+        module procedure ezcu_knl_set_mem_float_2d_pointer
+        module procedure ezcu_knl_set_mem_double_2d_pointer
+
+        module procedure ezcu_knl_set_mem_int32_3d_pointer
+        module procedure ezcu_knl_set_mem_int64_3d_pointer
+        module procedure ezcu_knl_set_mem_float_3d_pointer
+        module procedure ezcu_knl_set_mem_double_3d_pointer
+
+        module procedure ezcu_knl_set_mem_int32_4d_pointer
+        module procedure ezcu_knl_set_mem_int64_4d_pointer
+        module procedure ezcu_knl_set_mem_float_4d_pointer
+        module procedure ezcu_knl_set_mem_double_4d_pointer
+    end interface ezcu_knl_set_ptr
+
+    public :: ezcu_knl_exec
+    public :: ezcu_knl_sync_exec
+    public :: ezcu_knl_timed_exec
+    
+contains
+
+    !!
+    !! ezcu_knl_set_wrk
+    !!
+    subroutine ezcu_knl_set_wrk(name, wrk, grid, block)
+        character(len=*),                  intent(in) :: name
+        integer(kind=c_int),        value, intent(in) :: wrk
+        integer(kind=c_int), dimension(3), intent(in) :: grid
+        integer(kind=c_int), dimension(3), intent(in) :: block
+        call c_ezcu_knl_set_wrk(name // c_null_char, wrk, grid, block)
+    end subroutine ezcu_knl_set_wrk
+
+    !!
+    !! ezcu_knl_set_wrk
+    !!
+    subroutine ezcu_knl_set_shared(name, bytes)
+        character(len=*),                  intent(in) :: name
+        integer(kind=c_int),        value, intent(in) :: bytes
+        call c_ezcu_knl_set_shared(name // c_null_char, bytes)
+    end subroutine ezcu_knl_set_shared
+
+    !!
+    !! ezcu_knl_set
+    !!
+    subroutine ezcu_knl_set_int32(name, index, arg)
+        character(len=*), intent(in) :: name
+        integer(kind=4),  intent(in) :: index
+        integer(kind=4),  intent(in) :: arg
+        call c_ezcu_knl_set_int32(name // c_null_char, index, arg)
+    end subroutine ezcu_knl_set_int32
+
+    subroutine ezcu_knl_set_int64(name, index, arg)
+        character(len=*),      intent(in) :: name
+        integer(kind=4),       intent(in) :: index
+        integer(kind=8),       intent(in) :: arg
+        call c_ezcu_knl_set_int64(name // c_null_char, index, arg)
+    end subroutine ezcu_knl_set_int64
+
+    subroutine ezcu_knl_set_float(name, index, arg)
+        character(len=*),      intent(in) :: name
+        integer(kind=4),       intent(in) :: index
+        real(kind=4),          intent(in) :: arg
+        call c_ezcu_knl_set_float(name // c_null_char, index, arg)
+    end subroutine ezcu_knl_set_float
+    
+    subroutine ezcu_knl_set_double(name, index, arg)
+        character(len=*),      intent(in) :: name
+        integer(kind=4),       intent(in) :: index
+        real(kind=8),          intent(in) :: arg
+        call c_ezcu_knl_set_double(name // c_null_char, index, arg)
+    end subroutine ezcu_knl_set_double
+
+    !! mem 1d
+    subroutine ezcu_knl_set_mem_int32_1d(name, index, arg, size_x)
+        character(len=*),        intent(in) :: name
+        integer(kind=4),         intent(in) :: index
+        integer(kind=4),         intent(in) :: size_x
+        integer(kind=4), target, intent(in) :: arg(size_x)
+        call c_ezcu_knl_set_mem(name // c_null_char, index, c_loc(arg))
+    end subroutine ezcu_knl_set_mem_int32_1d
+
+    subroutine ezcu_knl_set_mem_int32_1d_allocatable(name, index, arg)
+        character(len=*),                     intent(in) :: name
+        integer(kind=4),                      intent(in) :: index
+        integer(kind=4), allocatable, target, intent(in) :: arg(:)
+        call c_ezcu_knl_set_mem(name // c_null_char, index, c_loc(arg))
+    end subroutine ezcu_knl_set_mem_int32_1d_allocatable
+
+    subroutine ezcu_knl_set_mem_int64_1d(name, index, arg, size_x)
+        character(len=*),        intent(in) :: name
+        integer(kind=4),         intent(in) :: index
+        integer(kind=4),         intent(in) :: size_x
+        integer(kind=8), target, intent(in) :: arg(size_x)
+        call c_ezcu_knl_set_mem(name // c_null_char, index, c_loc(arg))
+    end subroutine ezcu_knl_set_mem_int64_1d
+
+    subroutine ezcu_knl_set_mem_int64_1d_allocatable(name, index, arg)
+        character(len=*),                     intent(in) :: name
+        integer(kind=4),                      intent(in) :: index
+        integer(kind=8), allocatable, target, intent(in) :: arg(:)
+        call c_ezcu_knl_set_mem(name // c_null_char, index, c_loc(arg))
+    end subroutine ezcu_knl_set_mem_int64_1d_allocatable
+
+    subroutine ezcu_knl_set_mem_float_1d(name, index, arg, size_x)
+        character(len=*),        intent(in) :: name
+        integer(kind=4),         intent(in) :: index
+        integer(kind=4),         intent(in) :: size_x
+        real(kind=4),    target, intent(in) :: arg(size_x)
+        call c_ezcu_knl_set_mem(name // c_null_char, index, c_loc(arg))
+    end subroutine ezcu_knl_set_mem_float_1d
+
+    subroutine ezcu_knl_set_mem_float_1d_allocatable(name, index, arg)
+        character(len=*),                     intent(in) :: name
+        integer(kind=4),                      intent(in) :: index
+        real(kind=4),    allocatable, target, intent(in) :: arg(:)
+        call c_ezcu_knl_set_mem(name // c_null_char, index, c_loc(arg))
+    end subroutine ezcu_knl_set_mem_float_1d_allocatable
+
+    subroutine ezcu_knl_set_mem_double_1d(name, index, arg, size_x)
+        character(len=*),        intent(in) :: name
+        integer(kind=4),         intent(in) :: index
+        integer(kind=4),         intent(in) :: size_x
+        real(kind=8),    target, intent(in) :: arg(size_x)
+        call c_ezcu_knl_set_mem(name // c_null_char, index, c_loc(arg))
+    end subroutine ezcu_knl_set_mem_double_1d
+
+    subroutine ezcu_knl_set_mem_double_1d_allocatable(name, index, arg)
+        character(len=*),                     intent(in) :: name
+        integer(kind=4),                      intent(in) :: index
+        real(kind=8),    allocatable, target, intent(in) :: arg(:)
+        call c_ezcu_knl_set_mem(name // c_null_char, index, c_loc(arg))
+    end subroutine ezcu_knl_set_mem_double_1d_allocatable
+
+    !! mem 2d
+    subroutine ezcu_knl_set_mem_int32_2d(name, index, arg, size_x, size_y)
+        character(len=*),        intent(in) :: name
+        integer(kind=4),         intent(in) :: index
+        integer(kind=4),         intent(in) :: size_x
+        integer(kind=4),         intent(in) :: size_y
+        integer(kind=4), target, intent(in) :: arg(size_x, size_y)
+        call c_ezcu_knl_set_mem(name // c_null_char, index, c_loc(arg))
+    end subroutine ezcu_knl_set_mem_int32_2d
+
+    subroutine ezcu_knl_set_mem_int32_2d_allocatable(name, index, arg)
+        character(len=*),                     intent(in) :: name
+        integer(kind=4),                      intent(in) :: index
+        integer(kind=4), allocatable, target, intent(in) :: arg(:,:)
+        call c_ezcu_knl_set_mem(name // c_null_char, index, c_loc(arg))
+    end subroutine ezcu_knl_set_mem_int32_2d_allocatable
+
+    subroutine ezcu_knl_set_mem_int64_2d(name, index, arg, size_x, size_y)
+        character(len=*),        intent(in) :: name
+        integer(kind=4),         intent(in) :: index
+        integer(kind=4),         intent(in) :: size_x
+        integer(kind=4),         intent(in) :: size_y
+        integer(kind=8), target, intent(in) :: arg(size_x, size_y)
+        call c_ezcu_knl_set_mem(name // c_null_char, index, c_loc(arg))
+    end subroutine ezcu_knl_set_mem_int64_2d
+
+    subroutine ezcu_knl_set_mem_int64_2d_allocatable(name, index, arg)
+        character(len=*),                     intent(in) :: name
+        integer(kind=4),                      intent(in) :: index
+        integer(kind=8), allocatable, target, intent(in) :: arg(:,:)
+        call c_ezcu_knl_set_mem(name // c_null_char, index, c_loc(arg))
+    end subroutine ezcu_knl_set_mem_int64_2d_allocatable
+
+    subroutine ezcu_knl_set_mem_float_2d(name, index, arg, size_x, size_y)
+        character(len=*),     intent(in) :: name
+        integer(kind=4),      intent(in) :: index
+        integer(kind=4),      intent(in) :: size_x
+        integer(kind=4),      intent(in) :: size_y
+        real(kind=4), target, intent(in) :: arg(size_x, size_y)
+        call c_ezcu_knl_set_mem(name // c_null_char, index, c_loc(arg))
+    end subroutine ezcu_knl_set_mem_float_2d
+
+    subroutine ezcu_knl_set_mem_float_2d_allocatable(name, index, arg)
+        character(len=*),                     intent(in) :: name
+        integer(kind=4),                      intent(in) :: index
+        real(kind=4),    allocatable, target, intent(in) :: arg(:,:)
+        call c_ezcu_knl_set_mem(name // c_null_char, index, c_loc(arg))
+    end subroutine ezcu_knl_set_mem_float_2d_allocatable
+
+    subroutine ezcu_knl_set_mem_double_2d(name, index, arg, size_x, size_y)
+        character(len=*),        intent(in) :: name
+        integer(kind=4),         intent(in) :: index
+        integer(kind=4),         intent(in) :: size_x
+        integer(kind=4),         intent(in) :: size_y
+        real(kind=8),    target, intent(in) :: arg(size_x, size_y)
+        call c_ezcu_knl_set_mem(name // c_null_char, index, c_loc(arg))
+    end subroutine ezcu_knl_set_mem_double_2d
+
+    subroutine ezcu_knl_set_mem_double_2d_allocatable(name, index, arg)
+        character(len=*),                     intent(in) :: name
+        integer(kind=4),                      intent(in) :: index
+        real(kind=8),    allocatable, target, intent(in) :: arg(:,:)
+        call c_ezcu_knl_set_mem(name // c_null_char, index, c_loc(arg))
+    end subroutine ezcu_knl_set_mem_double_2d_allocatable
+
+    !! mem 3d
+    subroutine ezcu_knl_set_mem_int32_3d(name, index, arg, &
+                                         size_x, size_y, size_z)
+        character(len=*),        intent(in) :: name
+        integer(kind=4),         intent(in) :: index
+        integer(kind=4),         intent(in) :: size_x
+        integer(kind=4),         intent(in) :: size_y
+        integer(kind=4),         intent(in) :: size_z
+        integer(kind=4), target, intent(in) :: arg(size_x, size_y, size_z)
+        call c_ezcu_knl_set_mem(name // c_null_char, index, c_loc(arg))
+    end subroutine ezcu_knl_set_mem_int32_3d
+
+    subroutine ezcu_knl_set_mem_int32_3d_allocatable(name, index, arg)
+        character(len=*),                     intent(in) :: name
+        integer(kind=4),                      intent(in) :: index
+        integer(kind=4), allocatable, target, intent(in) :: arg(:,:,:)
+        call c_ezcu_knl_set_mem(name // c_null_char, index, c_loc(arg))
+    end subroutine ezcu_knl_set_mem_int32_3d_allocatable
+
+    subroutine ezcu_knl_set_mem_int64_3d(name, index, arg, &
+                                         size_x, size_y, size_z)
+        character(len=*),        intent(in) :: name
+        integer(kind=4),         intent(in) :: index
+        integer(kind=4),         intent(in) :: size_x
+        integer(kind=4),         intent(in) :: size_y
+        integer(kind=4),         intent(in) :: size_z
+        integer(kind=8), target, intent(in) :: arg(size_x, size_y, size_z)
+        call c_ezcu_knl_set_mem(name // c_null_char, index, c_loc(arg))
+    end subroutine ezcu_knl_set_mem_int64_3d
+
+    subroutine ezcu_knl_set_mem_int64_3d_allocatable(name, index, arg)
+        character(len=*),                     intent(in) :: name
+        integer(kind=4),                      intent(in) :: index
+        integer(kind=8), allocatable, target, intent(in) :: arg(:,:,:)
+        call c_ezcu_knl_set_mem(name // c_null_char, index, c_loc(arg))
+    end subroutine ezcu_knl_set_mem_int64_3d_allocatable
+
+    subroutine ezcu_knl_set_mem_float_3d(name, index, arg, &
+                                         size_x, size_y, size_z)
+        character(len=*),     intent(in) :: name
+        integer(kind=4),      intent(in) :: index
+        integer(kind=4),      intent(in) :: size_x
+        integer(kind=4),      intent(in) :: size_y
+        integer(kind=4),      intent(in) :: size_z
+        real(kind=4), target, intent(in) :: arg(size_x, size_y, size_z)
+        call c_ezcu_knl_set_mem(name // c_null_char, index, c_loc(arg))
+    end subroutine ezcu_knl_set_mem_float_3d
+
+    subroutine ezcu_knl_set_mem_float_3d_allocatable(name, index, arg)
+        character(len=*),                     intent(in) :: name
+        integer(kind=4),                      intent(in) :: index
+        real(kind=4),    allocatable, target, intent(in) :: arg(:,:,:)
+        call c_ezcu_knl_set_mem(name // c_null_char, index, c_loc(arg))
+    end subroutine ezcu_knl_set_mem_float_3d_allocatable
+
+    subroutine ezcu_knl_set_mem_double_3d(name, index, arg, &
+                                          size_x, size_y, size_z)
+        character(len=*),     intent(in) :: name
+        integer(kind=4),      intent(in) :: index
+        integer(kind=4),      intent(in) :: size_x
+        integer(kind=4),      intent(in) :: size_y
+        integer(kind=4),      intent(in) :: size_z
+        real(kind=8), target, intent(in) :: arg(size_x, size_y, size_z)
+        call c_ezcu_knl_set_mem(name // c_null_char, index, c_loc(arg))
+    end subroutine ezcu_knl_set_mem_double_3d
+
+    subroutine ezcu_knl_set_mem_double_3d_allocatable(name, index, arg)
+        character(len=*),                  intent(in) :: name
+        integer(kind=4),                   intent(in) :: index
+        real(kind=8), allocatable, target, intent(in) :: arg(:,:,:)
+        call c_ezcu_knl_set_mem(name // c_null_char, index, c_loc(arg))
+    end subroutine ezcu_knl_set_mem_double_3d_allocatable
+
+    !! mem 4d
+    subroutine ezcu_knl_set_mem_int32_4d(name, index, arg, &
+                                         size_x, size_y, size_z, size_w)
+        character(len=*),        intent(in) :: name
+        integer(kind=4),         intent(in) :: index
+        integer(kind=4),         intent(in) :: size_x
+        integer(kind=4),         intent(in) :: size_y
+        integer(kind=4),         intent(in) :: size_z
+        integer(kind=4),         intent(in) :: size_w
+        integer(kind=4), target, intent(in) :: arg(size_x, size_y, &
+                                                   size_z, size_w)
+        call c_ezcu_knl_set_mem(name // c_null_char, index, c_loc(arg))
+    end subroutine ezcu_knl_set_mem_int32_4d
+
+    subroutine ezcu_knl_set_mem_int32_4d_allocatable(name, index, arg)
+        character(len=*),                     intent(in) :: name
+        integer(kind=4),                      intent(in) :: index
+        integer(kind=4), allocatable, target, intent(in) :: arg(:,:,:,:)
+        call c_ezcu_knl_set_mem(name // c_null_char, index, c_loc(arg))
+    end subroutine ezcu_knl_set_mem_int32_4d_allocatable
+
+    subroutine ezcu_knl_set_mem_int64_4d(name, index, arg, &
+                                         size_x, size_y, size_z, size_w)
+        character(len=*),        intent(in) :: name
+        integer(kind=4),         intent(in) :: index
+        integer(kind=4),         intent(in) :: size_x
+        integer(kind=4),         intent(in) :: size_y
+        integer(kind=4),         intent(in) :: size_z
+        integer(kind=4),         intent(in) :: size_w
+        integer(kind=8), target, intent(in) :: arg(size_x, size_y, &
+                                                   size_z, size_w)
+        call c_ezcu_knl_set_mem(name // c_null_char, index, c_loc(arg))
+    end subroutine ezcu_knl_set_mem_int64_4d
+
+    subroutine ezcu_knl_set_mem_int64_4d_allocatable(name, index, arg)
+        character(len=*),                     intent(in) :: name
+        integer(kind=4),                      intent(in) :: index
+        integer(kind=8), allocatable, target, intent(in) :: arg(:,:,:,:)
+        call c_ezcu_knl_set_mem(name // c_null_char, index, c_loc(arg))
+    end subroutine ezcu_knl_set_mem_int64_4d_allocatable
+
+    subroutine ezcu_knl_set_mem_float_4d(name, index, arg, &
+                                         size_x, size_y, size_z, size_w)
+        character(len=*),     intent(in) :: name
+        integer(kind=4),      intent(in) :: index
+        integer(kind=4),      intent(in) :: size_x
+        integer(kind=4),      intent(in) :: size_y
+        integer(kind=4),      intent(in) :: size_z
+        integer(kind=4),      intent(in) :: size_w
+        real(kind=4), target, intent(in) :: arg(size_x, size_y, size_z, size_w)
+        call c_ezcu_knl_set_mem(name // c_null_char, index, c_loc(arg))
+    end subroutine ezcu_knl_set_mem_float_4d
+
+    subroutine ezcu_knl_set_mem_float_4d_allocatable(name, index, arg)
+        character(len=*),                     intent(in) :: name
+        integer(kind=4),                      intent(in) :: index
+        real(kind=4),    allocatable, target, intent(in) :: arg(:,:,:,:)
+        call c_ezcu_knl_set_mem(name // c_null_char, index, c_loc(arg))
+    end subroutine ezcu_knl_set_mem_float_4d_allocatable
+
+    subroutine ezcu_knl_set_mem_double_4d(name, index, arg, &
+                                          size_x, size_y, size_z, size_w)
+        character(len=*),     intent(in) :: name
+        integer(kind=4),      intent(in) :: index
+        integer(kind=4),      intent(in) :: size_x
+        integer(kind=4),      intent(in) :: size_y
+        integer(kind=4),      intent(in) :: size_z
+        integer(kind=4),      intent(in) :: size_w
+        real(kind=8), target, intent(in) :: arg(size_x, size_y, size_z, size_w)
+        call c_ezcu_knl_set_mem(name // c_null_char, index, c_loc(arg))
+    end subroutine ezcu_knl_set_mem_double_4d
+
+    subroutine ezcu_knl_set_mem_double_4d_allocatable(name, index, arg)
+        character(len=*),                     intent(in) :: name
+        integer(kind=4),                      intent(in) :: index
+        real(kind=8),    allocatable, target, intent(in) :: arg(:,:,:,:)
+        call c_ezcu_knl_set_mem(name // c_null_char, index, c_loc(arg))
+    end subroutine ezcu_knl_set_mem_double_4d_allocatable
+
+    !!
+    !! ezcu_knl_set_ptr
+    !!
+
+    !! mem 1d
+    subroutine ezcu_knl_set_mem_int32_1d_pointer(name, index, arg)
+        character(len=*),                        intent(in) :: name
+        integer(kind=4),                         intent(in) :: index
+        integer(kind=4),  pointer, dimension(:), intent(in) :: arg
+        call c_ezcu_knl_set_mem(name // c_null_char, index, &
+                                c_loc(arg(lbound(arg, 1))))
+    end subroutine ezcu_knl_set_mem_int32_1d_pointer
+
+    subroutine ezcu_knl_set_mem_int64_1d_pointer(name, index, arg)
+        character(len=*),                       intent(in) :: name
+        integer(kind=4),                        intent(in) :: index
+        integer(kind=8), pointer, dimension(:), intent(in) :: arg
+        call c_ezcu_knl_set_mem(name // c_null_char, index, &
+                                c_loc(arg(lbound(arg, 1))))
+    end subroutine ezcu_knl_set_mem_int64_1d_pointer
+
+    subroutine ezcu_knl_set_mem_float_1d_pointer(name, index, arg)
+        character(len=*),                     intent(in) :: name
+        integer(kind=4),                      intent(in) :: index
+        real(kind=4),  pointer, dimension(:), intent(in) :: arg
+        call c_ezcu_knl_set_mem(name // c_null_char, index, &
+                                c_loc(arg(lbound(arg, 1))))
+    end subroutine ezcu_knl_set_mem_float_1d_pointer
+
+    subroutine ezcu_knl_set_mem_double_1d_pointer(name, index, arg)
+        character(len=*),                     intent(in) :: name
+        integer(kind=4),                      intent(in) :: index
+        real(kind=8),  pointer, dimension(:), intent(in) :: arg
+        call c_ezcu_knl_set_mem(name // c_null_char, index, &
+                                c_loc(arg(lbound(arg, 1))))
+    end subroutine ezcu_knl_set_mem_double_1d_pointer
+
+    !! mem 2d
+    subroutine ezcu_knl_set_mem_int32_2d_pointer(name, index, arg)
+        character(len=*),                         intent(in) :: name
+        integer(kind=4),                          intent(in) :: index
+        integer(kind=4), pointer, dimension(:,:), intent(in) :: arg
+        call c_ezcu_knl_set_mem(name // c_null_char, index, &
+                                c_loc(arg(lbound(arg, 1),   &
+                                          lbound(arg, 2))))
+    end subroutine ezcu_knl_set_mem_int32_2d_pointer
+    
+    subroutine ezcu_knl_set_mem_int64_2d_pointer(name, index, arg)
+        character(len=*),                         intent(in) :: name
+        integer(kind=4),                          intent(in) :: index
+        integer(kind=8), pointer, dimension(:,:), intent(in) :: arg
+        call c_ezcu_knl_set_mem(name // c_null_char, index, &
+                                c_loc(arg(lbound(arg, 1),   &
+                                          lbound(arg, 2))))
+    end subroutine ezcu_knl_set_mem_int64_2d_pointer
+    
+    subroutine ezcu_knl_set_mem_float_2d_pointer(name, index, arg)
+        character(len=*),                      intent(in) :: name
+        integer(kind=4),                       intent(in) :: index
+        real(kind=4), pointer, dimension(:,:), intent(in) :: arg
+        call c_ezcu_knl_set_mem(name // c_null_char, index, &
+                                c_loc(arg(lbound(arg, 1),   &
+                                          lbound(arg, 2))))
+    end subroutine ezcu_knl_set_mem_float_2d_pointer
+
+    subroutine ezcu_knl_set_mem_double_2d_pointer(name, index, arg)
+        character(len=*),                      intent(in) :: name
+        integer(kind=4),                       intent(in) :: index
+        real(kind=8), pointer, dimension(:,:), intent(in) :: arg
+        call c_ezcu_knl_set_mem(name // c_null_char, index, &
+                                c_loc(arg(lbound(arg, 1),   &
+                                          lbound(arg, 2))))
+    end subroutine ezcu_knl_set_mem_double_2d_pointer
+
+    !! mem 3d
+    subroutine ezcu_knl_set_mem_int32_3d_pointer(name, index, arg)
+        character(len=*),                           intent(in) :: name
+        integer(kind=4),                            intent(in) :: index
+        integer(kind=4), pointer, dimension(:,:,:), intent(in) :: arg
+        call c_ezcu_knl_set_mem(name // c_null_char, index, &
+                                c_loc(arg(lbound(arg, 1),   &
+                                          lbound(arg, 2),   &
+                                          lbound(arg, 3))))
+    end subroutine ezcu_knl_set_mem_int32_3d_pointer
+
+    subroutine ezcu_knl_set_mem_int64_3d_pointer(name, index, arg)
+        character(len=*),                           intent(in) :: name
+        integer(kind=4),                            intent(in) :: index
+        integer(kind=8), pointer, dimension(:,:,:), intent(in) :: arg
+        call c_ezcu_knl_set_mem(name // c_null_char, index, &
+                                c_loc(arg(lbound(arg, 1),   &
+                                          lbound(arg, 2),   &
+                                          lbound(arg, 3))))
+    end subroutine ezcu_knl_set_mem_int64_3d_pointer
+
+    subroutine ezcu_knl_set_mem_float_3d_pointer(name, index, arg)
+        character(len=*),                        intent(in) :: name
+        integer(kind=4),                         intent(in) :: index
+        real(kind=4), pointer, dimension(:,:,:), intent(in) :: arg
+        call c_ezcu_knl_set_mem(name // c_null_char, index, &
+                                c_loc(arg(lbound(arg, 1),   &
+                                          lbound(arg, 2),   &
+                                          lbound(arg, 3))))
+    end subroutine ezcu_knl_set_mem_float_3d_pointer
+
+    subroutine ezcu_knl_set_mem_double_3d_pointer(name, index, arg)
+        character(len=*),                        intent(in) :: name
+        integer(kind=4),                         intent(in) :: index
+        real(kind=8), pointer, dimension(:,:,:), intent(in) :: arg
+        call c_ezcu_knl_set_mem(name // c_null_char, index, &
+                                c_loc(arg(lbound(arg, 1),   &
+                                          lbound(arg, 2),   &
+                                          lbound(arg, 3))))
+    end subroutine ezcu_knl_set_mem_double_3d_pointer
+
+    !! mem 4d
+    subroutine ezcu_knl_set_mem_int32_4d_pointer(name, index, arg)
+        character(len=*),                             intent(in) :: name
+        integer(kind=4),                              intent(in) :: index
+        integer(kind=4), pointer, dimension(:,:,:,:), intent(in) :: arg
+        call c_ezcu_knl_set_mem(name // c_null_char, index, &
+                                c_loc(arg(lbound(arg, 1),   &
+                                          lbound(arg, 2),   &
+                                          lbound(arg, 3),   &
+                                          lbound(arg, 4))))
+    end subroutine ezcu_knl_set_mem_int32_4d_pointer
+
+    subroutine ezcu_knl_set_mem_int64_4d_pointer(name, index, arg)
+        character(len=*),                             intent(in) :: name
+        integer(kind=4),                              intent(in) :: index
+        integer(kind=8), pointer, dimension(:,:,:,:), intent(in) :: arg
+        call c_ezcu_knl_set_mem(name // c_null_char, index, &
+                                c_loc(arg(lbound(arg, 1),   &
+                                          lbound(arg, 2),   &
+                                          lbound(arg, 3),   &
+                                          lbound(arg, 4))))
+    end subroutine ezcu_knl_set_mem_int64_4d_pointer
+
+    subroutine ezcu_knl_set_mem_float_4d_pointer(name, index, arg)
+        character(len=*),                          intent(in) :: name
+        integer(kind=4),                           intent(in) :: index
+        real(kind=4), pointer, dimension(:,:,:,:), intent(in) :: arg
+        call c_ezcu_knl_set_mem(name // c_null_char, index, &
+                                c_loc(arg(lbound(arg, 1),   &
+                                          lbound(arg, 2),   &
+                                          lbound(arg, 3),   &
+                                          lbound(arg, 4))))
+    end subroutine ezcu_knl_set_mem_float_4d_pointer
+
+    subroutine ezcu_knl_set_mem_double_4d_pointer(name, index, arg)
+        character(len=*),                          intent(in) :: name
+        integer(kind=4),                           intent(in) :: index
+        real(kind=8), pointer, dimension(:,:,:,:), intent(in) :: arg
+        call c_ezcu_knl_set_mem(name // c_null_char, index, &
+                                c_loc(arg(lbound(arg, 1),   &
+                                          lbound(arg, 2),   &
+                                          lbound(arg, 3),   &
+                                          lbound(arg, 4))))
+    end subroutine ezcu_knl_set_mem_double_4d_pointer
+
+    !!
+    !! exec
+    !!
+    subroutine ezcu_knl_timed_exec(name, d, elapsed)
+        character(len=*),       intent(in) :: name
+        type(ezcu_dev_t), pointer, intent(in) :: d
+        real(kind=8),      intent(out) :: elapsed
+        elapsed = c_ezcu_knl_timed_exec(name // c_null_char, c_loc(d))
+    end subroutine ezcu_knl_timed_exec
+
+    subroutine ezcu_knl_sync_exec(name, d)
+        character(len=*),       intent(in) :: name
+        type(ezcu_dev_t), pointer, intent(in) :: d
+        call c_ezcu_knl_sync_exec(name // c_null_char, c_loc(d))
+    end subroutine ezcu_knl_sync_exec
+
+    subroutine ezcu_knl_exec(name, d)
+        character(len=*),       intent(in) :: name
+        type(ezcu_dev_t), pointer, intent(in) :: d
+        call c_ezcu_knl_exec(name // c_null_char, c_loc(d))
+    end subroutine ezcu_knl_exec
+
+end module m_ezcu_knl
