@@ -161,8 +161,8 @@ __ezcu_dev_release(void *pointer) {
     ezcu_dev_t d = (ezcu_dev_t)pointer;
     if (d != NULL) {
         EZCU_DEBUG("releasing CUDA device %d", d->id);
-        EZCU_CHECK(cuCtxPushCurrent(d->ctx), "failed to push the device context");
-        //EZCU_CHECK(cuCtxSetCurrent(d->ctx), "failed to bind the context");
+        //EZCU_CHECK(cuCtxPushCurrent(d->ctx), "failed to push the device context");
+        EZCU_CHECK(cuCtxSetCurrent(d->ctx), "failed to bind the context");
         for (i=0; i<__EZCU_DEV_NSTREAMS; i++) {
             EZCU_ABORT(cuStreamSynchronize(d->streams[i]), 
                        "failed to sync stream");
@@ -170,7 +170,7 @@ __ezcu_dev_release(void *pointer) {
                        "failed to destroy stream");
         }
         free(d->streams);
-        EZCU_CHECK(cuCtxPopCurrent(&d->ctx), "failed to pop the device context");
+        //EZCU_CHECK(cuCtxPopCurrent(&d->ctx), "failed to pop the device context");
         EZCU_ABORT(cuCtxDestroy(d->ctx), "failed to destroy context");
         free(d); d = NULL;
     }

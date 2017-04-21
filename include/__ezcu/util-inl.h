@@ -178,7 +178,7 @@ __ezcu_file_has_ext(const char *filename, char *ext) {
 __EZCU_PRIVATE void
 __ezcu_generate_bin_filename(const char *filename, char *bin_filename) {
     char noext[__EZCU_STR_SIZE];
-    char* x, *precomp_ext[] = {"fatbin", "cubin", "ptx", NULL};
+    char* precomp_ext[] = {"fatbin", "cubin", "ptx", NULL};
     const char *fext = strrchr(filename, '.');
     unsigned int i=0, len = strlen(filename) - strlen(fext) + 1;
     snprintf(noext, len, "%s", filename);
