@@ -41,7 +41,7 @@ namespace {
 
     class UtilTest : public ::testing::Test {
     protected:
-    	  virtual void SetUp() { 
+    	virtual void SetUp() { 
             ezcu        = (ezcu_env_t) malloc(sizeof(struct __ezcu_env_t));
             ezcu->devs  = &urb_sentinel;
             ezcu->knls  = &urb_sentinel;
@@ -58,25 +58,25 @@ namespace {
     };
 
     TEST_F(UtilTest, __ezcu_tell_file) {
-    		ASSERT_GT(__ezcu_tell_file(PREFIX"/knl_test.cu"), 1);
-		}
+    	ASSERT_GT(__ezcu_tell_file(PREFIX"/knl_test.cu"), 1);
+	}
 
-		TEST_F(UtilTest, __ezcu_file_check_ext) {
-				ASSERT_NO_THROW(__ezcu_file_check_ext(PREFIX"/knl_test.cu"));
-		}
+	TEST_F(UtilTest, __ezcu_file_check_ext) {
+		ASSERT_NO_THROW(__ezcu_file_check_ext(PREFIX"/knl_test.cu"));
+	}
 
-		TEST_F(UtilTest, __ezcu_file_has_ext) {		
-				ASSERT_TRUE(__ezcu_file_has_ext(PREFIX"/knl_test.cu", "cu"));
-				ASSERT_FALSE(__ezcu_file_has_ext(PREFIX"/knl_test.cu", "h"));
-		}
+	TEST_F(UtilTest, __ezcu_file_has_ext) {		
+		ASSERT_TRUE(__ezcu_file_has_ext(PREFIX"/knl_test.cu", "cu"));
+		ASSERT_FALSE(__ezcu_file_has_ext(PREFIX"/knl_test.cu", "h"));
+	}
 
-		TEST_F(UtilTest, __ezcu_generate_bin_filename) {
-				char bin_filename[__EZCU_STR_SIZE];
-				FILE* file_ptr = fopen(PREFIX"/knl_test.fatbin", "w");
-  			fclose(file_ptr);
-				ASSERT_NO_THROW(__ezcu_generate_bin_filename(PREFIX"/knl_test.cu",
-												bin_filename));
-				remove(PREFIX"/knl_test.fatbin");
-		}
+	TEST_F(UtilTest, __ezcu_generate_bin_filename) {
+		char bin_filename[__EZCU_STR_SIZE];
+		FILE* file_ptr = fopen(PREFIX"/knl_test.fatbin", "w");
+  		fclose(file_ptr);
+		ASSERT_NO_THROW(__ezcu_generate_bin_filename(PREFIX"/knl_test.cu",
+						bin_filename));
+		remove(PREFIX"/knl_test.fatbin");
+	}
 
 }  // namespace

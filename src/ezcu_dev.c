@@ -40,8 +40,9 @@
 extern ezcu_env_t ezcu;
 
 ezcu_dev_t ezcu_dev_find(ezcu_flags_t flags) {
-    int id, ndt, ndp, ndi;
-    ezcu_dev_t device;
+    CUdevice id;
+    int ndt, ndp, ndi;
+    ezcu_dev_t device = NULL;
     ezcu_vendor_flags_t    v;
     ezcu_dev_type_flags_t  dt[EZCU_NB_DEV_TYPES];
     ezcu_dev_prop_flags_t  dp[EZCU_NB_DEV_PROPS];
@@ -54,11 +55,11 @@ ezcu_dev_t ezcu_dev_find(ezcu_flags_t flags) {
     EZCU_EXIT_IF(ndi > 1,
                  "flags should correspond to only one device at a time");
     if((ezcu->initialized[v & EZCU_LKP_MASK]) &&
-       (id=ezcu->lookup[dt[0] & EZCU_LKP_MASK]
-                      [dp[ndp-1] & EZCU_LKP_MASK]
-                      [di[0] & EZCU_LKP_MASK]) != -1) {
+       (id=ezcu->lookup[dt[0]     & EZCU_LKP_MASK]
+                       [dp[ndp-1] & EZCU_LKP_MASK]
+                       [di[0]     & EZCU_LKP_MASK]) != -1) {
         device = (ezcu_dev_t)urb_tree_find(&ezcu->devs, 
-                                           &id, __ezcu_int_cmp)->value;
+                                           &id, __ezcu_devid_cmp)->value;
     }
     EZCU_EXIT_IF(device == NULL,
                 "device can not found, check flags, aborting (flags =%s)", tmp);

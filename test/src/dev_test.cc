@@ -65,6 +65,7 @@ namespace {
     }
 
     TEST_F(DevTest, ezcu_dev_find_cpu) {
+        //ASSERT_DEATH(ezcu_dev_find(CPU));
     }
 
     TEST_F(DevTest, ezcu_dev_find_gpu) {

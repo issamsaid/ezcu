@@ -42,8 +42,9 @@ namespace {
 
     class BaseTest : public ::testing::Test {
     protected:
-        virtual void SetUp() { }
-        virtual void TearDown() { }
+        const static int N=100;
+        virtual void SetUp() {}
+        virtual void TearDown() {}
     };
 
     TEST_F(BaseTest, init_default) {
@@ -86,7 +87,7 @@ namespace {
         unsigned int n;
         ASSERT_TRUE(ezcu == NULL);
         ezcu_init(NVIDIA);
-        n = __ezcu_dev_count();
+        n = __ezcu_dev_query();
         ASSERT_TRUE(ezcu != NULL);
         ASSERT_TRUE(ezcu->initialized[NVIDIA & EZCU_LKP_MASK]);
         ASSERT_FALSE(ezcu->initialized[AMD & EZCU_LKP_MASK]);
@@ -106,7 +107,7 @@ namespace {
         unsigned int n;
         ASSERT_TRUE(ezcu == NULL);
         ezcu_init(ALL);
-        n = __ezcu_dev_count();
+        n = __ezcu_dev_query();
         ASSERT_TRUE(ezcu != NULL);
         ASSERT_TRUE(ezcu->initialized[NVIDIA & EZCU_LKP_MASK]);
         ASSERT_FALSE(ezcu->initialized[AMD & EZCU_LKP_MASK]);
@@ -120,7 +121,7 @@ namespace {
         unsigned int n;
         ASSERT_TRUE(ezcu == NULL);
         ezcu_init(GPU);
-        n = __ezcu_dev_count();
+        n = __ezcu_dev_query();
         ASSERT_TRUE(ezcu != NULL);
         ASSERT_TRUE(ezcu->initialized[NVIDIA & EZCU_LKP_MASK]);
         ASSERT_FALSE(ezcu->initialized[AMD & EZCU_LKP_MASK]);
@@ -160,7 +161,7 @@ namespace {
     ///
     /// TODO: fix cudaSetDevice within another thread.
     TEST_F(BaseTest, init_with_cc) {
-        int i;
+        size_t i;
         ASSERT_TRUE(ezcu == NULL);
         ezcu_init(GPU | CC20 | CC35);
         ASSERT_GE(urb_tree_size(&ezcu->devs), 1);
@@ -169,8 +170,8 @@ namespace {
         int minor = d->minor;
         int major = d->major;
         ezcu_release();        
-        for (i=0; i<5; i++) {
-            if (((major << 4) + minor) >=
+        for (i=0; i<sizeof(nDevProps)/sizeof(*nDevProps); i++) {
+            if (__ezcu_dev_get_cc_hex(minor, major) >=
                 ezcu_flags_to_dev_prop(nDevProps[i])) {
                 ezcu_init(nDevProps[i]);
                 ASSERT_GE(urb_tree_size(&ezcu->devs), 1);
@@ -191,6 +192,15 @@ namespace {
         ezcu_init(DEFAULT);
         ezcu_info();
         ezcu_release();
+    }
+
+    TEST_F(BaseTest, stress_init_release) {
+        int i;        
+        for (i=0; i<N; i++) {
+            ezcu_init(ALL);
+            ezcu_info();
+            ezcu_release();
+        }
     }
 
 }  // namespace

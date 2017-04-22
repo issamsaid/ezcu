@@ -483,17 +483,15 @@ inline int ezcu_flags_to_dev_types_flags(ezcu_flags_t flags,
     static const ezcu_dev_type_flags_t 
         nDevTypesLookup[] = { ALL, CPU, GPU, ACCELERATOR};
     ezcu_flags_check_dev_types(flags);
-  
+
+    /// if no type is informed add ALL as default.
+    if ((flags & EZCU_FLAGS_DEV_TYPES_MASK) == 0x0) flags |= ALL;
+    
     for(i=0; i < EZCU_NB_DEV_TYPES; i++) {
         if (EZCU_FLAGS_HAVE(flags, nDevTypesLookup[i]))
             tab[nb_dtflags++] = nDevTypesLookup[i]; 
     }
-
-    /// if not found consider ALL as default.
-    if (nb_dtflags == 0) {
-        tab[0] = ALL;
-        return 1;
-    } else { return nb_dtflags; }
+    return nb_dtflags; 
 }
 
 inline int ezcu_flags_to_dev_props_flags(ezcu_flags_t flags, 

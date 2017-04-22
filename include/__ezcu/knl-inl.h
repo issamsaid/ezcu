@@ -46,6 +46,7 @@
 CPPGUARD_BEGIN();
 
 extern void __ezcu_mem_release(void*);
+
 extern ezcu_env_t ezcu; 
 
 __EZCU_PRIVATE char*

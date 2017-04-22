@@ -90,6 +90,11 @@ __ezcu_int_cmp(void *cur, void *otr) {
 }
 
 __EZCU_PRIVATE int
+__ezcu_devid_cmp(void *cur, void *otr) {
+    return *(CUdevice*)cur - *(CUdevice*)otr;
+}
+
+__EZCU_PRIVATE int
 __ezcu_str_split(char *sequence, char*** container) {
     int i=0, nb_words = 0;
     char *pch, bkp[__EZCU_BUFFER_SIZE];
@@ -169,7 +174,7 @@ __ezcu_file_check_ext(const char *filename) {
 } 
 
 __EZCU_PRIVATE bool
-__ezcu_file_has_ext(const char *filename, char *ext) {
+__ezcu_file_has_ext(const char *filename, const char *ext) {
     const char *fext = strrchr(filename, '.');
     if ((fext != NULL) && (!strcmp(fext+1, ext))) return true;
     else return false;
@@ -178,7 +183,7 @@ __ezcu_file_has_ext(const char *filename, char *ext) {
 __EZCU_PRIVATE void
 __ezcu_generate_bin_filename(const char *filename, char *bin_filename) {
     char noext[__EZCU_STR_SIZE];
-    char* precomp_ext[] = {"fatbin", "cubin", "ptx", NULL};
+    const char* precomp_ext[] = {"fatbin", "cubin", "ptx", NULL};
     const char *fext = strrchr(filename, '.');
     unsigned int i=0, len = strlen(filename) - strlen(fext) + 1;
     snprintf(noext, len, "%s", filename);

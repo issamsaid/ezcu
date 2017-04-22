@@ -74,26 +74,7 @@ bool ezcu_has(ezcu_flags_t flags);
 /// @param flags are the ezCU flags to describe the desired CUDA devices.
 /// @return The number of the corresponding activated devices.
 ///
-unsigned int ezcu_count(ezcu_flags_t flags);
-
-///
-/// @brief Return the number of CUDA kernel active by ezCU.
-///
-/// This routine returns the number of CUDA kernel that are allocated and in 
-/// use by ezCU.
-/// @return The number of CUDA kernels.
-///
-unsigned int ezcu_knl_count();
-
-///
-/// @brief Return the number of memory objects that are allocated and used 
-/// by ezCU.
-///
-/// This routine returns the number of memory objects that are allocated and 
-/// being used by the ezCU library.
-/// @return The number of CUDA memory objects allocated by ezCU.
-///
-unsigned int ezcu_mem_count();
+size_t ezcu_count(ezcu_flags_t flags);
 
 CPPGUARD_END();
 

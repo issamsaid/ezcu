@@ -58,18 +58,18 @@ ezcu_flags_t ezcu_str_to_ezcu_flags_t(const char* str) {
     return flags;
 }
 
-bool ezcu_has(ezcu_flags_t flags) { return ezcu_count(flags) > 0; }
-
-unsigned int ezcu_count(ezcu_flags_t flags) {
-    return __ezcu_dev_count();
+bool ezcu_has(ezcu_flags_t flags) { 
+    if (ezcu != NULL) {
+        return ezcu_count(flags) > 0; 
+    }
+    return false;
 }
 
-unsigned int ezcu_mem_count() {
-    if (ezcu != NULL) return urb_tree_size(&ezcu->mems);
-    else return 0;
-}
-
-unsigned int ezcu_knl_count() { 
-    if (ezcu != NULL) return urb_tree_size(&ezcu->knls);
-    else return 0;
+size_t ezcu_count(ezcu_flags_t flags) {
+    if (ezcu != NULL) {
+        //return urb_tree_size(&ezcu->mems);
+        //return urb_tree_size(&ezcu->knls);
+        //return urb_tree_size(&ezcu->devs);
+    }
+    return 0;
 }

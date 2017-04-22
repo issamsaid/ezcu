@@ -61,5 +61,10 @@ tag.sh
 
 # CUDA generated files
 *generated*
+*.fatbin
+*.cubin
+*.gpu
+*.ptx
 
+# Env setting scripts
 ezcu_env.intel

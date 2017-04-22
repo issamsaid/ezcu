@@ -40,6 +40,7 @@ namespace {
 
     class DevInlTest : public ::testing::Test {
     protected:
+        int nb_devices;
         virtual void SetUp() { 
             ezcu        = (ezcu_env_t) malloc(sizeof(struct __ezcu_env_t));
             ezcu->devs  = &urb_sentinel;
@@ -48,6 +49,7 @@ namespace {
             ezcu->fdout = stdout;
             ezcu->fderr = stderr;
             cuInit(0);
+            cuDeviceGetCount(&nb_devices);
         }
         virtual void TearDown() { 
             if (ezcu) {
@@ -57,15 +59,19 @@ namespace {
         }
     };
 
-    TEST_F(DevInlTest, __ezcu_dev_count) {
-        ASSERT_TRUE((__ezcu_dev_count()) > 0);
+    TEST_F(DevInlTest, __ezcu_dev_query) {
+        ASSERT_EQ(__ezcu_dev_query(), nb_devices);
+    }
+
+    TEST_F(DevInlTest, __ezcu_dev_get_cc_hex) {
+        ASSERT_EQ(__ezcu_dev_get_cc_hex(2, 6), 0x62);
     }
 
     TEST_F(DevInlTest, __ezcu_dev_select_by_vendor) {
-        int        n = __ezcu_dev_count();
-        int i, ids[n];
-        for(i=0; i<n; i++) ids[i] = i;
-        ASSERT_TRUE(n > 0);
+        int i, n = __ezcu_dev_query();
+        CUdevice ids[n];
+        for (i=0; i < n; ++i) cuDeviceGet(&ids[i], i);
+        ASSERT_EQ(n, nb_devices);
         ASSERT_TRUE(__ezcu_dev_select_by_vendor(ids, n, NVIDIA) > 0);
         ASSERT_TRUE(__ezcu_dev_select_by_vendor(ids, n, AMD) == 0);
         ASSERT_TRUE(__ezcu_dev_select_by_vendor(ids, n, INTEL) == 0);
@@ -73,40 +79,51 @@ namespace {
     }
 
     TEST_F(DevInlTest, __ezcu_dev_select_by_dev_type) {
-        int        n = __ezcu_dev_count();
-        int i, ids[n], t_ids[n];
-        for(i=0; i<n; i++) ids[i] = i;
-        ASSERT_TRUE(n > 0);
+        int i, n = __ezcu_dev_query();
+        CUdevice ids[n], t_ids[n];
+        for (i=0; i < n; ++i) cuDeviceGet(&ids[i], i);
+        ASSERT_EQ(n, nb_devices);
         ASSERT_GE(__ezcu_dev_select_by_dev_type(ids, n, t_ids, GPU), 1);
         ASSERT_GE(__ezcu_dev_select_by_dev_type(ids, n, t_ids, ALL), 1);
         ASSERT_EQ(__ezcu_dev_select_by_dev_type(ids, n, t_ids, CPU), 0);
         ASSERT_GE(__ezcu_dev_select_by_dev_type(ids, n, t_ids, ACCELERATOR), 0);
     }
 
-    // TEST_F(DevInlTest, __ezcu_dev_select_by_dev_prop) {
-    //     int        n = __ezcu_dev_count();
-    //     int i, ids[n], t_ids[n];
-    //     for(i=0; i<n; i++) ids[i] = i;
-    //     ASSERT_TRUE(n > 0);
-    //     ASSERT_GE(__ezcu_dev_select_by_dev_prop(ids, n, t_ids, CC20), 1);
-    //     struct cudaDeviceProp prop;
-    //     cudaSetDevice(ids[0]);
-    //     cudaGetDeviceProperties(&prop, ids[0]);
-    //     ezcu_dev_prop_flags_t nDevProps[] = {CC20, CC30, CC35, CC50, CC60};
-    //     for (i=0; i<5; i++) {
-    //         if (((prop.major << 4) + prop.minor) >= 
-    //             ezcu_flags_to_dev_prop(nDevProps[i])) {
-    //             ASSERT_GE(__ezcu_dev_select_by_dev_prop(ids, n, t_ids,
-    //                                                     nDevProps[i]), 1);
-    //         } else {
-    //             ASSERT_EQ(__ezcu_dev_select_by_dev_prop(ids, n, t_ids,
-    //                                                     nDevProps[i]), 0);
-    //         }
-    //     }
-    // }
+    TEST_F(DevInlTest, __ezcu_dev_select_by_dev_prop) {
+        size_t j, i, p_n, s_n, n = __ezcu_dev_query();
+        int minor, major;
+        CUdevice d, ids[n], t_ids[n], p_ids[n];
+        for (j=0; j < n; ++j) cuDeviceGet(&ids[j], j);
+        ASSERT_EQ(n, nb_devices);
+        s_n = __ezcu_dev_select_by_dev_prop(ids, n, t_ids, CC20);
+        ASSERT_GE(s_n, 1);
+        ASSERT_LE(s_n, n);
+        ezcu_dev_prop_flags_t nDevProps[] = {CC20, CC30, CC35, CC50, CC60};
+        for (j = 0; j < s_n; ++j) {
+            d = t_ids[j];
+            CUcontext ctx;
+            cuCtxCreate(&ctx, CU_CTX_MAP_HOST | CU_CTX_SCHED_YIELD, d);
+            cuCtxSetCurrent(ctx);
+            __EZCU_DEV_GET(d, 
+                           CU_DEVICE_ATTRIBUTE_COMPUTE_CAPABILITY_MAJOR, major);      
+            __EZCU_DEV_GET(d, 
+                           CU_DEVICE_ATTRIBUTE_COMPUTE_CAPABILITY_MINOR, minor);
+
+            for (i = 0; i < sizeof(nDevProps)/sizeof(*nDevProps); ++i) {
+                p_n = __ezcu_dev_select_by_dev_prop(ids, n, p_ids, nDevProps[i]);
+                if (__ezcu_dev_get_cc_hex(minor, major) >= 
+                    ezcu_flags_to_dev_prop(nDevProps[i])) {
+                    ASSERT_GE(p_n, 1);
+                } else {
+                    ASSERT_EQ(p_n, 0);
+                }
+            }
+            cuCtxDestroy(ctx);
+        }
+    }
 
     TEST_F(DevInlTest, __ezcu_dev_select_by_dev_index) {
-        int        n = __ezcu_dev_count();
+        int        n = __ezcu_dev_query();
         int i, ids[n], t_ids[n];
         for(i=0; i<n; i++) ids[i] = i;
         ASSERT_GT(n, 0);

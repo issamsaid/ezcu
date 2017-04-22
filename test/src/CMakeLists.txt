@@ -72,9 +72,12 @@ endif (DEFINED ENV{GTEST_DIR})
 ## Include the ezCU headers
 include_directories(${CMAKE_SOURCE_DIR}/include)
 
+## Include additional ezCU test headers
+include_directories(${CMAKE_SOURCE_DIR}/test/include)
+
 file(GLOB C_SRCS "*.cc" "*.h")
 
-add_definitions(-DPREFIX=\"${CMAKE_CURRENT_SOURCE_DIR}\")
+add_definitions(-DPREFIX=\"${CMAKE_SOURCE_DIR}/test/cuda\")
 
 ## Generate ptx and the executable
 set (CUDA_GENERATED_OUTPUT_DIR ${CMAKE_SOURCE_DIR}/test/src)
