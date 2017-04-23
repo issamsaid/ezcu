@@ -34,8 +34,6 @@ project (sgemm_fortran Fortran)
 cmake_minimum_required (VERSION 2.8)
 
 file(GLOB F_SRCS "*.f90")
-set (CUDA_GENERATED_OUTPUT_DIR 
-     ${CMAKE_SOURCE_DIR}/examples/fortran_interface/sgemm)
 
 ## Generate the cubin files.
 # add_custom_target(sgemm_fortran_cubin)
@@ -48,7 +46,7 @@ set (CUDA_GENERATED_OUTPUT_DIR
 
 add_definitions(-DPREFIX=\"${CMAKE_CURRENT_SOURCE_DIR}\")
 
-cuda_add_executable(sgemm_fortran ${F_SRCS})
+add_executable(sgemm_fortran ${F_SRCS})
 target_link_libraries (sgemm_fortran ezcu_fortran)
 target_link_libraries (sgemm_fortran ezcu)
 target_link_libraries (sgemm_fortran ${CUDA_CUDA_LIBRARY})

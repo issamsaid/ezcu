@@ -33,11 +33,6 @@
 project (build_tests)
 cmake_minimum_required (VERSION 2.8)
 
-## Set the CUDA host compiler.
-set(CUDA_HOST_COMPILER "${CMAKE_CXX_COMPILER}"
-    CACHE FILEPATH "Host side compiler used by NVCC")
-mark_as_advanced(CUDA_HOST_COMPILER)
-
 ## Build the ezCU C/C++ unit tests.
 add_subdirectory(src)
 

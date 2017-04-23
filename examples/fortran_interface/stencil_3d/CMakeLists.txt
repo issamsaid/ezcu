@@ -35,12 +35,9 @@ cmake_minimum_required (VERSION 2.8)
 
 file(GLOB F_SRCS "*.f90")
 
-set (CUDA_GENERATED_OUTPUT_DIR 
-     ${CMAKE_SOURCE_DIR}/examples/fortran_interface/stencil_3d)
-
 add_definitions(-DPREFIX=\"${CMAKE_CURRENT_SOURCE_DIR}\")
 
-cuda_add_executable(stencil_3d_fortran ${F_SRCS})
+add_executable(stencil_3d_fortran ${F_SRCS})
 target_link_libraries (stencil_3d_fortran ezcu_fortran)
 target_link_libraries (stencil_3d_fortran ezcu)
 target_link_libraries (stencil_3d_fortran ${CUDA_CUDA_LIBRARY})

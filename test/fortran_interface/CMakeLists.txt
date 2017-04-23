@@ -36,11 +36,10 @@ cmake_minimum_required (VERSION 2.8)
 include_directories(${CMAKE_SOURCE_DIR}/modules)
 file(GLOB F_SRCS "*.f90")
 
-add_definitions(-DPREFIX=\"${CMAKE_CURRENT_SOURCE_DIR}\")
+add_definitions(-DPREFIX=\"${CMAKE_SOURCE_DIR}/test/cuda\")
 
-## Generate ptx and the executable
-set (CUDA_GENERATED_OUTPUT_DIR ${CMAKE_SOURCE_DIR}/test/fortran_interface)
-cuda_add_executable(ezcu_test_fortran ${F_SRCS})
+## Generate the executable
+add_executable(ezcu_test_fortran ${F_SRCS})
 
 ## Link the executable to the ezCU_fortran, CUDA, ulist and urb_tree
 target_link_libraries (ezcu_test_fortran ezcu_fortran)

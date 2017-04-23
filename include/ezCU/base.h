@@ -65,15 +65,15 @@ void ezcu_init(ezcu_flags_t flags);
 void ezcu_release();
 
 //
-/// @brief Parse a '.cuh' file and to create CUDA kernels.
+/// @brief Parse a '.cu' file and to create CUDA kernels.
 ///
-/// This routine loads a source code from a given file (with a '.cuh'
+/// This routine loads a source code from a given file (with a '.cu'
 /// extention) in order to create the CUDA kernels contained by this file.
 /// @param filename is the path to the kernels file.
 /// @param options are the nvcc options to compile the kernels.
 /// @return Nothing.
 ///
-void ezcu_load(const char *filename, const char *options);
+void ezcu_load(const char *filename, const char *options_format, ...);
 
 ///
 /// @brief Shows information about the used CUDA resources.

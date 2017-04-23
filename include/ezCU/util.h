@@ -51,7 +51,7 @@ CPPGUARD_BEGIN();
 /// @param str is the input string provided by the user.
 /// @return the corresponding ezCU flags.
 ///
-ezcu_flags_t ezcu_str2flag(const char *str);
+ezcu_flags_t ezcu_str2flags(const char *str);
 
 ///
 /// @brief Check whether the ezCU envirenment contains a given CUDA resource.

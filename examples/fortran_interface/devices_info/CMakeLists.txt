@@ -34,14 +34,10 @@ project (devices_info_fortran Fortran)
 cmake_minimum_required (VERSION 2.8)
 
 file(GLOB F_SRCS "*.f90")
-set (CUDA_GENERATED_OUTPUT_DIR 
-     ${CMAKE_SOURCE_DIR}/examples/fortran_interface/devices_info)
-
-cuda_compile_ptx(devices_info_fortran ${CUDA_SRCS})
 
 add_definitions(-DPREFIX=\"${CMAKE_CURRENT_SOURCE_DIR}\")
 
-cuda_add_executable(devices_info_fortran ${F_SRCS})
+add_executable(devices_info_fortran ${F_SRCS})
 target_link_libraries (devices_info_fortran ezcu_fortran)
 target_link_libraries (devices_info_fortran ezcu)
 target_link_libraries (devices_info_fortran ${CUDA_CUDA_LIBRARY})

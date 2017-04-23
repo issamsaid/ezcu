@@ -142,10 +142,17 @@ namespace {
         }
         flags = ALL;
         ezcu_flags_check_dev_types(flags);
+        ASSERT_TRUE(EZCU_FLAGS_HAVE(flags, ALL));
+        ASSERT_TRUE(EZCU_FLAGS_HAVE(flags, CPU));
+        ASSERT_TRUE(EZCU_FLAGS_HAVE(flags, GPU));
+        ASSERT_TRUE(EZCU_FLAGS_HAVE(flags, ACCELERATOR));
         flags = CPU;
         ezcu_flags_check_dev_types(flags);
         flags = GPU;
         ezcu_flags_check_dev_types(flags);
+        ASSERT_TRUE(EZCU_FLAGS_HAVE(flags, GPU));
+        //ASSERT_TRUE(EZCU_FLAGS_HAVE(flags, ACCELERATOR));
+
         flags = ACCELERATOR;
         ezcu_flags_check_dev_types(flags);
         flags = CPU | GPU;
@@ -325,7 +332,7 @@ namespace {
         ASSERT_EQ(ezcu_flags_to_dev_types_flags(flags, v), 1);
         ASSERT_EQ(v[0], CPU);
         flags = DEFAULT;
-        ASSERT_EQ(ezcu_flags_to_dev_types_flags(flags, v), 1);
+        ASSERT_EQ(ezcu_flags_to_dev_types_flags(flags, v), 4);
         ASSERT_EQ(v[0], ALL);
         flags = CPU | READ_ONLY | NVIDIA | GPU;
         ASSERT_EQ(ezcu_flags_to_dev_types_flags(flags, v), 2);
@@ -387,6 +394,18 @@ namespace {
             ASSERT_EQ(ezcu_flags_to_mem_unit_size(tab[i]), val[i]);
             i++;    
         }        
+    }
+
+    TEST_F(FlagsTest, flags_dev_to_str) {
+        char tmp_0[__EZCU_STR_SIZE];
+        ezcu_flags_dev_to_str(ACCELERATOR, tmp_0);
+        ASSERT_STREQ(tmp_0, "  GPU | ACCELERATOR");
+        ezcu_flags_dev_to_str(GPU, tmp_0);
+        ASSERT_STREQ(tmp_0, "  GPU");
+        ezcu_flags_dev_to_str(CPU, tmp_0);
+        ASSERT_STREQ(tmp_0, "  CPU");
+        ezcu_flags_dev_to_str(ALL, tmp_0);
+        ASSERT_STREQ(tmp_0, "  ALL | GPU | CPU | ACCELERATOR");
     }
 
 }  // namespace

@@ -26,57 +26,52 @@
 /// NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
 /// SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 ///
-/// @file util-inl_test.cc
+/// @file util_test.cc
 /// @author Issam SAID
-/// @brief Unit testing file for the ezCU private utilities.
+/// @brief Unit testing file for the ezCU utilities.
 ///
 #include <ezCU/flags.h>
-#include <__ezcu/util-inl.h>
-#include <__ezcu/config/util.h>
+#include <ezCU/base.h>
+#include <ezCU/util.h>
+#include <__ezcu/dev-inl.h>
 #include <gtest/gtest.h>
-
-extern ezcu_env_t ezcu;
 
 namespace {
 
-    class UtilInlTest : public ::testing::Test {
+    class UtilTest : public ::testing::Test {
     protected:
-    	virtual void SetUp() { 
-            ezcu        = (ezcu_env_t) malloc(sizeof(struct __ezcu_env_t));
-            ezcu->devs  = &urb_sentinel;
-            ezcu->knls  = &urb_sentinel;
-            ezcu->mems  = &urb_sentinel;
-            ezcu->fdout = stdout;
-            ezcu->fderr = stderr;
-        }
-        virtual void TearDown() { 
-            if (ezcu) {
-                free(ezcu); 
-                ezcu = NULL;
-            }
-        }
+    	virtual void SetUp() {}
+        virtual void TearDown() {}
     };
 
-    TEST_F(UtilInlTest, __ezcu_tell_file) {
-    	ASSERT_GT(__ezcu_tell_file(PREFIX"/knl_test.cu"), 1);
+    TEST_F(UtilTest, ezcu_str2flags) {
+        ezcu_init(ALL);
+        ASSERT_EQ(ezcu_str2flags("HWA"), HWA);
+        ASSERT_EQ(ezcu_str2flags("HOST"), HOST);
+        ASSERT_EQ(ezcu_str2flags("CPU"), CPU);
+        ASSERT_EQ(ezcu_str2flags("GPU"), GPU);
+        ASSERT_EQ(ezcu_str2flags("ACCELERATOR"), ACCELERATOR);
+        ASSERT_EQ(ezcu_str2flags("ALL"), ALL);
+        ezcu_release();
 	}
 
-	TEST_F(UtilInlTest, __ezcu_file_check_ext) {
-		ASSERT_NO_THROW(__ezcu_file_check_ext(PREFIX"/knl_test.cu"));
-	}
+    TEST_F(UtilTest, ezcu_count) {
+        size_t n, s;
+        ezcu_init(ALL);
+        n = __ezcu_dev_query();
+        s = ezcu_count(ALL);
+        ASSERT_EQ(n, s);
+        ezcu_release();
 
-	TEST_F(UtilInlTest, __ezcu_file_has_ext) {		
-		ASSERT_TRUE(__ezcu_file_has_ext(PREFIX"/knl_test.cu", "cu"));
-		ASSERT_FALSE(__ezcu_file_has_ext(PREFIX"/knl_test.cu", "h"));
-	}
+        ezcu_init(ACCELERATOR);
+        s = ezcu_count(ACCELERATOR);
+        ASSERT_EQ(n, s);
+        ezcu_release();
 
-	TEST_F(UtilInlTest, __ezcu_generate_bin_filename) {
-		char bin_filename[__EZCU_STR_SIZE];
-		FILE* file_ptr = fopen(PREFIX"/knl_test.fatbin", "w");
-  		fclose(file_ptr);
-		ASSERT_NO_THROW(__ezcu_generate_bin_filename(PREFIX"/knl_test.cu",
-						bin_filename));
-		remove(PREFIX"/knl_test.fatbin");
-	}
+        ezcu_init(GPU);
+        s = ezcu_count(GPU);
+        ASSERT_EQ(n, s);
+        ezcu_release();
+    }
 
 }  // namespace

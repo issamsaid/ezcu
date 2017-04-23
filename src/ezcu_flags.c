@@ -484,8 +484,9 @@ inline int ezcu_flags_to_dev_types_flags(ezcu_flags_t flags,
         nDevTypesLookup[] = { ALL, CPU, GPU, ACCELERATOR};
     ezcu_flags_check_dev_types(flags);
 
-    /// if no type is informed add ALL as default.
-    if ((flags & EZCU_FLAGS_DEV_TYPES_MASK) == 0x0) flags |= ALL;
+    /// if DEFAULT or no type is informed add ALL as default.
+    if ((EZCU_FLAGS_HAVE(flags, DEFAULT)) || 
+        ((flags & EZCU_FLAGS_DEV_TYPES_MASK) == 0x0)) flags |= ALL;
     
     for(i=0; i < EZCU_NB_DEV_TYPES; i++) {
         if (EZCU_FLAGS_HAVE(flags, nDevTypesLookup[i]))
@@ -521,15 +522,25 @@ inline int ezcu_flags_to_dev_indexes_flags(ezcu_flags_t flags,
                                  FIFTH, SIXTH, SEVENTH, EIGHTH};
     ezcu_flags_check_dev(flags);
   
+    /// if DEFAULT return FIRST
+    if (EZCU_FLAGS_HAVE(flags, DEFAULT)) flags |= FIRST;
+
     for(i=0; i < EZCU_NB_DEV_INDEXES; ++i) {
         if (EZCU_FLAGS_HAVE(flags, nDevIndexesLookup[i]))
             tab[nb_diflags++] = nDevIndexesLookup[i]; 
     }
 
-    /// if not found return FIRST.
+    /// if not found return them all FIRST-to-EIGHTH (max supported).
     if (nb_diflags == 0) {
         tab[0] = FIRST;
-        return 1;
+        tab[1] = SECOND;
+        tab[2] = THIRD;
+        tab[3] = FOURTH;
+        tab[4] = FIFTH;
+        tab[5] = SIXTH;
+        tab[6] = SEVENTH;
+        tab[7] = EIGHTH;
+        return EZCU_NB_DEV_INDEXES;
     } else { return nb_diflags; }
 }
 
@@ -537,9 +548,9 @@ inline void ezcu_flags_parse_dev(ezcu_flags_t flags, ezcu_vendor_flags_t *v,
                                  ezcu_dev_type_flags_t  *dt, int *ndt,
                                  ezcu_dev_prop_flags_t  *dp, int *ndp,
                                  ezcu_dev_index_flags_t *di, int *ndi) {
-           ezcu_flags_to_vendors_flags(flags,      v);
-    *ndt = ezcu_flags_to_dev_types_flags(flags,   dt);
-    *ndp = ezcu_flags_to_dev_props_flags(flags,   dp);
+           ezcu_flags_to_vendors_flags(flags, v);
+    *ndt = ezcu_flags_to_dev_types_flags(flags, dt);
+    *ndp = ezcu_flags_to_dev_props_flags(flags, dp);
     *ndi = ezcu_flags_to_dev_indexes_flags(flags, di);
 }
 

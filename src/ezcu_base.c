@@ -130,7 +130,12 @@ __host__ void ezcu_init(ezcu_flags_t flags) {
         /// first, load all possible devices.
         n = __ezcu_dev_query();
         EZCU_EXIT_IF(n == 0, "no CUDA capable devices found, aborting");
-        int matched, ccs[n];
+        EZCU_EXIT_IF(n > EZCU_NB_DEV_INDEXES, 
+                     "ezCU supports only %d devices at a time, aborting",
+                     EZCU_NB_DEV_INDEXES);
+
+        EZCU_DEBUG("ezcu_init: the platform has %d possible device(s)", n);
+        int m_dt, m_di, m_dp, ccs[n];
         CUdevice ids[n];
         for (i=0; i < n; ++i) {
             EZCU_CHECK(cuDeviceGet(&ids[i], i), 
@@ -154,8 +159,8 @@ __host__ void ezcu_init(ezcu_flags_t flags) {
         for (k=0; k < ndt; k++) {
             ezcu_flags_dev_to_str(dt[k], tmp_0);
             EZCU_DEBUG("parsing type: %s", tmp_0);
-            if ((matched = __ezcu_dev_select_by_dev_type(ids, n, 
-                                                         dt_ids, dt[k])) == 0) {
+            if ((m_dt = __ezcu_dev_select_by_dev_type(ids, n, 
+                                                      dt_ids, dt[k])) == 0) {
                 ezcu_flags_dev_to_str(dt[k], tmp_0);
                 EZCU_DEBUG("devices of type '%s' not found", tmp_0);
                 continue;
@@ -163,10 +168,10 @@ __host__ void ezcu_init(ezcu_flags_t flags) {
             /// select by devices properties.
             /// the device properties should be informed or we select all.
             /// if informed and not found we raise an error.
-            CUdevice dp_ids[matched];
+            CUdevice dp_ids[n];
             for (j=0; j < ndp; j++) {
-                if((matched = 
-                    __ezcu_dev_select_by_dev_prop(dt_ids, matched, 
+                if((m_dp = 
+                    __ezcu_dev_select_by_dev_prop(dt_ids, n, 
                                                   dp_ids, dp[j])) == 0) {
                     ezcu_flags_dev_to_str(dp[j], tmp_0);
                     EZCU_DEBUG("devices with property '%s' not found", tmp_0);
@@ -175,11 +180,11 @@ __host__ void ezcu_init(ezcu_flags_t flags) {
                 /// select by devices indexes.
                 /// the device indexes should be informed or we select all.
                 /// if informed and not found we raise an error.
-                CUdevice di_ids[matched];
+                CUdevice di_ids[n];
                 for (i=0; i < ndi; i++) {
-                    if((matched = 
-                            __ezcu_dev_select_by_dev_index(dp_ids, matched, 
-                                                           di_ids, di[i]))==0) {
+                    if((m_di = 
+                        __ezcu_dev_select_by_dev_index(dp_ids, n, 
+                                                       di_ids, di[i]))==0) {
                         ezcu_flags_dev_to_str(di[i], tmp_0);
                         EZCU_WARN("device index (%s) out of bound", tmp_0);
                         continue;
@@ -191,34 +196,41 @@ __host__ void ezcu_init(ezcu_flags_t flags) {
             }
         }   
 
-        /// Post-process the lookup table. 
-        int ip=0;
-        CUdevice itmp;
+        /// Post-process the lookup table: gather the non -1. 
+        int ip; bool found = false;
+        CUdevice itmp, stmp, swap[EZCU_NB_DEV_INDEXES];
         for (k=0; k < EZCU_NB_DEV_TYPES; k++) {
             for (j=0; j < EZCU_NB_DEV_PROPS; j++) {
                 ip = 0;
                 for (i=0; i < EZCU_NB_DEV_INDEXES; i++) {
                     if (ezcu->lookup[k][j][i] > -1) {
-                        while(ezcu->lookup[k][j][ip] == -1)
-                            if (++ip >= EZCU_NB_DEV_INDEXES){ ip = 0; break; }
-                        itmp = ezcu->lookup[k][j][ip];
-                        ezcu->lookup[k][j][ip] = ezcu->lookup[k][j][i];
-                        ezcu->lookup[k][j][i]  = itmp;    
+                        swap[ip++] = ezcu->lookup[k][j][i];
                     }
                 }
+                for (i=0; i < ip; i++) {
+                    ezcu->lookup[k][j][i] = swap[i];
+                }
+                for (i=ip; i < EZCU_NB_DEV_INDEXES; i++) {
+                    ezcu->lookup[k][j][i] = -1;
+                }                
             }
         }        
          
-        /// Copy GPU lookup to ACCELERATOR.
+        /// Copy GPU lookup to ACCELERATOR: in case where only GPU is selected
+        /// GPU included in ACCELERATOR
         if (!EZCU_FLAGS_HAVE(flags, ACCELERATOR)) {
             for (j=0; j < EZCU_NB_DEV_PROPS; j++) {
-                ip = 0;
                 for (i=0; i < EZCU_NB_DEV_INDEXES; i++) {
                     if ((itmp=ezcu->lookup[GPU & EZCU_LKP_MASK][j][i]) > -1) {
-                        while(ezcu->lookup[ACCELERATOR & EZCU_LKP_MASK]
-                                          [j][ip] == -1)
-                            if (++ip >= EZCU_NB_DEV_INDEXES){ ip = 0; break; }
-                        ezcu->lookup[ACCELERATOR & EZCU_LKP_MASK][j][ip] = itmp;
+                        found = false;
+                        for (k=0; k < EZCU_NB_DEV_INDEXES; k++) {
+                            stmp = ezcu->lookup[ACCELERATOR & EZCU_LKP_MASK][j][k];
+                            if (stmp == itmp) { found = true; break; }
+                            if (stmp == -1) { ip=k; break; }
+                        }
+                        if (!found) 
+                            ezcu->lookup[ACCELERATOR & EZCU_LKP_MASK][j][k] = 
+                            itmp;
                     } 
                 }
             }
@@ -227,22 +239,30 @@ __host__ void ezcu_init(ezcu_flags_t flags) {
         /// Accumulate ACCELERATOR + CPU into ALL 
         if (!EZCU_FLAGS_HAVE(flags, ALL)) {  
             for (j=0; j < ndp; j++) {
-                ip = 0;
                 for (i=0; i < ndi; i++) {
                     if ((itmp=ezcu->lookup[CPU & EZCU_LKP_MASK][j][i]) > -1) {
-                        while(ezcu->lookup[ALL & EZCU_LKP_MASK]
-                                          [j][ip] == -1)
-                            if (++ip >= EZCU_NB_DEV_INDEXES){ ip = 0; break; }
-                        ezcu->lookup[ALL & EZCU_LKP_MASK][j][ip] = itmp;
-                    } 
+                                                found = false;
+                        for (k=0; k < EZCU_NB_DEV_INDEXES; k++) {
+                            stmp = ezcu->lookup[ALL & EZCU_LKP_MASK][j][k];
+                            if (stmp == itmp) { found = true; break; }
+                            if (stmp == -1) { ip=k; break; }
+                        }
+                        if (!found) 
+                            ezcu->lookup[ALL & EZCU_LKP_MASK][j][k] = 
+                            itmp;
+                    }
                 }
                 for (i=0; i < ndi; i++) {
                     if ((itmp=ezcu->lookup[ACCELERATOR & EZCU_LKP_MASK]
                                           [j][i]) > -1) {
-                        while(ezcu->lookup[ALL & EZCU_LKP_MASK]
-                                          [j][ip] == -1)
-                            if (++ip >= EZCU_NB_DEV_INDEXES){ ip = 0; break; }
-                        ezcu->lookup[ALL & EZCU_LKP_MASK][j][ip] = itmp;
+                        for (k=0; k < EZCU_NB_DEV_INDEXES; k++) {
+                            stmp = ezcu->lookup[ALL & EZCU_LKP_MASK][j][k];
+                            if (stmp == itmp) { found = true; break; }
+                            if (stmp == -1) { ip=k; break; }
+                        }
+                        if (!found) 
+                            ezcu->lookup[ALL & EZCU_LKP_MASK][j][k] = 
+                            itmp;
                     } 
                 }
             }
@@ -315,13 +335,21 @@ __host__ void ezcu_init(ezcu_flags_t flags) {
 /// cu -- nvcc -> fatbin
 /// TODO: support ptx, cubin and fatbin (if it is possible to extract 
 ///       kernel names).
-void ezcu_load(const char *filename, const char *options) {
+void ezcu_load(const char *filename, const char *options_format, ...) {
+
     /// check if the filename is valid.
     __ezcu_file_check_ext(filename);
     
     /// for debugging.
     EZCU_DEBUG("start load file '%s'", filename);
 
+    /// collect the options.
+    char options[__EZCU_STR_SIZE];
+    va_list args;
+    va_start(args, options_format);
+    vsprintf(options, options_format, args);
+    va_end(args);
+    
     /// compile to fatbin.
     __ezcu_knl_compile(filename, options);
 

@@ -73,10 +73,10 @@ typedef enum {
 /// ALL:         can be anything.
 /// ACCELERATOR: can be a GPU.
 typedef enum { 
-    ALL         = 0x0070000000000000, ///< All devices in list.
-    CPU         = 0x0010000000000001, ///< CPU devices in list.
-    ACCELERATOR = 0x0060000000000002,  ///< Accelerators in list.
-    GPU         = 0x0020000000000003 ///< GPU devices in list.
+    ALL         = 0x00F0000000000000,  ///< All devices in list.
+    CPU         = 0x0080000000000001,  ///< CPU devices in list.
+    ACCELERATOR = 0x0070000000000002,  ///< Accelerators in list.
+    GPU         = 0x0040000000000003   ///< GPU devices in list.
 } ezcu_dev_type_flags_t;
 
 /// @brief Device types mask.
@@ -111,13 +111,13 @@ typedef enum {
 /// CC50 supports CC35 - CC20
 /// CC35 supports CC30 - CC20
 /// CC30 supports CC20
-/// NB: those are for GPUs so we set the GPU bit as well.
+/// NB: those are for GPUs so we set the GPU bit as well .
 typedef enum {
-    CC20    = 0x002000F000002000, ///< Compute capability 2.0.  
-    CC30    = 0x002001F000003001, ///< Compute capability 3.0.
-    CC35    = 0x002003F000003502, ///< Compute capability 3.5.
-    CC50    = 0x002007F000005003, ///< Compute capability 5.0.
-    CC60    = 0x00200FF000006004  ///< Compute capability 6.0.        
+    CC20    = 0x004000F000002000, ///< Compute capability 2.0.  
+    CC30    = 0x004001F000003001, ///< Compute capability 3.0.
+    CC35    = 0x004003F000003502, ///< Compute capability 3.5.
+    CC50    = 0x004007F000005003, ///< Compute capability 5.0.
+    CC60    = 0x00400FF000006004  ///< Compute capability 6.0.        
     /// reserved              
     /// reserved              
     /// reserved              

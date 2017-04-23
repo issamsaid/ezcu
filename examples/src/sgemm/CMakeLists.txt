@@ -34,11 +34,10 @@ project (sgemm C)
 cmake_minimum_required (VERSION 2.8)
 
 file(GLOB C_SRCS "*.c")
-set (CUDA_GENERATED_OUTPUT_DIR ${CMAKE_SOURCE_DIR}/examples/src/sgemm)
 
 add_definitions(-DPREFIX=\"${CMAKE_CURRENT_SOURCE_DIR}\")
 
-cuda_add_executable(sgemm ${C_SRCS})
+add_executable(sgemm ${C_SRCS})
 
 target_link_libraries (sgemm ezcu)
 target_link_libraries (sgemm ${CUDA_CUDA_LIBRARY})

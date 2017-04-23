@@ -58,22 +58,9 @@ module m_ezcu_util
             integer(kind=c_int64_t), intent(in), value :: flags 
         end function ezcu_count
 
-        integer(kind=c_int) &
-        function ezcu_knl_count() bind(c, name="ezcu_knl_count")
-            use, intrinsic :: iso_c_binding, only: c_int
-            implicit none
-        end function
-
-        integer(kind=c_int) &
-        function ezcu_mem_count() bind(c, name="ezcu_mem_count")
-            use, intrinsic :: iso_c_binding, only: c_int
-            implicit none
-        end function        
     end interface
 
     public :: ezcu_has
     public :: ezcu_count
-    public :: ezcu_knl_count
-    public :: ezcu_mem_count
  
 end module m_ezcu_util

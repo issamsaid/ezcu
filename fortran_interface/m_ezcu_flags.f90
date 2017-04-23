@@ -53,13 +53,13 @@ module m_ezcu_flags
     parameter, public :: NVIDIA      = X'0100000000000003'
 
     integer(kind=c_int64_t), & 
-    parameter, public :: ALL         = X'0070000000000000'
+    parameter, public :: ALL         = X'00F0000000000000'
     integer(kind=c_int64_t), &
-    parameter, public :: CPU         = X'0010000000000001'
+    parameter, public :: CPU         = X'0080000000000001'
     integer(kind=c_int64_t), &
-    parameter, public :: ACCELERATOR = X'0060000000000002'
+    parameter, public :: ACCELERATOR = X'0070000000000002'
     integer(kind=c_int64_t), &
-    parameter, public :: GPU         = X'0020000000000003'
+    parameter, public :: GPU         = X'0040000000000003'
 
     integer(kind=c_int64_t), &
     parameter, public :: FIRST       = X'0000100000000000'

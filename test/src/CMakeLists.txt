@@ -79,9 +79,8 @@ file(GLOB C_SRCS "*.cc" "*.h")
 
 add_definitions(-DPREFIX=\"${CMAKE_SOURCE_DIR}/test/cuda\")
 
-## Generate ptx and the executable
-set (CUDA_GENERATED_OUTPUT_DIR ${CMAKE_SOURCE_DIR}/test/src)
-cuda_add_executable(ezcu_test ${C_SRCS})
+## Generate the executable
+add_executable(ezcu_test ${C_SRCS})
 
 ## Link the executable to the ezCU, CUDA, ulist and urb_tree and gtest
 target_link_libraries (ezcu_test ezcu)

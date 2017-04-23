@@ -58,7 +58,7 @@ contains
         type(ezcu_dev_t), pointer :: dev0
         type(ezcu_dev_t), pointer :: dev1
         type(ezcu_dev_t), pointer :: dev2
-        call ezcu_dev_find(ALL, dev0);
+        call ezcu_dev_find(ior(ALL, FIRST), dev0);
         call ezcu_dev_find(ior(ALL, FIRST), dev1);
         call ezcu_dev_find(FIRST, dev2);
         status = &
@@ -79,7 +79,7 @@ contains
         type(ezcu_dev_t), pointer :: dev0
         type(ezcu_dev_t), pointer :: dev1
         if (ezcu_has(GPU)) then
-            call ezcu_dev_find(GPU, dev0);
+            call ezcu_dev_find(ior(ACCELERATOR, FIRST), dev0);
             call ezcu_dev_find(ior(GPU, FIRST), dev1);
             status = associated(dev0, dev1) 
         else

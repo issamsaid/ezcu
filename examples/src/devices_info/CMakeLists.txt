@@ -35,7 +35,7 @@ cmake_minimum_required (VERSION 2.8)
 
 file(GLOB C_SRCS "*.c")
 
-cuda_add_executable(devices_info ${C_SRCS})
+add_executable(devices_info ${C_SRCS})
 target_link_libraries (devices_info ezcu)
 target_link_libraries (devices_info ${CUDA_CUDA_LIBRARY})
 target_link_libraries (devices_info ${NVRTC_LIBRARY})

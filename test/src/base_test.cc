@@ -32,6 +32,7 @@
 ///
 #include <ezCU/flags.h>
 #include <ezCU/base.h>
+#include <ezCU/util.h>
 #include <ezCU/dev.h>
 #include <__ezcu/dev-inl.h>
 #include <gtest/gtest.h>
@@ -69,7 +70,7 @@ namespace {
         ASSERT_TRUE(ezcu == NULL);
     }
 
-    TEST_F(BaseTest, release_singleton) {
+    TEST_F(BaseTest, release_default_singleton) {
         ASSERT_TRUE(ezcu == NULL);
         ezcu_init(DEFAULT);
         ASSERT_TRUE(ezcu != NULL);
@@ -135,7 +136,7 @@ namespace {
         unsigned int n;
         ASSERT_TRUE(ezcu == NULL);
         ezcu_init(GPU | FIRST);
-        n = urb_tree_size(&ezcu->devs);
+        n = ezcu_count(ALL);
         ASSERT_TRUE(ezcu != NULL);
         ASSERT_TRUE(ezcu->initialized[NVIDIA & EZCU_LKP_MASK]);
         ASSERT_FALSE(ezcu->initialized[AMD & EZCU_LKP_MASK]);
@@ -145,17 +146,42 @@ namespace {
         ASSERT_EQ(n, 1);
     }
 
-    TEST_F(BaseTest, init_nvidia_first_gpu) {
+    TEST_F(BaseTest, init_second_gpu) {
         unsigned int n;
         ASSERT_TRUE(ezcu == NULL);
-        ezcu_init(NVIDIA | GPU | FIRST);
-        n = urb_tree_size(&ezcu->devs);
-        ASSERT_TRUE(ezcu != NULL);
-        ASSERT_TRUE(ezcu->initialized[NVIDIA & EZCU_LKP_MASK]);
-        ASSERT_FALSE(ezcu->initialized[AMD & EZCU_LKP_MASK]);
-        ASSERT_FALSE(ezcu->initialized[APPLE & EZCU_LKP_MASK]);
+        ezcu_init(GPU);
+        n = ezcu_count(ALL);
         ezcu_release();
-        ASSERT_EQ(n, 1);
+
+        if (n>1) {
+            ezcu_init(GPU | SECOND);
+            ASSERT_TRUE(ezcu != NULL);
+            ASSERT_TRUE(ezcu->initialized[NVIDIA & EZCU_LKP_MASK]);
+            ASSERT_FALSE(ezcu->initialized[AMD & EZCU_LKP_MASK]);
+            ASSERT_FALSE(ezcu->initialized[APPLE & EZCU_LKP_MASK]);
+            n = ezcu_count(ALL);
+            ezcu_release();
+            ASSERT_EQ(n, 1);
+        }
+    }
+
+    TEST_F(BaseTest, init_second_and_fourth_gpu) {
+        unsigned int n;
+        ASSERT_TRUE(ezcu == NULL);
+        ezcu_init(GPU);
+        n = ezcu_count(ALL);
+        ezcu_release();
+
+        if (n>3) {
+            ezcu_init(GPU | SECOND | FOURTH);
+            ASSERT_TRUE(ezcu != NULL);
+            ASSERT_TRUE(ezcu->initialized[NVIDIA & EZCU_LKP_MASK]);
+            ASSERT_FALSE(ezcu->initialized[AMD & EZCU_LKP_MASK]);
+            ASSERT_FALSE(ezcu->initialized[APPLE & EZCU_LKP_MASK]);
+            n = ezcu_count(ALL);
+            ezcu_release();
+            ASSERT_EQ(n, 2);
+        }
     }
 
     ///
@@ -164,7 +190,7 @@ namespace {
         size_t i;
         ASSERT_TRUE(ezcu == NULL);
         ezcu_init(GPU | CC20 | CC35);
-        ASSERT_GE(urb_tree_size(&ezcu->devs), 1);
+        ASSERT_GE(ezcu_count(ALL), 1);
         ezcu_dev_prop_flags_t nDevProps[] = {CC20, CC30, CC35, CC50, CC60};
         ezcu_dev_t d = ezcu_dev_find(DEFAULT);
         int minor = d->minor;
@@ -174,7 +200,7 @@ namespace {
             if (__ezcu_dev_get_cc_hex(minor, major) >=
                 ezcu_flags_to_dev_prop(nDevProps[i])) {
                 ezcu_init(nDevProps[i]);
-                ASSERT_GE(urb_tree_size(&ezcu->devs), 1);
+                ASSERT_GE(ezcu_count(ALL), 1);
                 ezcu_release();        
             }
         }   

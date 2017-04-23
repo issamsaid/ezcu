@@ -55,14 +55,14 @@ contains
     logical function wrap_buffer() result(status)
         real :: h(N)
         call ezcu_mem_wrap(h, d, N, FLOAT)
-        status = associated(d) .and. (ezcu_mem_count() == 1)
+        status = associated(d) 
     end function wrap_buffer
     
     logical function wrap_allocatable() result(status)
         real, allocatable :: h(:)
         allocate(h(N)) 
         call ezcu_mem_wrap(h, d, FLOAT)
-        status = associated(d) .and. (ezcu_mem_count() == 1)
+        status = associated(d) 
         deallocate(h)
     end function wrap_allocatable
 
@@ -70,7 +70,7 @@ contains
         real, pointer, dimension(:) :: h
         allocate(h(N)) 
         call ezcu_mem_wrap_ptr(h, d, FLOAT)
-        status = associated(d) .and. (ezcu_mem_count() == 1)
+        status = associated(d) 
         deallocate(h)
     end function wrap_pointer
 
@@ -79,8 +79,7 @@ contains
         allocate(h(N))
         call ezcu_mem_wrap(h, d, READ_WRITE)
         call ezcu_mem_update(h, READ_ONLY)
-        status = associated(d)
-        status = status .and. (ezcu_mem_count() == 1)
+        status = associated(d) 
         deallocate(h)
     end function read_access_buffer
 
@@ -91,7 +90,7 @@ contains
         call ezcu_mem_wrap(h, d, N, READ_WRITE)        
         call ezcu_mem_update(h, N, READ_ONLY)
         status = h(-3).eq.1.2
-        status = status .and. (ezcu_mem_count() == 1)
+         
     end function write_access_buffer
 
     logical function write_access_allocatable() result(status)    
@@ -102,7 +101,7 @@ contains
         call ezcu_mem_wrap(h, d, READ_WRITE)        
         call ezcu_mem_update(h, READ_ONLY)
         status = h(-3).eq.1.2
-        status = status .and. (ezcu_mem_count() == 1)
+         
         deallocate(h)
     end function write_access_allocatable
 
@@ -114,9 +113,8 @@ contains
         h(N-10)   = -1.2
         call ezcu_mem_wrap_ptr(h, d, READ_WRITE)        
         call ezcu_mem_update_ptr(h, READ_ONLY)
-        status = h(-3).eq.1.2
-        status = status .and. h(N-10).eq.-1.2
-        status = status .and. (ezcu_mem_count() == 1)
+        status = h(-3).eq.1.2.and. h(N-10).eq.-1.2
+         
         deallocate(h)
     end function write_access_pointer
 
@@ -140,7 +138,6 @@ contains
                 status = status .and. (abs(h2d(i,j) - ((j-1)*H+i)) < 1.e-4)
             enddo
         enddo
-        status = (ezcu_mem_count() == 1)
         deallocate(h2d)
     end function access_buffer_2d
 
@@ -157,7 +154,7 @@ contains
         call ezcu_mem_wrap(h3d, d, READ_WRITE)
         call ezcu_mem_update(h3d, READ_ONLY)
         
-        status = (ezcu_mem_count() == 1)
+        status = .true.
         deallocate(h3d)
     end function access_buffer_3d
 
@@ -178,7 +175,7 @@ contains
         call ezcu_mem_update_ptr(hptr, READ_ONLY)
         call ezcu_mem_update(h, TH, TW, TD, TK, READ_ONLY)
         
-        status = (ezcu_mem_count() == 3)
+        status = .true.
         deallocate(h4d)
         deallocate(hptr)
     end function access_buffer_4d
