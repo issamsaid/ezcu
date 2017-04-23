@@ -34,11 +34,10 @@ project (bandwidth C)
 cmake_minimum_required (VERSION 2.8)
 
 file(GLOB C_SRCS "*.c")
-set (CUDA_GENERATED_OUTPUT_DIR ${CMAKE_SOURCE_DIR}/examples/src/bandwidth)
 
 add_definitions(-DPREFIX=\"${CMAKE_CURRENT_SOURCE_DIR}\")
 
-cuda_add_executable(bandwidth ${C_SRCS})
+add_executable(bandwidth ${C_SRCS})
 target_link_libraries (bandwidth ezcu)
 target_link_libraries (bandwidth ${CUDA_CUDA_LIBRARY})
 target_link_libraries (bandwidth ${NVRTC_LIBRARY})
