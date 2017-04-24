@@ -35,14 +35,13 @@ cmake_minimum_required (VERSION 2.8)
 
 file(GLOB F_SRCS "*.f90")
 
-add_definitions(-DPREFIX=\"${CMAKE_CURRENT_SOURCE_DIR}\")
+add_definitions(-DPREFIX=\"${CMAKE_SOURCE_DIR}/examples/cuda\")
 
 add_executable(stencil_3d_fortran ${F_SRCS})
 target_link_libraries (stencil_3d_fortran ezcu_fortran)
 target_link_libraries (stencil_3d_fortran ezcu)
 target_link_libraries (stencil_3d_fortran ${CUDA_CUDA_LIBRARY})
 target_link_libraries (stencil_3d_fortran ${NVRTC_LIBRARY})
-target_link_libraries (stencil_3d_fortran libulist)
 target_link_libraries (stencil_3d_fortran liburb_tree)
 add_dependencies(stencil_3d_fortran ezcu_fortran)
 

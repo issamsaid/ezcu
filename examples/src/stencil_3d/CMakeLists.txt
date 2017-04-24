@@ -35,13 +35,12 @@ cmake_minimum_required (VERSION 2.8)
 
 file(GLOB C_SRCS "*.c")
 
-add_definitions(-DPREFIX=\"${CMAKE_CURRENT_SOURCE_DIR}\")
+add_definitions(-DPREFIX=\"${CMAKE_SOURCE_DIR}/examples/cuda\")
 
 add_executable(stencil_3d ${C_SRCS})
 target_link_libraries (stencil_3d ezcu)
 target_link_libraries (stencil_3d ${CUDA_CUDA_LIBRARY})
 target_link_libraries (stencil_3d ${NVRTC_LIBRARY})
-target_link_libraries (stencil_3d libulist)
 target_link_libraries (stencil_3d liburb_tree)
 add_dependencies(stencil_3d ezcu)
 

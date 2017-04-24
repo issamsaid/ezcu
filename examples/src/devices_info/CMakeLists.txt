@@ -39,7 +39,6 @@ add_executable(devices_info ${C_SRCS})
 target_link_libraries (devices_info ezcu)
 target_link_libraries (devices_info ${CUDA_CUDA_LIBRARY})
 target_link_libraries (devices_info ${NVRTC_LIBRARY})
-target_link_libraries (devices_info libulist)
 target_link_libraries (devices_info liburb_tree)
 add_dependencies(devices_info ezcu)
 

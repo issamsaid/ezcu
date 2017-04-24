@@ -35,14 +35,13 @@ cmake_minimum_required (VERSION 2.8)
 
 file(GLOB C_SRCS "*.c")
 
-add_definitions(-DPREFIX=\"${CMAKE_CURRENT_SOURCE_DIR}\")
+add_definitions(-DPREFIX=\"${CMAKE_SOURCE_DIR}/examples/cuda\")
 
 add_executable(sgemm ${C_SRCS})
 
 target_link_libraries (sgemm ezcu)
 target_link_libraries (sgemm ${CUDA_CUDA_LIBRARY})
 target_link_libraries (sgemm ${NVRTC_LIBRARY})
-target_link_libraries (sgemm libulist)
 target_link_libraries (sgemm liburb_tree)
 add_dependencies(sgemm ezcu)
 

@@ -35,23 +35,13 @@ cmake_minimum_required (VERSION 2.8)
 
 file(GLOB F_SRCS "*.f90")
 
-## Generate the cubin files.
-# add_custom_target(sgemm_fortran_cubin)
-# add_custom_command(
-#     TARGET sgemm_fortran_cubin
-#     WORKING_DIRECTORY ${CMAKE_SOURCE_DIR}/examples/fortran_interface/sgemm
-#     DEPENDS ${CUDA_SRCS}
-#     COMMAND nvcc -dc --cubin ${CUDA_NVCC_FLAGS} ${CUDA_SRCS}
-#     VERBATIM)
-
-add_definitions(-DPREFIX=\"${CMAKE_CURRENT_SOURCE_DIR}\")
+add_definitions(-DPREFIX=\"${CMAKE_SOURCE_DIR}/examples/cuda\")
 
 add_executable(sgemm_fortran ${F_SRCS})
 target_link_libraries (sgemm_fortran ezcu_fortran)
 target_link_libraries (sgemm_fortran ezcu)
 target_link_libraries (sgemm_fortran ${CUDA_CUDA_LIBRARY})
 target_link_libraries (sgemm_fortran ${NVRTC_LIBRARY})
-target_link_libraries (sgemm_fortran libulist)
 target_link_libraries (sgemm_fortran liburb_tree)
 add_dependencies(sgemm_fortran ezcu_fortran)
 

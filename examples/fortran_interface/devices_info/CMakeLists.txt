@@ -42,7 +42,6 @@ target_link_libraries (devices_info_fortran ezcu_fortran)
 target_link_libraries (devices_info_fortran ezcu)
 target_link_libraries (devices_info_fortran ${CUDA_CUDA_LIBRARY})
 target_link_libraries (devices_info_fortran ${NVRTC_LIBRARY})
-target_link_libraries (devices_info_fortran libulist)
 target_link_libraries (devices_info_fortran liburb_tree)
 add_dependencies(devices_info_fortran ezcu_fortran)
 
