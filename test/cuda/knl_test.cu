@@ -26,10 +26,14 @@
 /// NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
 /// SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 ///
-/// @file test/src/knl_test.cu
+/// @file test/cuda/knl_test.cu
 /// @author Issam SAID
 /// @brief the CUDA kernels used for ezCU kernel utilities tesing.
 /// 
+
+#define G(m, z, y, x) m[(2*sx+dimx)*((2*sy+dimy)*(z+sz) + y+sy) + x+sx]
+#define       W(z, x) u[(2*lx+dimx)*(z+lz) + x+lx]
+
 extern "C" __global__ void test_knl_1(float *input, 
                                       float *output,
                                       int dimx) {
@@ -53,8 +57,6 @@ extern "C" __global__ void test_knl_3(float *input,
     int gid = threadIdx.x + blockIdx.x*blockDim.x;
     output[gid] = input[gid];
 }
-
-#define G(m, z, y, x) m[(2*sx+dimx)*((2*sy+dimy)*(z+sz) + y+sy) + x+sx]
 
 extern "C" __global__ void stencil_v_3d(float  *input,
                                         float *output,
@@ -134,4 +136,18 @@ extern "C" __global__ void stencil_v_3d(float  *input,
             G(output, zgid, ygid, xgid) = current + laplacian;
         }
     }
+}
+
+extern "C" __global__ void add_source_2d(int ix, int iz,
+                                         int ix_p, int iz_p, 
+                                         float rxt, float rzt, 
+                                         int dimx,                         
+                                         int lx, int lz, 
+                                         float* source, 
+                                         int it, float* u) {
+    float src = source[it];
+    W(iz, ix)     +=  src*(1.f-rxt)*(1.f-rzt);
+    W(iz_p, ix)   +=  src*rzt*(1.f-rxt);
+    W(iz,   ix_p) +=  src*(1.f-rzt)*rxt;
+    W(iz_p, ix_p) +=  src*rzt*rxt;
 }

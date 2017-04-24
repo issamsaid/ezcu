@@ -33,7 +33,6 @@
 ///
 #include <stdio.h>
 #include <time.h>
-#include <assert.h>
 #include <ezCU/ezCU.h>
 #include <uparser/uparser.h>
 
@@ -49,9 +48,9 @@ int main(int argc, char** argv) {
     double elapsed_time = 0.0;
     unsigned int i, n=100; 
     float  *a, *b;
-    int N, ilp, block_size;
+    int N = 128, ilp = 1;
     unsigned int  grid[3] = {1,1,1};
-    unsigned int block[3]; 
+    unsigned int block[3] = {32,1,1}; 
    
     ezcu_dev_t device;
 
@@ -60,15 +59,15 @@ int main(int argc, char** argv) {
     ///
     ///< Parse command line arguments.
     ///
-    uparser_init(argc, argv);
-    uparser_opt(0, "size",     "128", "size of buffers in MBytes");
-    uparser_opt(0, "block", "32,1,1", "the CUDA block size");
-    uparser_opt(0, "ilp",        "1", "number of grid points per thread");
-    uparser_parse();
+    // uparser_init(argc, argv);
+    // uparser_opt(0, "size",     "128", "size of buffers in MBytes");
+    // uparser_opt(0, "block", "32,1,1", "the CUDA block size");
+    // uparser_opt(0, "ilp",        "1", "number of grid points per thread");
+    // uparser_parse();
 
-    uparser_get_int32("size",     &N);
-    uparser_get_int32("block", block);
-    uparser_get_int32("ilp",    &ilp);
+    // uparser_get_int32("size",     &N);
+    // uparser_get_int32("block", block);
+    // uparser_get_int32("ilp",    &ilp);
     N       *= (1024*1024/4);
     grid[0]  = N/block[0]/ilp;
     
@@ -147,7 +146,7 @@ int main(int argc, char** argv) {
     ///
     ///< Release the parser.
     ///
-    uparser_release();
+    //uparser_release();
     fprintf(stdout, "... end   of the ezCU bandwidth C/C++ example\n");
     return EXIT_SUCCESS;
 }

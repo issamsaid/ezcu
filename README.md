@@ -18,28 +18,30 @@ flags.
 # Content
 <!-- MarkdownTOC -->
 
-- Getting started
-	- Branches and cloning
-	- Setting up
-	- Dependencies
-	- Building the C/C++ interface
-	- Building the Fortran interface
-	- Building the unit tests
-	- Building the examples
-	- Generating the documentation
-	- Installing
-- Using ezCU
-- How to contribute
-- License
-- Contact
+- [Getting started](#getting-started)
+    - [Branches and cloning](#branches-and-cloning)
+    - [Setting up](#setting-up)
+    - [Dependencies](#dependencies)
+    - [Building the C/C++ interface](#building-the-cc-interface)
+    - [Building the Fortran interface](#building-the-fortran-interface)
+    - [Building the unit tests](#building-the-unit-tests)
+    - [Building the examples](#building-the-examples)
+    - [Generating the documentation](#generating-the-documentation)
+    - [Installing](#installing)
+- [Using ezCU](#using-ezcu)
+- [How to contribute](#how-to-contribute)
+- [License](#license)
+- [Contact](#contact)
 
 <!-- /MarkdownTOC -->
 
+<a name="getting-started"></a>
 # Getting started
 The following section is a step by step guide that will take you from fetching
 the source code from the repository branches to running your <b>ezCU</b> first 
 examples on your machine.
 
+<a name="branches-and-cloning"></a>
 ## Branches and cloning
 The project contains four git main branches: **master**, **develop**, 
 **feature/runtime_api** and **feature/driver_api**. 
@@ -84,6 +86,7 @@ git clone -b feature/runtime_api https://github.com/issamsaid/ezcu.git
 git clone -b feature/driver_api https://github.com/issamsaid/ezcu.git
 ```
 
+<a name="setting-up"></a>
 ## Setting up
 The <b>ezCU</b> project has multiple components, each in a subdirectory of the
 root directory (ezCU):
@@ -129,6 +132,7 @@ In addition if you are using ezCU you should always compile your kernels with
 the nvcc flags ```-gencode arch=compute_XX,code=compute_XX -ptx``` (XX being
 the compute capability) since ezCU loads the generated ptx files on runtime.
 
+<a name="dependencies"></a>
 ## Dependencies
 It goes without saying that <b>ezCU</b> depends on CUDA.
 If your installed CUDA implementation is not found by `cmake` 
@@ -155,6 +159,7 @@ export URB_TREE_DIR="YOUR_PATH_TO_URB_TREE"
 export GTEST_DIR="YOUR_PATH_TO_GTEST"
 ```
 
+<a name="building-the-cc-interface"></a>
 ## Building the C/C++ interface
 To build the <b>ezCU</b> C static library you can run the default Makefile 
 target as follows:
@@ -174,6 +179,7 @@ make
 popd 
 ```
 
+<a name="building-the-fortran-interface"></a>
 ## Building the Fortran interface
 If you would like to build the Fortran interface additionally, 
 you can do so as follows:
@@ -188,6 +194,7 @@ Fortran source files present in the
 an additional layer based on the Fortran 2003 standard (ISO/IEC 1539-1:2004(E)),
 which generates procedure and derived-type declarations and global variables that are interoperable with C. Therefor, if the C/C++ interface is not built this target will build it as well.
 
+<a name="building-the-unit-tests"></a>
 ## Building the unit tests
 The library comes with a set of unit tests and performance 
 tests to validate the new features. You can check the unit testing 
@@ -208,6 +215,7 @@ Fortran interface.
 Tests should be written for any new code, and changes should be verified to not 
 break existing tests before they are submitted for review. 
 
+<a name="building-the-examples"></a>
 ## Building the examples
 The project comes with a set of C/C++ and Fortran samples that you can browse in the   
 [examples](https://github.com/issamsaid/ezcu/tree/master/examples) subdirectory. 
@@ -220,6 +228,7 @@ pupd
 Alternatively `make c_examples` will only build and 
 install the C/C++ examples, and `make fortran_examples` will build and install the Fortran examples.
 
+<a name="generating-the-documentation"></a>
 ## Generating the documentation
 The documentation of the library can be generated, in the [doc](https://github.com/issamsaid/ezcu/tree/master/doc) subdirectory,
 with the help of [doxygen](http://www.stack.nl/~dimitri/doxygen/) by simply running:
@@ -229,6 +238,7 @@ make doc
 popd
 ```
 
+<a name="installing"></a>
 ## Installing 
 In order to install the <b>ezCU</b> project you can invoke the classic 
 Makefile install target:
@@ -241,6 +251,7 @@ This target mainly installs the <b>ezCU</b> C/C++ static library in the `lib` su
 respectively in the `lib`, `test/bin` and `examples/bin` subdirectories.
 
 
+<a name="using-ezcu"></a>
 # Using ezCU
 In order to use the <b>ezCU</b> C/C++ link your code against libezCU.a 
 additionally to the CUDA library (by adding 
@@ -262,6 +273,7 @@ It is now up to you to read the documentation and check the examples in order
 to use <b>ezCU</b> to write your own CUDA codes for scientific purposes.
 Using the library only requires adding few lines to your original code.
 
+<a name="how-to-contribute"></a>
 # How to contribute
 We believe that <b>ezCU</b> can be used by scientific programmers very 
 efficiently. We tend to extend the functionalities of the library. For this to 
@@ -270,11 +282,13 @@ If you are willing to contribute please visit the contributors guide
 [CONTRIBUTING](https://github.com/issamsaid/ezcu/tree/master/CONTRIBUTING.md),
 or feel free to contact us.
 
+<a name="license"></a>
 # License
 <b>ezCU</b> is a free software licensed under 
 [BSD](https://github.com/issamsaid/ezcu/tree/master/LICENSE.md).
 
 
+<a name="contact"></a>
 # Contact
 For bug report, feature requests or if you willing to contribute please 
 feel free to contact Issam SAID by dropping a line to said.issam@gmail.com.
