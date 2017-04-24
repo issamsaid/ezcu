@@ -106,14 +106,18 @@ __host__ struct __ezcu_knl_t {
 /// This structure represents the ezCU resources manager.
 ///
 __host__ struct __ezcu_env_t {
-    urb_t *devs;                   ///< red-black tree of the used devices.
-    urb_t *knls;                   ///< red-black tree of the used kernels.
-    urb_t *mems;                   ///< red-black tree of active mem objects.
-    FILE* fdout;                   ///< file descriptor for logging.
-    FILE* fderr;                   ///< file descriptor for error reporting.
-    CUdevice lookup[EZCU_NB_DEV_TYPES][EZCU_NB_DEV_PROPS][EZCU_NB_DEV_INDEXES];
-    bool initialized[EZCU_NB_VENDORS];
+    urb_t   *devs;                 ///< red-black tree of the used devices.
+    urb_t   *knls;                 ///< red-black tree of the used kernels.
+    urb_t   *mems;                 ///< red-black tree of active mem objects.
+    FILE*   fdout;                 ///< file descriptor for logging.
+    FILE*   fderr;                 ///< file descriptor for error reporting.
+    int      nids;                 ///< number of selected devices.
+    CUdevice *ids;                 ///< selected devices.
+    int      nccs;                 ///< number of selected architectures.
+    int      *ccs;                 ///< selected architectures.
     char cc_opts[__EZCU_STR_SIZE]; ///< compute capabilities compile flags.
+    bool initialized[EZCU_NB_VENDORS];
+    CUdevice lookup[EZCU_NB_DEV_TYPES][EZCU_NB_DEV_PROPS][EZCU_NB_DEV_INDEXES];
 };
 
 CPPGUARD_END();

@@ -120,8 +120,8 @@ inline void ezcu_knl_set_shared(const char *name, unsigned int bytes) {
 inline void ezcu_knl_exec(const char *name, ezcu_dev_t d) {
     ezcu_knl_t k = __ezcu_knl_find(name);
     EZCU_DEBUG("start exec (async) kernel : %s", name);
-    urb_tree_walk(&k->mems, NULL, __ezcu_mem_sync);
     EZCU_CHECK(cuCtxPushCurrent(d->ctx), "failed to push the context");
+    urb_tree_walk(&k->mems, NULL, __ezcu_mem_sync);
     EZCU_CHECK(cuLaunchKernel(k->id, 
                               k->grid[0], k->grid[1], k->grid[2],
                               k->block[0], k->block[1], k->block[2],
@@ -136,8 +136,9 @@ inline void ezcu_knl_exec(const char *name, ezcu_dev_t d) {
 inline void ezcu_knl_sync_exec(const char *name, ezcu_dev_t d) {
     ezcu_knl_t k = __ezcu_knl_find(name);
     EZCU_DEBUG("start exec (sync) kernel  : %s", name);
-    urb_tree_walk(&k->mems, NULL, __ezcu_mem_sync);
     EZCU_CHECK(cuCtxPushCurrent(d->ctx), "failed to push the context");
+    urb_tree_walk(&k->mems, NULL, __ezcu_mem_sync);
+
     EZCU_CHECK(cuLaunchKernel(k->id, 
                               k->grid[0], k->grid[1], k->grid[2],
                               k->block[0], k->block[1], k->block[2],
@@ -153,9 +154,9 @@ inline void ezcu_knl_sync_exec(const char *name, ezcu_dev_t d) {
 inline double ezcu_knl_timed_exec(const char *name, ezcu_dev_t d) {
     ezcu_knl_t k = __ezcu_knl_find(name);
     EZCU_DEBUG("start exec (timed) kernel : %s", name);
+    EZCU_CHECK(cuCtxPushCurrent(d->ctx), "failed to push the context");
     urb_tree_walk(&k->mems, NULL, __ezcu_mem_sync);
     ezcu_timer_tick();
-    EZCU_CHECK(cuCtxPushCurrent(d->ctx), "failed to push the context");
     EZCU_CHECK(cuLaunchKernel(k->id, 
                               k->grid[0], k->grid[1], k->grid[2],
                               k->block[0], k->block[1], k->block[2],
@@ -172,12 +173,14 @@ inline double ezcu_knl_timed_exec(const char *name, ezcu_dev_t d) {
 inline void ezcu_knl_run(const char *name, ezcu_dev_t d, ...) {
     ezcu_knl_t k = __ezcu_knl_find(name);
     EZCU_DEBUG("start run (async) kernel : %s", name);
+    EZCU_CHECK(cuCtxPushCurrent(d->ctx), "failed to push the context");
+
     va_list list;
     va_start(list, d);
     __ezcu_knl_set_args_valist(k, list);
     va_end(list);
+    
     urb_tree_walk(&k->mems, NULL, __ezcu_mem_sync);
-    EZCU_CHECK(cuCtxPushCurrent(d->ctx), "failed to push the context");
     EZCU_CHECK(cuLaunchKernel(k->id, 
                               k->grid[0], k->grid[1], k->grid[2],
                               k->block[0], k->block[1], k->block[2],
@@ -192,12 +195,14 @@ inline void ezcu_knl_run(const char *name, ezcu_dev_t d, ...) {
 inline void ezcu_knl_sync_run(const char *name, ezcu_dev_t d, ...) {
     ezcu_knl_t k = __ezcu_knl_find(name);
     EZCU_DEBUG("start run (sync) kernel  : %s", name);
+    EZCU_CHECK(cuCtxPushCurrent(d->ctx), "failed to push the context");
+
     va_list list;
     va_start(list, d);
     __ezcu_knl_set_args_valist(k, list);
     va_end(list);
+    
     urb_tree_walk(&k->mems, NULL, __ezcu_mem_sync);
-    EZCU_CHECK(cuCtxPushCurrent(d->ctx), "failed to push the context");
     EZCU_CHECK(cuLaunchKernel(k->id, 
                               k->grid[0], k->grid[1], k->grid[2],
                               k->block[0], k->block[1], k->block[2],
@@ -213,13 +218,16 @@ inline void ezcu_knl_sync_run(const char *name, ezcu_dev_t d, ...) {
 inline double ezcu_knl_timed_run(const char *name, ezcu_dev_t d, ...) {
     ezcu_knl_t k = __ezcu_knl_find(name);
     EZCU_DEBUG("start run (timed) kernel : %s", name);
+    EZCU_CHECK(cuCtxPushCurrent(d->ctx), "failed to push the context");
+
     va_list list;
     va_start(list, d);
     __ezcu_knl_set_args_valist(k, list);
     va_end(list);
+    
     urb_tree_walk(&k->mems, NULL, __ezcu_mem_sync);
     ezcu_timer_tick();
-    EZCU_CHECK(cuCtxPushCurrent(d->ctx), "failed to push the context");
+    
     EZCU_CHECK(cuLaunchKernel(k->id, 
                               k->grid[0], k->grid[1], k->grid[2],
                               k->block[0], k->block[1], k->block[2],

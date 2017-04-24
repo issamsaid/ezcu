@@ -58,7 +58,7 @@ ezcu_env_t ezcu = NULL;
 /// @brief Initialize the ezCU environment. 
 ///
 __host__ void ezcu_init(ezcu_flags_t flags) {
-    int i, j, k, n, selected = 0;
+    int i, j, k, n;
     char tmp_0[__EZCU_STR_SIZE];
 #ifndef __EZCU_LOG_STD   
     char tmp_1[__EZCU_STR_SIZE];
@@ -135,7 +135,7 @@ __host__ void ezcu_init(ezcu_flags_t flags) {
                      EZCU_NB_DEV_INDEXES);
 
         EZCU_DEBUG("ezcu_init: the platform has %d possible device(s)", n);
-        int m_dt, m_di, m_dp, ccs[n];
+        int m_dt, m_di, m_dp;
         CUdevice ids[n];
         for (i=0; i < n; ++i) {
             EZCU_CHECK(cuDeviceGet(&ids[i], i), 
@@ -185,8 +185,8 @@ __host__ void ezcu_init(ezcu_flags_t flags) {
                     if((m_di = 
                         __ezcu_dev_select_by_dev_index(dp_ids, n, 
                                                        di_ids, di[i]))==0) {
-                        ezcu_flags_dev_to_str(di[i], tmp_0);
-                        EZCU_WARN("device index (%s) out of bound", tmp_0);
+                        //ezcu_flags_dev_to_str(di[i], tmp_0);
+                        //EZCU_WARN("device index (%s) out of bound", tmp_0);
                         continue;
                     }
                     ezcu->lookup[dt[k] & EZCU_LKP_MASK]
@@ -224,7 +224,8 @@ __host__ void ezcu_init(ezcu_flags_t flags) {
                     if ((itmp=ezcu->lookup[GPU & EZCU_LKP_MASK][j][i]) > -1) {
                         found = false;
                         for (k=0; k < EZCU_NB_DEV_INDEXES; k++) {
-                            stmp = ezcu->lookup[ACCELERATOR & EZCU_LKP_MASK][j][k];
+                            stmp = ezcu->lookup[ACCELERATOR & 
+                                EZCU_LKP_MASK][j][k];
                             if (stmp == itmp) { found = true; break; }
                             if (stmp == -1) { ip=k; break; }
                         }
@@ -282,34 +283,49 @@ __host__ void ezcu_init(ezcu_flags_t flags) {
         }
 #endif
 
-        /// Setup device descriptors based on the selected CUDA ids.
+        /// Get the number of the selected devices.
         /// The selected ids are in ALL/CC20/INDEXES.
-        /// Gather the compute capabilities of the selected devices.
-        int max_ccs=0, dev_cc;
+        ezcu->nids = 0;
         for (i=0; i < EZCU_NB_DEV_INDEXES; i++) {
             if ((itmp=ezcu->lookup[ALL  & EZCU_LKP_MASK]
                                   [CC20 & EZCU_LKP_MASK][i]) > -1) {
-                selected++;
-                EZCU_DEBUG("creating device for id '%d'", itmp);
-                CUdevice *ikey = (CUdevice*)malloc(sizeof(CUdevice));
-                *ikey          = itmp;
-                ezcu_dev_t d   = __ezcu_dev_init(itmp);
-                urb_tree_put(&ezcu->devs, 
-                    urb_tree_create(ikey, d), __ezcu_devid_cmp);
-                dev_cc = d->major*10 + d->minor; 
-                for (n=0; n<max_ccs; n++) if (ccs[n] == dev_cc) break;
-                if (n == max_ccs) ccs[max_ccs++] = dev_cc;  
+                ezcu->nids++;
             }
         }
 
-        /// Generate the right compile option to be used when loading kernels. 
+        /// Populate the device ids array in ezcu and create descriptors.
+        int tmp_ccs[n], max_ccs=0, dev_cc;
+        j = 0; 
+        ezcu->ids = (CUdevice*)malloc(sizeof(CUdevice)*ezcu->nids);
+        for (i=0; i < EZCU_NB_DEV_INDEXES; i++) {
+            if ((itmp=ezcu->lookup[ALL  & EZCU_LKP_MASK]
+                                  [CC20 & EZCU_LKP_MASK][i]) > -1) {
+                ezcu->ids[j++] = itmp;
+                EZCU_DEBUG("creating device for id '%d'", itmp);
+                CUdevice *ikey = (CUdevice*)malloc(sizeof(CUdevice));
+                *ikey          = itmp;
+                ezcu_dev_t   d = __ezcu_dev_init(itmp);
+                urb_tree_put(&ezcu->devs, 
+                    urb_tree_create(ikey, d), __ezcu_devid_cmp);
+                dev_cc = d->major*10 + d->minor; 
+                for (k=0; k<max_ccs; k++) if (tmp_ccs[k] == dev_cc) break;
+                if (k == max_ccs) tmp_ccs[max_ccs++] = dev_cc;
+            }
+        }
+   
+        /// Gather the compute capabilities of the selected devices.
+        ezcu->nccs = max_ccs;
+        ezcu->ccs  = (int*)malloc(sizeof(int)*max_ccs);
         EZCU_DEBUG("max ccs is '%d'", max_ccs);
+        for (i=0; i < max_ccs; i++) ezcu->ccs[i] = tmp_ccs[i];
+
+        /// Generate the right compile option to be used when loading kernels. 
         char *cptr = ezcu->cc_opts;
-        for (n=0; n<max_ccs; n++) {
+        for (i=0; i<ezcu->nccs; i++) {
             char tmp[__EZCU_STR_SIZE];
             sprintf(tmp, 
                     "--generate-code arch=compute_%d,code=sm_%d", 
-                    ccs[n], ccs[n]);
+                    ezcu->ccs[i], ezcu->ccs[i]);
             sprintf(cptr, "%s", tmp);
             cptr += strlen(tmp) + 1;
         }
@@ -318,9 +334,9 @@ __host__ void ezcu_init(ezcu_flags_t flags) {
         /// Inform the user about the loaded devices.
         {
             EZCU_PRINT("%u CUDA device%s %s loaded",
-                       selected,
-                       selected == 1 ? ""   : "s",
-                       selected == 1 ? "is" : "are");
+                       ezcu->nids,
+                       ezcu->nids == 1 ? ""   : "s",
+                       ezcu->nids == 1 ? "is" : "are");
             urb_tree_walk(&ezcu->devs, NULL, __ezcu_dev_get_name);
         }
 
@@ -357,44 +373,49 @@ void ezcu_load(const char *filename, const char *options_format, ...) {
     char bin_filename[__EZCU_STR_SIZE];
     __ezcu_generate_bin_filename(filename, bin_filename);
     
-    /// load the compiled module to each selected device context.
-    int i; 
-    ezcu_dev_t d;
-    CUdevice itmp; 
-    CUmodule module;
-    for (i=0; i < EZCU_NB_DEV_INDEXES; i++) {
-        if ((itmp=ezcu->lookup[0][0][i]) > -1) {
-            d = (ezcu_dev_t)urb_tree_find(&ezcu->devs, 
-                                          &itmp, __ezcu_devid_cmp)->value;
-            EZCU_CHECK(cuCtxPushCurrent(d->ctx), 
-                "failed to push the device (%s) context", d->name);
-            EZCU_CHECK(cuModuleLoad(&module, bin_filename),
-                "failed to load CUDA binary module '%s'", bin_filename);
-            EZCU_CHECK(cuCtxPopCurrent(&d->ctx), 
-                "failed to pop  the device (%s) context", d->name);
-        }
-    }
-
-    /// build the kernel descriptors.
-    CUfunction func;
+    /// load the source code in order to generate the kernel descriptors.
     size_t num_args, code_size = __ezcu_tell_file(filename);
-    ezcu_knl_t k;
+    
     char *pch, *name, *code=(char*)malloc(code_size+1);
     char code_knl[__EZCU_BUFFER_SIZE];
     __ezcu_read_from_file(code, code_size+1, filename);
 
-    pch = code;
-    while((pch=__ezcu_knl_extract(pch, &name, code_knl)) != NULL) {
-        if (urb_tree_find(&ezcu->knls, name, __ezcu_str_cmp) == &urb_sentinel) {
-            EZCU_DEBUG("create kernel name = '%s'", name);
-            num_args = __ezcu_knl_get_arg_types(code_knl, NULL);
-            EZCU_CHECK(cuModuleGetFunction(&func, module, name),
+    /// load the compiled module to each selected device context.
+    int i; ezcu_dev_t d;
+    CUmodule module;
+    for (i=0; i < ezcu->nids; i++) {
+        d = (ezcu_dev_t)urb_tree_find(&ezcu->devs, 
+                                      &ezcu->ids[i], __ezcu_devid_cmp)->value;
+        EZCU_CHECK(cuCtxPushCurrent(d->ctx), 
+            "failed to push the device (%s) context", d->name);
+        EZCU_CHECK(cuModuleLoad(&module, bin_filename),
+            "failed to load CUDA binary module '%s'", bin_filename);
+    
+        pch = code;
+        while((pch=__ezcu_knl_extract(pch, &name, code_knl)) != NULL) {
+            if (urb_tree_find(&ezcu->knls, name, 
+                              __ezcu_str_cmp) == &urb_sentinel) {
+                EZCU_DEBUG("create kernel name = '%s'", name);
+                num_args = __ezcu_knl_get_arg_types(code_knl, NULL);
+                ezcu_knl_t k;
+                CUfunction func;
+
+                EZCU_CHECK(cuModuleGetFunction(&func, module, name),
                    "failed to extract function '%s' from cubin module, "
-                   "use extern \"C\" to avaid C++ name mangling", name);
-            k        = __ezcu_knl_init(name, func, num_args);
-            __ezcu_knl_get_arg_types(code_knl, k->args_types);
-            urb_tree_put(&ezcu->knls, urb_tree_create(name, k), __ezcu_str_cmp);
+                   "use extern \"C\" to avoid C++ name mangling", name);
+                
+                k        = __ezcu_knl_init(name, func, num_args);
+                __ezcu_knl_get_arg_types(code_knl, k->args_types);
+                urb_tree_put(&ezcu->knls, 
+                             urb_tree_create(name, k), __ezcu_str_cmp);
+            }
         }
+
+        // EZCU_CHECK(cuModuleUnload(module),
+        //     "failed to unload CUDA binary module '%s'", bin_filename);
+
+        EZCU_CHECK(cuCtxPopCurrent(&d->ctx), 
+            "failed to pop  the device (%s) context", d->name);
     }
 
     /// free temporary buffers.
@@ -403,6 +424,10 @@ void ezcu_load(const char *filename, const char *options_format, ...) {
     /// for debugging.
     EZCU_DEBUG("end   load file '%s'", filename);
     EZCU_DEBUG("");
+}
+
+void ezcu_load4t(const char *filename, const char *options_format, ...) {
+    return ezcu_load(filename, options_format);
 }
 
 void ezcu_release() {
@@ -430,6 +455,8 @@ void ezcu_release() {
             exit(EXIT_FAILURE);
         }
     #endif
+        free(ezcu->ccs);
+        free(ezcu->ids);
         free(ezcu); ezcu = NULL;
     }
 }
