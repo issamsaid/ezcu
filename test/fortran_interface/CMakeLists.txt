@@ -41,12 +41,11 @@ add_definitions(-DPREFIX=\"${CMAKE_SOURCE_DIR}/test/cuda\")
 ## Generate the executable
 add_executable(ezcu_test_fortran ${F_SRCS})
 
-## Link the executable to the ezCU_fortran, CUDA, ulist and urb_tree
+## Link the executable to the ezCU_fortran, CUDA and urb_tree
 target_link_libraries (ezcu_test_fortran ezcu_fortran)
 target_link_libraries (ezcu_test_fortran ezcu)
 target_link_libraries (ezcu_test_fortran ${CUDA_CUDA_LIBRARY})
 target_link_libraries (ezcu_test_fortran ${NVRTC_LIBRARY})
-target_link_libraries (ezcu_test_fortran libulist)
 target_link_libraries (ezcu_test_fortran liburb_tree)
 add_dependencies(ezcu_test_fortran ezcu_fortran)
 

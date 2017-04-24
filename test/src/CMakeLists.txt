@@ -82,11 +82,10 @@ add_definitions(-DPREFIX=\"${CMAKE_SOURCE_DIR}/test/cuda\")
 ## Generate the executable
 add_executable(ezcu_test ${C_SRCS})
 
-## Link the executable to the ezCU, CUDA, ulist and urb_tree and gtest
+## Link the executable to the ezCU, CUDA, and urb_tree and gtest
 target_link_libraries (ezcu_test ezcu)
 target_link_libraries (ezcu_test ${CUDA_CUDA_LIBRARY})
 target_link_libraries (ezcu_test ${NVRTC_LIBRARY})
-target_link_libraries (ezcu_test libulist)
 target_link_libraries (ezcu_test liburb_tree)
 target_link_libraries (ezcu_test libgtest)
 add_dependencies(ezcu_test ezcu)

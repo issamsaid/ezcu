@@ -172,53 +172,6 @@ if (DEFINED ENV{EZCU_CC})
     set (EZCU_CC $ENV{EZCU_CC})
 endif (DEFINED ENV{EZCU_CC})
 
-# if (DEFINED EZCU_CC)
-#     LIST(APPEND CUDA_NVCC_FLAGS 
-#         -arch=compute_${EZCU_CC} -code=sm_${EZCU_CC})    
-# else (DEFINED EZCU_CC)
-#     #set (CCS "20;30;35;40;45;50;60")
-#     set (CCS "20")
-#     foreach(EZCU_CC ${CCS})
-#         LIST(APPEND CUDA_NVCC_FLAGS 
-#              -arch=compute_${EZCU_CC} -code=sm_${EZCU_CC})    
-#     endforeach(EZCU_CC ${CCS})
-# endif (DEFINED EZCU_CC)
-# LIST(APPEND CUDA_NVCC_FLAGS -Xptxas -v,-O3)
-
-##
-## Use the ulist library if the user sets its path 
-## or download and install it as an external project
-##
-if (DEFINED ENV{ULIST_DIR})
-    include_directories("$ENV{ULIST_DIR}/include")
-    add_library(libulist STATIC IMPORTED GLOBAL)
-    set_target_properties(libulist PROPERTIES
-        "IMPORTED_LOCATION" "$ENV{ULIST_DIR}/lib/libulist.a"
-        "IMPORTED_LINK_INTERFACE_LIBRARIES" "${CMAKE_THREAD_LIBS_INIT}")
-else (DEFINED ENV{ULIST_DIR})
-    ExternalProject_Add(
-        ulist
-        GIT_REPOSITORY https://github.com/issamsaid/ulist.git
-        PREFIX ${CMAKE_CURRENT_BINARY_DIR}/ulist
-        INSTALL_COMMAND ""
-        UPDATE_COMMAND  "")
-
-    ## Get uilst source and binary directories
-    ExternalProject_Get_Property(ulist SOURCE_DIR BINARY_DIR)
-
-    ## Create a libulist target to be used as a endency by ezCU
-    add_library(libulist STATIC IMPORTED GLOBAL)
-    add_dependencies(libulist ulist)
-
-    ## Set libulist properties
-    set_target_properties(libulist PROPERTIES
-        "IMPORTED_LOCATION" "${BINARY_DIR}/src/libulist.a"
-        "IMPORTED_LINK_INTERFACE_LIBRARIES" "${CMAKE_THREAD_LIBS_INIT}")
-
-    ## Include ulist headers.
-    include_directories("${SOURCE_DIR}/include")
-endif (DEFINED ENV{ULIST_DIR})
-
 ##
 ## Use the urb_tree library if the user sets its path 
 ## or download and install it as an external project.
@@ -271,9 +224,6 @@ add_subdirectory(doc EXCLUDE_FROM_ALL)
 ##
 ## Workarounds for the lack of post_install steps:
 ##
-## Add the path to ulist which we need during post-install.
-get_target_property(ULIST_LIB libulist IMPORTED_LOCATION)
-install(CODE "set(ULIST_LIB \"${ULIST_LIB}\")")
 
 ## Add the path to urb_tree which we need during post install.
 get_target_property(URB_TREE_LIB liburb_tree IMPORTED_LOCATION)

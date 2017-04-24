@@ -16,18 +16,18 @@ hardware accelerators with different memory models thanks to a set of bitwise
 flags.
 
 # Content
-<!-- MarkdownTOC depth=2 -->
+<!-- MarkdownTOC -->
 
 - Getting started
-    - Branches and cloning
-    - Setting up
-    - Dependencies
-    - Building the C/C++ interface
-    - Building the Fortran interface
-    - Building the unit tests
-    - Building the examples
-    - Generating the documentation
-    - Installing
+	- Branches and cloning
+	- Setting up
+	- Dependencies
+	- Building the C/C++ interface
+	- Building the Fortran interface
+	- Building the unit tests
+	- Building the examples
+	- Generating the documentation
+	- Installing
 - Using ezCU
 - How to contribute
 - License
@@ -141,10 +141,9 @@ export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:$CUDA_LIBRARY_DIR
 export LIBRARY_PATH=$LIBRARY_PATH:$CUDA_LIBRARY_DIR
 ```
 Besides, <b>ezCU</b> uses internally the 
-[ulist](https://github.com/issamsaid/ulist/tree/master) and
-[urb_tree](https://github.com/issamsaid/urb_tree/tree/master) libraries (
-respectively a generic linked list library and a red-black trees generic
-libraries) in order to track and efficiently manipulate 
+[urb_tree](https://github.com/issamsaid/urb_tree/tree/master) library (
+a red-black trees generic
+library) in order to track and efficiently manipulate 
 the CUDA resources. It also relies on the 
 [googletest](https://github.com/google/googletest/) framework for unit 
 testing.
@@ -152,7 +151,6 @@ Those libraries are automatically downloaded, compiled and installed when
 building <b>ezCU</b>. Alternatively you can set the path to those libraries
 if they are already installed on your system as follows:
 ```
-export ULIST_DIR="YOUR_PATH_TO_ULIST"
 export URB_TREE_DIR="YOUR_PATH_TO_URB_TREE"
 export GTEST_DIR="YOUR_PATH_TO_GTEST"
 ```

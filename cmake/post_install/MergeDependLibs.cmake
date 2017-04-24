@@ -28,14 +28,13 @@
 ##
 ## @file CMakeLists.txt
 ## @author Issam SAID
-## @brief Merge ulist and urb_tree object files into he ezCU C library.
+## @brief Merge urb_tree object files into he ezCU C library.
 ##
-message(STATUS "Post-install: merge urb_tree and ulist in ezCU")
+message(STATUS "Post-install: merge urb_tree in ezCU")
 if (WIN32)
     #lib /OUT:filename.lib input1.lib input2.lib vsvars32.bat 
 else (WIN32)
     execute_process(COMMAND ar x ${URB_TREE_LIB})
-    execute_process(COMMAND ar x ${ULIST_LIB})
     file(GLOB DEP_OBJS "*.o")
     execute_process(COMMAND ar r ${EZCU_BUILD_LIB} ${DEP_OBJS})
     execute_process(COMMAND ar r ${EZCU_INSTALL_LIB} ${DEP_OBJS})
