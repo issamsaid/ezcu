@@ -48,6 +48,7 @@
 #include <__ezcu/dev-inl.h>
 #include <__ezcu/mem-inl.h>
 #include <__ezcu/knl-inl.h>
+#include <__ezcu/fortran-bind.h>
 
 ///
 /// @brief A static instance of ezcu_env_t.
@@ -424,10 +425,6 @@ void ezcu_load(const char *filename, const char *options_format, ...) {
     /// for debugging.
     EZCU_DEBUG("end   load file '%s'", filename);
     EZCU_DEBUG("");
-}
-
-void ezcu_load4t(const char *filename, const char *options_format, ...) {
-    return ezcu_load(filename, options_format);
 }
 
 void ezcu_release() {

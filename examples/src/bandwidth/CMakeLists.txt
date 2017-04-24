@@ -38,11 +38,11 @@ file(GLOB C_SRCS "*.c")
 add_definitions(-DPREFIX=\"${CMAKE_SOURCE_DIR}/examples/cuda\")
 
 add_executable(bandwidth ${C_SRCS})
+target_link_libraries (bandwidth libuparser)
 target_link_libraries (bandwidth ezcu)
 target_link_libraries (bandwidth ${CUDA_CUDA_LIBRARY})
 target_link_libraries (bandwidth ${NVRTC_LIBRARY})
 target_link_libraries (bandwidth liburb_tree)
-target_link_libraries (bandwidth libuparser)
 add_dependencies(bandwidth ezcu)
 
 ##

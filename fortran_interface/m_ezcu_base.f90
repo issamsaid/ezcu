@@ -48,7 +48,8 @@ module m_ezcu_base
             integer(kind=c_int64_t), intent(in), value :: flags
         end subroutine c_ezcu_init
 
-        subroutine c_ezcu_load(filename, options) bind(c, name = "ezcu_load")
+        subroutine c_ezcu_load(filename, options) &
+            bind(c, name = "ezcu_load_fort")
             use, intrinsic :: iso_c_binding, only: c_char
             implicit none
             character(kind=c_char), intent(in) :: filename
@@ -83,10 +84,13 @@ contains
     subroutine ezcu_load(filename, options)
         character(len=*),           intent(in) :: filename
         character(len=*), optional, intent(in) :: options
+        write(*,*) filename
+        write(*,*) trim(filename)
         if (present(options)) then
-            call c_ezcu_load(filename // c_null_char, filename // c_null_char)
+            call c_ezcu_load(trim(filename) // c_null_char, &
+                             trim(options) // c_null_char)
         else
-            call c_ezcu_load(filename // c_null_char, c_null_char)
+            call c_ezcu_load(trim(filename) // c_null_char, c_null_char)
         endif
     end subroutine ezcu_load
     
