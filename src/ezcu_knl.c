@@ -38,6 +38,7 @@
 #include <__ezcu/config/cuda.h>
 #include <__ezcu/config/util.h>
 #include <__ezcu/config/dev.h>
+#include <__ezcu/types-inl.h>
 #include <__ezcu/mem-inl.h>
 #include <__ezcu/knl-inl.h>
 

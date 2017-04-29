@@ -35,8 +35,9 @@
 /// @details This file describes the library functions used by ezCU to 
 /// initialize, release and manipulate an CUDA kernel descriptor.
 ///
-#include <ezCU/types.h>
 #include <stdint.h>
+#include <ezCU/types.h>
+#include <ezCU/flags.h>
 
 CPPGUARD_BEGIN();
 

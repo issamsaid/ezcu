@@ -36,11 +36,14 @@
 #include <string.h>
 #include <libgen.h>
 #include <time.h>
+#include <stdbool.h>
 #include <ezCU/types.h>
+#include <__ezcu/types-inl.h>
 #include <__ezcu/config/guard.h>
 #include <__ezcu/config/private.h>
 #include <__ezcu/config/log.h>
 #include <__ezcu/config/cuda.h>
+#include <__ezcu/config/util.h>
 #include <__ezcu/error-inl.h>
 
 CPPGUARD_BEGIN();

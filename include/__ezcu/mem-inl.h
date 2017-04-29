@@ -33,12 +33,14 @@
 /// @brief Private functions used to implement the ezCU memory descriptor.
 ///
 #include <stdio.h>
+#include <stdbool.h>
 #include <ezCU/flags.h>
 #include <ezCU/types.h>
 #include <__ezcu/config/cuda.h>
 #include <__ezcu/config/private.h>
 #include <__ezcu/config/guard.h>
 #include <__ezcu/config/util.h>
+#include <__ezcu/types-inl.h>
 #include <__ezcu/error-inl.h>
 #include <__ezcu/util-inl.h>
 

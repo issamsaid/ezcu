@@ -37,6 +37,7 @@
 /// CUDA kernels source code.
 ///
 #include <ezCU/types.h>
+#include <ezCU/flags.h>
 #include <__ezcu/config/guard.h>
 
 CPPGUARD_BEGIN()

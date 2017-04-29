@@ -30,12 +30,14 @@
 /// @author Issam SAID
 /// @brief The implementation of the ezCU utilities.
 ///
+#include <string.h>
 #include <ezCU/util.h>
+#include <ezCU/flags.h>
+#include <__ezcu/types-inl.h>
 #include <__ezcu/dev-inl.h>
 #include <__ezcu/mem-inl.h>
 #include <__ezcu/knl-inl.h>
 #include <__ezcu/util-inl.h>
-#include <string.h>
 
 extern ezcu_env_t ezcu;
 

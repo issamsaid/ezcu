@@ -37,6 +37,7 @@
 ///
 #include <stdbool.h>
 #include <ezCU/types.h>
+#include <ezCU/flags.h>
 
 CPPGUARD_BEGIN()
 

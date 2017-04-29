@@ -35,6 +35,7 @@
 #include <__ezcu/config/mem.h>
 #include <__ezcu/config/dev.h>
 #include <__ezcu/config/util.h>
+#include <__ezcu/types-inl.h>
 #include <__ezcu/mem-inl.h>
 #include <__ezcu/dev-inl.h>
 #include <__ezcu/util-inl.h>

@@ -38,7 +38,7 @@
 ///
 #define __EZCU_DEV_LONG_INFO_ENABLED  
 #define __EZCU_DEV_NSTREAMS           1
-#define __EZCU_DEV_MEM_STREAM         0
 #define __EZCU_DEV_CPT_STREAM         0
+#define __EZCU_DEV_MEM_STREAM         0
 
 #endif  // __EZCU_CONFIG_DEV_H_

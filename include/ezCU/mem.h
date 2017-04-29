@@ -35,6 +35,7 @@
 /// @details This file describes the library functions used by ezCU to 
 /// initialize, release and manipulate an CUDA memory descriptor.
 ///
+#include <stdbool.h>
 #include <ezCU/flags.h>
 #include <ezCU/types.h>
 

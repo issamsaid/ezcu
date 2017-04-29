@@ -43,6 +43,7 @@
 #include <__ezcu/config/knl.h>
 #include <__ezcu/config/timer.h>
 
+#include <__ezcu/types-inl.h>
 #include <__ezcu/util-inl.h>
 #include <__ezcu/error-inl.h>
 #include <__ezcu/dev-inl.h>

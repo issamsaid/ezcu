@@ -34,6 +34,7 @@
 ///
 #include <stdio.h>
 #include <ezCU/types.h>
+#include <__ezcu/types-inl.h>
 #include <__ezcu/config/guard.h>
 #include <__ezcu/config/private.h>
 #include <__ezcu/config/log.h>

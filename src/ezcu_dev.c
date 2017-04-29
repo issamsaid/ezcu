@@ -30,11 +30,12 @@
 /// @author Issam SAID
 /// @brief The implementation of the ezCU devices manipulation routines.
 ///
-#include <ezCU/dev.h>
 #include <stdio.h>
 #include <string.h>
+#include <ezCU/dev.h>
 #include <__ezcu/config/cuda.h>
 #include <__ezcu/config/util.h>
+#include <__ezcu/types-inl.h>
 #include <__ezcu/dev-inl.h>
 
 extern ezcu_env_t ezcu;
