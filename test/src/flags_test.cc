@@ -32,6 +32,7 @@
 ///
 #include <ezCU/flags.h>
 #include <ezCU/types.h>
+#include <__ezcu/types-inl.h>
 #include <gtest/gtest.h>
 
 extern ezcu_env_t ezcu;

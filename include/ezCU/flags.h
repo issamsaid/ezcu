@@ -174,12 +174,13 @@ typedef enum {
     SIZET         = 0x0000400000000006, ///< Data contain size_ts.  
     DOUBLE        = 0x0000800000000007, ///< Data contain doubles.  
     POINTER       = 0x0000001000000008, ///< Data is a pointer.  
+    SHORT         = 0x0000002000000009, ///< Data contain shorts.  
 } ezcu_mem_types_flags_t;
 
 /// @brief Memory data-types mask.
 #define EZCU_FLAGS_MEM_TYPES_MASK \
     ((CHAR  | INT   | UNSIGNED_INT | LONG | UNSIGNED_LONG | \
-      SIZET | FLOAT | DOUBLE) & 0x0000FFF00000000)
+      SIZET | FLOAT | DOUBLE | SHORT) & 0x0000FFF00000000)
 
 /// @brief Extract the internal values from flags.
 #define EZCU_VAL_MASK 0x000000000000FF00

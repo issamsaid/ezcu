@@ -124,9 +124,10 @@ inline void ezcu_flags_help_mem_access_modes() {
 inline void ezcu_flags_help_mem_types() {
     EZCU_PRINT("The possible memory types ezCU flags are (orthogonal*): "
                "CHAR | INT | UNSIGNED_INT | LONG | UNSIGNED_LONG | "
-               "SIZET | FLOAT | DOUBLE");
+               "SIZET | FLOAT | DOUBLE | SHORT");
     EZCU_PRINT("CHAR          : data contain chars");
     EZCU_PRINT("INT           : data contain integers");
+    EZCU_PRINT("SHORT         : data contain shorts (signed or unsigned)");
     EZCU_PRINT("UNSIGNED_INT  : data contain unsigned integers");
     EZCU_PRINT("LONG          : data contain long integers");
     EZCU_PRINT("UNSIGNED_LONG : data contain unsigned long integers");
@@ -268,6 +269,7 @@ inline void ezcu_flags_check_mem_types(ezcu_flags_t flags) {
     if ( ! (((flags & EZCU_FLAGS_MEM_TYPES_MASK) == 0) ||  
            ( EZCU_FLAGS_HAVE((flags), FLOAT)             &&
            ! EZCU_FLAGS_HAVE((flags), INT)               &&
+           ! EZCU_FLAGS_HAVE((flags), SHORT)             &&
            ! EZCU_FLAGS_HAVE((flags), UNSIGNED_INT)      &&
            ! EZCU_FLAGS_HAVE((flags), LONG)              &&
            ! EZCU_FLAGS_HAVE((flags), UNSIGNED_LONG)     &&
@@ -276,6 +278,7 @@ inline void ezcu_flags_check_mem_types(ezcu_flags_t flags) {
            ! EZCU_FLAGS_HAVE((flags), DOUBLE))           || 
            ( EZCU_FLAGS_HAVE((flags), DOUBLE)            &&
            ! EZCU_FLAGS_HAVE((flags), INT)               &&
+           ! EZCU_FLAGS_HAVE((flags), SHORT)             &&
            ! EZCU_FLAGS_HAVE((flags), CHAR)              &&
            ! EZCU_FLAGS_HAVE((flags), LONG)              &&
            ! EZCU_FLAGS_HAVE((flags), SIZET)             &&
@@ -284,6 +287,7 @@ inline void ezcu_flags_check_mem_types(ezcu_flags_t flags) {
            ! EZCU_FLAGS_HAVE((flags), FLOAT))            || 
            ( EZCU_FLAGS_HAVE((flags), INT)               &&
            ! EZCU_FLAGS_HAVE((flags), FLOAT)             &&
+           ! EZCU_FLAGS_HAVE((flags), SHORT)             &&
            ! EZCU_FLAGS_HAVE((flags), CHAR)              && 
            ! EZCU_FLAGS_HAVE((flags), LONG)              &&
            ! EZCU_FLAGS_HAVE((flags), SIZET)             && 
@@ -292,6 +296,7 @@ inline void ezcu_flags_check_mem_types(ezcu_flags_t flags) {
            ! EZCU_FLAGS_HAVE((flags), DOUBLE))           ||
            ( EZCU_FLAGS_HAVE((flags), LONG)              &&
            ! EZCU_FLAGS_HAVE((flags), FLOAT)             &&
+           ! EZCU_FLAGS_HAVE((flags), SHORT)             &&
            ! EZCU_FLAGS_HAVE((flags), CHAR)              && 
            ! EZCU_FLAGS_HAVE((flags), INT)               && 
            ! EZCU_FLAGS_HAVE((flags), SIZET)             &&
@@ -301,6 +306,7 @@ inline void ezcu_flags_check_mem_types(ezcu_flags_t flags) {
            ( EZCU_FLAGS_HAVE((flags), UNSIGNED_LONG)     &&
            ! EZCU_FLAGS_HAVE((flags), FLOAT)             &&
            ! EZCU_FLAGS_HAVE((flags), CHAR)              && 
+           ! EZCU_FLAGS_HAVE((flags), SHORT)             &&
            ! EZCU_FLAGS_HAVE((flags), INT)               && 
            ! EZCU_FLAGS_HAVE((flags), SIZET)             &&
            ! EZCU_FLAGS_HAVE((flags), LONG)              &&
@@ -308,22 +314,34 @@ inline void ezcu_flags_check_mem_types(ezcu_flags_t flags) {
            ! EZCU_FLAGS_HAVE((flags), DOUBLE))           ||
            ( EZCU_FLAGS_HAVE((flags), UNSIGNED_INT)      &&
            ! EZCU_FLAGS_HAVE((flags), FLOAT)             &&
+           ! EZCU_FLAGS_HAVE((flags), SHORT)             &&
            ! EZCU_FLAGS_HAVE((flags), CHAR)              && 
            ! EZCU_FLAGS_HAVE((flags), INT)               && 
            ! EZCU_FLAGS_HAVE((flags), SIZET)             &&
            ! EZCU_FLAGS_HAVE((flags), UNSIGNED_LONG)     &&
            ! EZCU_FLAGS_HAVE((flags), LONG)              && 
            ! EZCU_FLAGS_HAVE((flags), DOUBLE))           ||
-           ( EZCU_FLAGS_HAVE((flags), SIZET)             &&
+           ( EZCU_FLAGS_HAVE((flags), SHORT)             &&
            ! EZCU_FLAGS_HAVE((flags), FLOAT)             &&
+           ! EZCU_FLAGS_HAVE((flags), SIZET)             &&
            ! EZCU_FLAGS_HAVE((flags), CHAR)              && 
            ! EZCU_FLAGS_HAVE((flags), INT)               && 
            ! EZCU_FLAGS_HAVE((flags), LONG)              &&
            ! EZCU_FLAGS_HAVE((flags), UNSIGNED_LONG)     &&
-           ! EZCU_FLAGS_HAVE((flags), UNSIGNED_INT)      && 
+           ! EZCU_FLAGS_HAVE((flags), UNSIGNED_INT)      &&
+ 	   ! EZCU_FLAGS_HAVE((flags), DOUBLE))           ||
+           ( EZCU_FLAGS_HAVE((flags), SIZET)             &&
+           ! EZCU_FLAGS_HAVE((flags), FLOAT)             &&
+           ! EZCU_FLAGS_HAVE((flags), SHORT)             &&
+           ! EZCU_FLAGS_HAVE((flags), CHAR)              &&
+           ! EZCU_FLAGS_HAVE((flags), INT)               &&
+           ! EZCU_FLAGS_HAVE((flags), LONG)              &&
+           ! EZCU_FLAGS_HAVE((flags), UNSIGNED_LONG)     &&
+           ! EZCU_FLAGS_HAVE((flags), UNSIGNED_INT)      &&
            ! EZCU_FLAGS_HAVE((flags), DOUBLE))           ||
            ( EZCU_FLAGS_HAVE((flags), CHAR)              &&
            ! EZCU_FLAGS_HAVE((flags), FLOAT)             &&
+           ! EZCU_FLAGS_HAVE((flags), SHORT)             &&
            ! EZCU_FLAGS_HAVE((flags), INT)               && 
            ! EZCU_FLAGS_HAVE((flags), LONG)              &&
            ! EZCU_FLAGS_HAVE((flags), SIZET)             &&
@@ -437,8 +455,7 @@ inline void ezcu_flags_mem_to_str(ezcu_flags_t flags, char *string) {
         { UNSIGNED_INT,   "UNSIGNED_INT"},
         { LONG,           "LONG"},
         { UNSIGNED_LONG,  "UNSIGNED_LONG"},
-        { SIZET,          "SIZET"},                                                                                                                                
-        { FLOAT,          "FLOAT"},
+        { SIZET,          "SIZET"},                                                                                                                           { SIZET,          "SHORT"},                                                                                                                           { FLOAT,          "FLOAT"},
         { DOUBLE,         "DOUBLE"},                                                                
         { 0xFFFFFFFFFFFFFFFF,""}
     };
@@ -573,6 +590,7 @@ inline size_t ezcu_flags_to_mem_unit_size(ezcu_mem_types_flags_t flags) {
         case FLOAT:         return sizeof(float);
         case DOUBLE:        return sizeof(double);
         case SIZET:         return sizeof(size_t);
+        case SHORT:         return sizeof(short);
         default:            return sizeof(float);
     }
 }

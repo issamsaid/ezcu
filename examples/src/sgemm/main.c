@@ -32,6 +32,7 @@
 /// the ezCU C/C++ interface.
 ///
 #include <stdio.h>
+#include <stdlib.h>
 #include <time.h>
 #include <string.h>
 #include <ezCU/ezCU.h>
