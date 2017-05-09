@@ -82,6 +82,70 @@ namespace {
         free(h);
     }
 
+    TEST_F(MemTest, wrap_char_hwa_buffer) {
+        char *h;
+        int ret_val;
+        ezcu_mem_t m;
+        ret_val = posix_memalign((void**)(&h), MEM_ALIGN, 
+                                  N*sizeof(char));
+        if (ret_val) {fprintf(stderr, "Failed to allocate memory\n"); FAIL();}
+        m = ezcu_mem_wrap(d, h, N, CHAR | HWA);
+        ASSERT_EQ(h, m->h);
+        ASSERT_EQ(m,  __ezcu_mem_find(h));
+        ASSERT_EQ(m->size*m->unit_size, N*sizeof(char));
+        ASSERT_TRUE(EZCU_FLAGS_HAVE(m->flags, HWA));
+        ASSERT_TRUE(EZCU_FLAGS_HAVE(m->flags, CHAR));
+        free(h);
+    }
+
+    TEST_F(MemTest, wrap_uchar_hwa_buffer) {
+        unsigned char *h;
+        int ret_val;
+        ezcu_mem_t m;
+        ret_val = posix_memalign((void**)(&h), MEM_ALIGN, 
+                                  N*sizeof(unsigned char));
+        if (ret_val) {fprintf(stderr, "Failed to allocate memory\n"); FAIL();}
+        m = ezcu_mem_wrap(d, h, N, CHAR | HWA);
+        ASSERT_EQ(h, m->h);
+        ASSERT_EQ(m,  __ezcu_mem_find(h));
+        ASSERT_EQ(m->size*m->unit_size, N*sizeof(unsigned char));
+        ASSERT_TRUE(EZCU_FLAGS_HAVE(m->flags, HWA));
+        ASSERT_TRUE(EZCU_FLAGS_HAVE(m->flags, CHAR));
+        free(h);
+    }
+
+    TEST_F(MemTest, wrap_short_hwa_buffer) {
+        signed short *h;
+        int ret_val;
+        ezcu_mem_t m;
+        ret_val = posix_memalign((void**)(&h), MEM_ALIGN, 
+                                  N*sizeof(signed short));
+        if (ret_val) {fprintf(stderr, "Failed to allocate memory\n"); FAIL();}
+        m = ezcu_mem_wrap(d, h, N, SHORT | HWA);
+        ASSERT_EQ(h, m->h);
+        ASSERT_EQ(m,  __ezcu_mem_find(h));
+        ASSERT_EQ(m->size*m->unit_size, N*sizeof(signed short));
+        ASSERT_TRUE(EZCU_FLAGS_HAVE(m->flags, HWA));
+        ASSERT_TRUE(EZCU_FLAGS_HAVE(m->flags, SHORT));
+        free(h);
+    }
+    
+    TEST_F(MemTest, wrap_long_hwa_buffer) {
+        long *h;
+        int ret_val;
+        ezcu_mem_t m;
+        ret_val = posix_memalign((void**)(&h), MEM_ALIGN, 
+                                  N*sizeof(long));
+        if (ret_val) {fprintf(stderr, "Failed to allocate memory\n"); FAIL();}
+        m = ezcu_mem_wrap(d, h, N, LONG | HWA);
+        ASSERT_EQ(h, m->h);
+        ASSERT_EQ(m,  __ezcu_mem_find(h));
+        ASSERT_EQ(m->size*m->unit_size, N*sizeof(long));
+        ASSERT_TRUE(EZCU_FLAGS_HAVE(m->flags, HWA));
+        ASSERT_TRUE(EZCU_FLAGS_HAVE(m->flags, LONG));
+        free(h);
+    }
+
     TEST_F(MemTest, wrap_float_hwa_buffer) {
         float *h;
         int ret_val;
@@ -94,6 +158,22 @@ namespace {
         ASSERT_EQ(m->size*m->unit_size, N*sizeof(float));
         ASSERT_TRUE(EZCU_FLAGS_HAVE(m->flags, HWA));
         ASSERT_TRUE(EZCU_FLAGS_HAVE(m->flags, FLOAT));
+        free(h);
+    }
+
+    TEST_F(MemTest, wrap_double_hwa_buffer) {
+        double *h;
+        int ret_val;
+        ezcu_mem_t m;
+        ret_val = posix_memalign((void**)(&h), MEM_ALIGN, 
+                                  N*sizeof(double));
+        if (ret_val) {fprintf(stderr, "Failed to allocate memory\n"); FAIL();}
+        m = ezcu_mem_wrap(d, h, N, DOUBLE | HWA);
+        ASSERT_EQ(h, m->h);
+        ASSERT_EQ(m,  __ezcu_mem_find(h));
+        ASSERT_EQ(m->size*m->unit_size, N*sizeof(double));
+        ASSERT_TRUE(EZCU_FLAGS_HAVE(m->flags, HWA));
+        ASSERT_TRUE(EZCU_FLAGS_HAVE(m->flags, DOUBLE));
         free(h);
     }
 

@@ -59,8 +59,9 @@ ezcu_mem_t ezcu_mem_wrap(ezcu_dev_t d, void *h,
             m->flags |= HWA;
         if ((flags & EZCU_FLAGS_MEM_ACCESS_MODES_MASK)==0)
             m->flags |= READ_WRITE;
-        if ((flags & EZCU_FLAGS_MEM_TYPES_MASK)==0)
+        if ((flags & EZCU_FLAGS_MEM_TYPES_MASK)==0) 
             m->flags |= FLOAT;
+        
         __EZCU_MEM_CLEAR_HOST(m->flags);
         __EZCU_MEM_CLEAR_HWA(m->flags);
 

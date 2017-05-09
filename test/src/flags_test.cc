@@ -68,7 +68,7 @@ namespace {
               FIFTH, SIXTH, SEVENTH, EIGHTH,
               CC20, CC30, CC35, CC50, CC60,
               CHAR, INT, UNSIGNED_INT, UNSIGNED_LONG,
-              LONG, SIZET, FLOAT, DOUBLE, 0xFFFFFFFFFFFFFFFF };
+              LONG, SIZET, FLOAT, DOUBLE, SHORT, 0xFFFFFFFFFFFFFFFF };
         while(flags_tab[i] != 0xFFFFFFFFFFFFFFFF) {
             ASSERT_TRUE(EZCU_FLAGS_HAVE(flags_tab[i], flags_tab[i]));
             i++;    
@@ -101,6 +101,8 @@ namespace {
                                     (FLOAT & 0x0000FFF00000000)));
         ASSERT_TRUE(EZCU_FLAGS_HAVE(flags, 
                                     (DOUBLE & 0x0000FFF00000000)));
+        ASSERT_TRUE(EZCU_FLAGS_HAVE(flags, 
+                                    (SHORT & 0x0000FFF00000000)));
 
         flags = EZCU_FLAGS_DEV_PROPS_MASK;
         ASSERT_TRUE(EZCU_FLAGS_HAVE(flags, CC20 & 0x00F00FF000000000));
@@ -276,7 +278,7 @@ namespace {
         ezcu_flags_t flags = DEFAULT;
         ezcu_flags_t mem_types[] = 
             { CHAR, INT, UNSIGNED_INT, UNSIGNED_LONG,
-              LONG, SIZET, FLOAT, DOUBLE, (0xFFFFFFFFFFFFFFFF) };
+              LONG, SIZET, FLOAT, SHORT, DOUBLE, (0xFFFFFFFFFFFFFFFF) };
         ezcu_flags_check_mem_types(flags);
         i=0, j=0;        
         while(mem_types[i] != (0xFFFFFFFFFFFFFFFF)) {
@@ -285,20 +287,31 @@ namespace {
             i++;
         }
         flags = CHAR;
+        ASSERT_TRUE((flags & EZCU_FLAGS_MEM_TYPES_MASK)!=0);
         ezcu_flags_check_mem_types(flags);
         flags = INT;
+        ASSERT_TRUE((flags & EZCU_FLAGS_MEM_TYPES_MASK)!=0);
         ezcu_flags_check_mem_types(flags);
         flags = UNSIGNED_INT;
+        ASSERT_TRUE((flags & EZCU_FLAGS_MEM_TYPES_MASK)!=0);
         ezcu_flags_check_mem_types(flags);
         flags = UNSIGNED_LONG;
+        ASSERT_TRUE((flags & EZCU_FLAGS_MEM_TYPES_MASK)!=0);
         ezcu_flags_check_mem_types(flags);
         flags = LONG;
+        ASSERT_TRUE((flags & EZCU_FLAGS_MEM_TYPES_MASK)!=0);
         ezcu_flags_check_mem_types(flags);
         flags = SIZET;
+        ASSERT_TRUE((flags & EZCU_FLAGS_MEM_TYPES_MASK)!=0);
         ezcu_flags_check_mem_types(flags);
         flags = FLOAT;
+        ASSERT_TRUE((flags & EZCU_FLAGS_MEM_TYPES_MASK)!=0);
         ezcu_flags_check_mem_types(flags);
         flags = DOUBLE;
+        ASSERT_TRUE((flags & EZCU_FLAGS_MEM_TYPES_MASK)!=0);
+        ezcu_flags_check_mem_types(flags);
+        flags = SHORT;
+        ASSERT_TRUE((flags & EZCU_FLAGS_MEM_TYPES_MASK)!=0);
         ezcu_flags_check_mem_types(flags);
         i=0, j=0;
         while(mem_types[i] != (0xFFFFFFFFFFFFFFFF)) {
@@ -381,9 +394,10 @@ namespace {
     TEST_F(FlagsTest, flags_to_mem_unit_size) {
         int i=0, N=8;
         ezcu_mem_types_flags_t 
-            tab[] = { CHAR, INT, UNSIGNED_INT, LONG, 
+            tab[] = { CHAR, SHORT, INT, UNSIGNED_INT, LONG, 
                       UNSIGNED_LONG, FLOAT, DOUBLE, SIZET};
         size_t val[] = { sizeof(char), 
+                         sizeof(short), 
                          sizeof(int), 
                          sizeof(unsigned int),
                          sizeof(long),

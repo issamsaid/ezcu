@@ -112,10 +112,10 @@ __host__ void ezcu_init(ezcu_flags_t flags) {
 #endif // __EZCU_MPI
         ezcu->fdout = fopen(tmp_0, "w");
         if (ezcu->fdout == NULL) 
-            HICL_FAIL("failed to open ezCU output log file");
+            EZCU_FAIL("failed to open ezCU output log file");
         ezcu->fderr = fopen(tmp_1, "w");
         if (ezcu->fderr == NULL) 
-            HICL_FAIL("failed to open ezCU error log file");
+            EZCU_FAIL("failed to open ezCU error log file");
 #endif // __EZCU_LOG_STD
     
 #ifdef __EZCU_DEBUG

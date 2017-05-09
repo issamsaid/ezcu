@@ -329,7 +329,7 @@ inline void ezcu_flags_check_mem_types(ezcu_flags_t flags) {
            ! EZCU_FLAGS_HAVE((flags), LONG)              &&
            ! EZCU_FLAGS_HAVE((flags), UNSIGNED_LONG)     &&
            ! EZCU_FLAGS_HAVE((flags), UNSIGNED_INT)      &&
- 	   ! EZCU_FLAGS_HAVE((flags), DOUBLE))           ||
+ 	         ! EZCU_FLAGS_HAVE((flags), DOUBLE))           ||
            ( EZCU_FLAGS_HAVE((flags), SIZET)             &&
            ! EZCU_FLAGS_HAVE((flags), FLOAT)             &&
            ! EZCU_FLAGS_HAVE((flags), SHORT)             &&
@@ -581,16 +581,14 @@ inline int ezcu_flags_to_dev_prop(ezcu_dev_prop_flags_t f) {
 }
 
 inline size_t ezcu_flags_to_mem_unit_size(ezcu_mem_types_flags_t flags) {
-    switch(flags) {
-        case CHAR:          return sizeof(char);
-        case INT:           return sizeof(int);
-        case UNSIGNED_INT:  return sizeof(unsigned int);
-        case LONG:          return sizeof(long);
-        case UNSIGNED_LONG: return sizeof(unsigned long);
-        case FLOAT:         return sizeof(float);
-        case DOUBLE:        return sizeof(double);
-        case SIZET:         return sizeof(size_t);
-        case SHORT:         return sizeof(short);
-        default:            return sizeof(float);
-    }
+  if(EZCU_FLAGS_HAVE(flags, CHAR         )) return sizeof(char);
+  if(EZCU_FLAGS_HAVE(flags, SHORT        )) return sizeof(short);
+  if(EZCU_FLAGS_HAVE(flags, INT          )) return sizeof(int);
+  if(EZCU_FLAGS_HAVE(flags, UNSIGNED_INT )) return sizeof(unsigned int);
+  if(EZCU_FLAGS_HAVE(flags, LONG         )) return sizeof(long);
+  if(EZCU_FLAGS_HAVE(flags, UNSIGNED_LONG)) return sizeof(unsigned long);
+  if(EZCU_FLAGS_HAVE(flags, FLOAT        )) return sizeof(float);
+  if(EZCU_FLAGS_HAVE(flags, DOUBLE       )) return sizeof(double);
+  if(EZCU_FLAGS_HAVE(flags, SIZET        )) return sizeof(size_t);
+  EZCU_EXIT("ezCU flags for memory unit size are invalid");
 }

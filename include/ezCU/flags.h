@@ -178,9 +178,10 @@ typedef enum {
 } ezcu_mem_types_flags_t;
 
 /// @brief Memory data-types mask.
-#define EZCU_FLAGS_MEM_TYPES_MASK \
-    ((CHAR  | INT   | UNSIGNED_INT | LONG | UNSIGNED_LONG | \
-      SIZET | FLOAT | DOUBLE | SHORT) & 0x0000FFF00000000)
+#define EZCU_FLAGS_MEM_TYPES_MASK              \
+    ((CHAR          | INT    |                 \
+      UNSIGNED_INT  | LONG   | UNSIGNED_LONG | \
+      SIZET | FLOAT | DOUBLE | SHORT) & 0x0000FFF000000000)
 
 /// @brief Extract the internal values from flags.
 #define EZCU_VAL_MASK 0x000000000000FF00

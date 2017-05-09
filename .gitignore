@@ -68,3 +68,8 @@ tag.sh
 
 # Env setting scripts
 ezcu_env.intel
+
+# Log files
+ezcu_*.err
+ezcu_*.out
+
