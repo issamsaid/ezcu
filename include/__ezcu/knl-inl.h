@@ -88,6 +88,9 @@ __ezcu_knl_get_arg_types(char* code, ezcu_mem_types_flags_t* types) {
             } else if (strstr(pch, "int")) {
                 types[num_args] = INT;
                 EZCU_DEBUG("get arg type %d = int", num_args);
+            } else if (strstr(pch, "short")) {
+                types[num_args] = SHORT;
+                EZCU_DEBUG("get arg type %d = short", num_args);
             } else if ((strstr(pch, "int") && (strstr(pch, "unsigned"))) ||
                        (strstr(pch, "uint"))) {
                 types[num_args] = UNSIGNED_INT;
@@ -125,6 +128,7 @@ __ezcu_knl_get_arg_types(char* code, ezcu_mem_types_flags_t* types) {
 ///
 __EZCU_PRIVATE __host__ ezcu_knl_t 
 __ezcu_knl_init(const char* name, const CUfunction func, int num_args) {
+    int i;
     ezcu_knl_t k  = (ezcu_knl_t)malloc(sizeof(struct __ezcu_knl_t));
     k->id         = func;
     k->smem       = 0;
@@ -134,6 +138,10 @@ __ezcu_knl_init(const char* name, const CUfunction func, int num_args) {
     k->args       = (void**)malloc(sizeof(void*)*num_args);
     k->args_types = (ezcu_mem_types_flags_t*)
                         malloc(sizeof(ezcu_mem_types_flags_t)*num_args);
+    for (i=0; i<__EZCU_KNL_MAX_GRID_DIM; i++) {
+        k->grid[i]  = 1;
+        k->block[i] = 1;
+    }
     return k;
 }
 
@@ -263,13 +271,12 @@ __ezcu_knl_compile(const char *filename, const char *options) {
 ///
 __EZCU_PRIVATE __host__ ezcu_knl_t  
 __ezcu_knl_find(const char *name) {
-    // urb_t *i_knl = urb_tree_find(&ezcu->knls, (void*)name, __ezcu_str_cmp);
-    // EZCU_EXIT_IF(i_knl == &urb_sentinel, 
-    //              "CUDA kernel '%s' not found", name);
-    // return (ezcu_knl_t)i_knl->value;
+    urb_t *i_knl = urb_tree_find(&ezcu->knls, (void*)name, __ezcu_str_cmp);
+    EZCU_EXIT_IF(i_knl == &urb_sentinel, "CUDA kernel '%s' not found", name);
+    return (ezcu_knl_t)i_knl->value;
     // urb_t *i_knl = 
-    return (ezcu_knl_t)urb_tree_find(&ezcu->knls, 
-                                    (void*)name, __ezcu_str_cmp)->value;
+    // return (ezcu_knl_t)urb_tree_find(&ezcu->knls, 
+    //                                 (void*)name, __ezcu_str_cmp)->value;
 }
 
 ///

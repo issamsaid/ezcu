@@ -82,8 +82,8 @@ __host__ struct __ezcu_mem_t {
 /// This structure is a high level description of an CUDA kernel.
 ///
 __host__ struct __ezcu_knl_t {
-    unsigned int grid[3];               ///< the grid dimensions.
-    unsigned int block[3];              ///< the block dimensions.
+    unsigned int grid[__EZCU_KNL_MAX_GRID_DIM];  ///< the grid dimensions.
+    unsigned int block[__EZCU_KNL_MAX_GRID_DIM]; ///< the block dimensions.
     unsigned int num_args;              ///< the number of arguments.
     unsigned int smem;                  ///< the amount of shared memory.
     CUfunction id;                      ///< the CUDA function pointer.
