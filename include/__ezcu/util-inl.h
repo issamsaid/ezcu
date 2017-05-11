@@ -130,8 +130,13 @@ __ezcu_knl_cmp(void *cur, void *otr) {
 __EZCU_PRIVATE void
 __ezcu_ptr_del(void *ptr) { free(ptr); }
 
-__EZCU_PRIVATE int64_t 
-__ezcu_nmult64(int64_t val, int64_t q) {
+__EZCU_PRIVATE uint32_t 
+__ezcu_nmult32(uint32_t val, uint32_t q) {
+    return val + q - 1 - (val - 1)%q;
+}
+
+__EZCU_PRIVATE uint64_t 
+__ezcu_nmult64(uint64_t val, uint64_t q) {
     return val + q - 1 - (val - 1)%q;
 }
 

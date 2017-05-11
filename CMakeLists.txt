@@ -47,7 +47,7 @@ set (CMAKE_MODULE_PATH "${CMAKE_SOURCE_DIR}/cmake/modules")
 option(ezcu_debug       "Build ezCU with the debug mode."              OFF)
 option(ezcu_verbose     "Build ezCU with the verbose mode activated."   ON)
 option(ezcu_tty         "Build ezCU with logging into  the terminal."  OFF)
-option(ezcu_roundup_wrk "Build ezCU with rounding up the block sizes." OFF)
+option(ezcu_roundup_wrk "Build ezCU with rounding up the block sizes."  ON)
 option(ezcu_mpi         "Build ezCU with MPI compatibility."           OFF)
 
 ## Set the build type (DEFAULT is Release)

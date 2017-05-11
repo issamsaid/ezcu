@@ -48,6 +48,14 @@ ezcu_mem_t ezcu_mem_wrap(ezcu_dev_t d, void *h,
     urb_t *n;
     size_t bytes;
     if ((n=urb_tree_find(&ezcu->mems, h, __ezcu_ptr_cmp)) != &urb_sentinel) {
+#ifdef __EZCU_DEBUG  
+        char __tmp[__EZCU_STR_SIZE];
+        ezcu_mem_t m = n->value;
+        ezcu_flags_mem_to_str(m->flags, __tmp);
+        EZCU_DEBUG("reuse mem wrap: flags=%s, returning {h=%p, id=%llu} "
+                   "(size= %12.5f MB, refs= %d)", 
+                   __tmp, m->h, m->id, m->size, m->refs);
+#endif
         return n->value;
     } else {
         int tmp;

@@ -49,7 +49,11 @@ inline void ezcu_knl_set_wrk(const char *name,
     unsigned int i;
     EZCU_DEBUG("start knl set wrk %s", name);
     for (i=0; i<__EZCU_KNL_MAX_GRID_DIM; i++) {
+        #ifdef __EZCU_ROUNDUP_WRK
+        k->grid[i]  = grid[i]; //__ezcu_nmult32(grid[i], block[i]);
+        #else
         k->grid[i]  = grid[i];
+        #endif // __EZCU_ROUNDUP_WRK
         k->block[i] = block[i];
     }
     EZCU_DEBUG("grid = {%u, %u, %u}, block = {%u, %u, %u}",

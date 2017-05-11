@@ -455,7 +455,9 @@ inline void ezcu_flags_mem_to_str(ezcu_flags_t flags, char *string) {
         { UNSIGNED_INT,   "UNSIGNED_INT"},
         { LONG,           "LONG"},
         { UNSIGNED_LONG,  "UNSIGNED_LONG"},
-        { SIZET,          "SIZET"},                                                                                                                           { SIZET,          "SHORT"},                                                                                                                           { FLOAT,          "FLOAT"},
+        { SIZET,          "SIZET"},
+        { SHORT,          "SHORT"},
+        { FLOAT,          "FLOAT"},
         { DOUBLE,         "DOUBLE"},                                                                
         { 0xFFFFFFFFFFFFFFFF,""}
     };
