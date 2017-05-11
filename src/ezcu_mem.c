@@ -138,6 +138,11 @@ ezcu_mem_t ezcu_mem_wrap(ezcu_dev_t d, void *h,
     }
 }
 
+void ezcu_mem_release(void *h) {
+    urb_t * n = urb_tree_pop(&ezcu->mems, h, __ezcu_ptr_cmp);
+    if (n != &urb_sentinel) __ezcu_mem_release(n->value);
+}
+
 void ezcu_mem_update(void* h, ezcu_flags_t f) {
     ezcu_mem_t m = (ezcu_mem_t)urb_tree_find(&ezcu->mems, 
                                              h, __ezcu_ptr_cmp)->value;

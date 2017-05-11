@@ -63,6 +63,14 @@ ezcu_mem_t ezcu_mem_wrap(ezcu_dev_t d, void* h,
                          size_t size, ezcu_flags_t flags);
 
 ///
+/// @brief Release an existing memory object.
+///
+/// @param h is the preallocated host memory.
+/// @return Nothing.
+///
+void ezcu_mem_release(void *h);
+
+///
 /// @brief Set the access mode before altering a ezCU memory.
 ///
 /// This routine is used to inform that a given ezCU memory is altered by the 
