@@ -165,8 +165,12 @@ void ezcu_mem_update(void* h, ezcu_flags_t f) {
         }
     } else {
         if (__EZCU_MEM_HWA_IS_DIRTY(m->flags)) {
-            __ezcu_mem_dtoh(m->h, m->id, m->size*m->unit_size, m->stream, true);
-            __EZCU_MEM_CLEAR_HWA(m->flags);
+            if ((!EZCU_FLAGS_HAVE(f, WRITE_ONLY)) &&
+                (!EZCU_FLAGS_HAVE(m->flags, WRITE_ONLY))) {
+                __ezcu_mem_dtoh(m->h, m->id, 
+                                m->size*m->unit_size, m->stream, true);
+                __EZCU_MEM_CLEAR_HWA(m->flags);
+            }
         }
     }
     if (EZCU_FLAGS_HAVE(f, READ_WRITE) || 
