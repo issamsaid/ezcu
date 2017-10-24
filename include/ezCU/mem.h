@@ -28,16 +28,16 @@
 /// NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
 /// SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 ///
-/// @file ezCU/mem.h
+/// @file ezcu/mem.h
 /// @author Issam SAID
 /// @brief Function prototypes of CUDA memory objects manipulation routines.
 ///
-/// @details This file describes the library functions used by ezCU to 
+/// @details This file describes the library functions used by ezcu to 
 /// initialize, release and manipulate an CUDA memory descriptor.
 ///
 #include <stdbool.h>
-#include <ezCU/flags.h>
-#include <ezCU/types.h>
+#include <ezcu/flags.h>
+#include <ezcu/types.h>
 
 CPPGUARD_BEGIN();
 
@@ -46,18 +46,18 @@ CPPGUARD_BEGIN();
 ///        host pointer.
 ///
 /// This routine allocates a memory object on a given device, the location of 
-/// memory object is determined thanks to a set of ezCU flags provided by
+/// memory object is determined thanks to a set of ezcu flags provided by
 /// the user. In all cases, the memory descriptor that is 
 /// to be created uses a preallocated pointer as the host memory. For example, 
 /// if the memory is to be created on the device, the host memory will be 
 /// duplicated on the device, wheareas if the memory is zero-copy the same 
 /// host memory will be accessed by the device.
-/// @see ezCU/flags.h
+/// @see ezcu/flags.h
 /// @param d is the y CUDA device in which the device memory will be allocated.
 /// @param h is the preallocated host memory.
 /// @param size is the size of the memory to be allocated in number of elements.
-/// @param flags is the ezCU flags that describe the memory type.
-/// @return a ezCU memory descriptor.
+/// @param flags is the ezcu flags that describe the memory type.
+/// @return a ezcu memory descriptor.
 ///
 ezcu_mem_t ezcu_mem_wrap(ezcu_dev_t d, void* h, 
                          size_t size, ezcu_flags_t flags);
@@ -71,11 +71,11 @@ ezcu_mem_t ezcu_mem_wrap(ezcu_dev_t d, void* h,
 void ezcu_mem_release(void *h);
 
 ///
-/// @brief Set the access mode before altering a ezCU memory.
+/// @brief Set the access mode before altering a ezcu memory.
 ///
-/// This routine is used to inform that a given ezCU memory is altered by the 
-/// user. The modifications are identified with respect to a set of ezCU flags.
-/// @see ezCU/flags.h
+/// This routine is used to inform that a given ezcu memory is altered by the 
+/// user. The modifications are identified with respect to a set of ezcu flags.
+/// @see ezcu/flags.h
 /// @param h is the host memory pointer that identifies the descriptor.
 /// @param flags is the access mode: READ_ONLY, WRITE_ONLY or READ_WRITE.
 /// @return Nothing.
@@ -86,7 +86,7 @@ void    ezcu_mem_update(void* h, ezcu_flags_t flags);
 /// @brief Copy a portion of data from host to device.
 ///
 /// This routine copies a portion of data (a 3D cubic) from host to device, 
-/// that are related to a given ezCU memory descriptor.
+/// that are related to a given ezcu memory descriptor.
 /// @param h is the host memory pointer that identifies the descriptor.
 /// @param ix is the first element along the X axis to be copied.
 /// @param ex is the last  element along the X axis to be copied.
@@ -107,7 +107,7 @@ void    ezcu_mem_pop(void* h, int ix, int ex,
 /// @brief Copy a portion of data from device to host.
 ///
 /// This routine copies a portion of data (a 3D cubic) from device to host, 
-/// that are related to a given ezCU memory descriptor.
+/// that are related to a given ezcu memory descriptor.
 /// @param h is the host memory pointer that identifies the descriptor.
 /// @param ix is the first element along the X axis to be copied.
 /// @param ex is the last  element along the X axis to be copied.

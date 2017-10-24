@@ -28,50 +28,50 @@
 /// NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
 /// SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 ///
-/// @file ezCU/util.h
+/// @file ezcu/util.h
 /// @author Issam SAID
-/// @brief Function prototypes of set of utilities used by ezCU.
+/// @brief Function prototypes of set of utilities used by ezcu.
 /// 
 /// @details this file contains a list of helpers and util functions provided 
-/// by the ezCU library.
+/// by the ezcu library.
 ///
 #include <stdbool.h>
-#include <ezCU/flags.h>
-#include <ezCU/types.h>
+#include <ezcu/flags.h>
+#include <ezcu/types.h>
 #include <__ezcu/config/guard.h>
 
 CPPGUARD_BEGIN();
 
 ///
-/// @brief Convert a string to ezCU resources flags.
+/// @brief Convert a string to ezcu resources flags.
 ///
-/// This routine takes as an input a string and converts it to ezCU flags that 
+/// This routine takes as an input a string and converts it to ezcu flags that 
 /// are used to pick and allocate CUDA resourses. This routine is useful when
-/// parsing command line argument of a program using ezCU.
+/// parsing command line argument of a program using ezcu.
 /// @param str is the input string provided by the user.
-/// @return the corresponding ezCU flags.
+/// @return the corresponding ezcu flags.
 ///
 ezcu_flags_t ezcu_str2flags(const char *str);
 
 ///
-/// @brief Check whether the ezCU envirenment contains a given CUDA resource.
+/// @brief Check whether the ezcu envirenment contains a given CUDA resource.
 ///
 /// This routine checks whether an CUDA device, CUDA vendor or platform is 
-/// selected by the user when initializing ezCU. The given CUDA resource is 
-/// described by a set of ezCU flags. 
-/// @see ezCU/flags.h
-/// @param flags are the ezCU flags to describe the desired CUDA resource.
+/// selected by the user when initializing ezcu. The given CUDA resource is 
+/// described by a set of ezcu flags. 
+/// @see ezcu/flags.h
+/// @param flags are the ezcu flags to describe the desired CUDA resource.
 /// @return A boolean to confirm or not that the resource is active.
 ///
 bool ezcu_has(ezcu_flags_t flags);
 
 ///
 /// @brief Return the count of a category of CUDA resources that is activated
-/// by ezCU.
+/// by ezcu.
 ///
 /// This routine returns mainly the number of CUDA devices that are activated
-/// by ezCU and correspond to a set of ezCU flags provided by the user.
-/// @param flags are the ezCU flags to describe the desired CUDA devices.
+/// by ezcu and correspond to a set of ezcu flags provided by the user.
+/// @param flags are the ezcu flags to describe the desired CUDA devices.
 /// @return The number of the corresponding activated devices.
 ///
 size_t ezcu_count(ezcu_flags_t flags);

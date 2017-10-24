@@ -28,8 +28,8 @@
 !!
 !! @file m_ezcu_types.f90
 !! @author Issam SAID
-!! @brief This file implements the ezCU types in Fortran.
-!! @see ezCU/types.h
+!! @brief This file implements the ezcu types in Fortran.
+!! @see ezcu/types.h
 !<
 module m_ezcu_types
     use, intrinsic :: iso_c_binding

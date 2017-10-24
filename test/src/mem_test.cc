@@ -29,14 +29,14 @@
 /// 
 /// @file mem_test.cc
 /// @author Issam SAID
-/// @brief Unit testing file for the ezCU memory objects manipulation routines.
+/// @brief Unit testing file for the ezcu memory objects manipulation routines.
 ///
-#include <ezCU/base.h>
-#include <ezCU/flags.h>
-#include <ezCU/knl.h>
-#include <ezCU/mem.h>
-#include <ezCU/timer.h>
-#include <ezCU/dev.h>
+#include <ezcu/base.h>
+#include <ezcu/flags.h>
+#include <ezcu/knl.h>
+#include <ezcu/mem.h>
+#include <ezcu/timer.h>
+#include <ezcu/dev.h>
 #include <gtest/gtest.h>
 #include <__ezcu/mem-inl.h>
 #include <__ezcu/knl-inl.h>

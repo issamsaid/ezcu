@@ -28,7 +28,7 @@
 ///
 /// @file test/cuda/mem_test.cu
 /// @author Issam SAID
-/// @brief the CUDA kernels used for ezCU memory utilities tesing.
+/// @brief the CUDA kernels used for ezcu memory utilities tesing.
 ///
 #define S(m, z, y, x) m[(8+dimx)*((8+dimy)*(z+4) + y+4) + x+4]
 #define DS      4

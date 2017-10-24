@@ -28,10 +28,11 @@
 ##
 ## @file examples/src/devices_info/CMakeLists.txt
 ## @author Issam SAID
-## @brief CMake build script for the ezCU devices query example.
+## @brief CMake build script for the ezcu devices query example.
 ##
+cmake_minimum_required(VERSION 3.8 FATAL_ERROR)
+
 project (devices_info C)
-cmake_minimum_required (VERSION 2.8)
 
 file(GLOB C_SRCS "*.c")
 
@@ -49,5 +50,5 @@ add_dependencies(devices_info ezcu)
 ##    set to TRUE has undefined behavior. 
 ##  
 ## Inform the build location of the target. 
-get_target_property(VAR devices_info LOCATION)
-set (EZCU_C_EXAMPLES_FILES "${EZCU_C_EXAMPLES_FILES}" "${VAR}" PARENT_SCOPE)
+# get_target_property(VAR devices_info LOCATION)
+# set (EZCU_C_EXAMPLES_FILES "${EZCU_C_EXAMPLES_FILES}" "${VAR}" PARENT_SCOPE)

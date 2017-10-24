@@ -29,20 +29,20 @@
 /// @file stencil_3d/main.c
 /// @author Issam SAID
 /// @brief An example of 3D finite difference stencil code based on 
-/// the ezCU C/C++ interface.
+/// the ezcu C/C++ interface.
 ///
 #include <stdio.h>
 #include <stdlib.h>
 #include <time.h>
 #include <string.h>
-#include <ezCU/ezCU.h>
+#include <ezcu/ezcu.h>
 
 #define N 320
 
 ///
-/// @brief The main program of the ezCU based sgemm C/C++ example.
+/// @brief The main program of the ezcu based sgemm C/C++ example.
 ///
-/// This is the main routine that shows how to use the ezCU C/C++ interface 
+/// This is the main routine that shows how to use the ezcu C/C++ interface 
 /// to implement a simple matrix to matrix multiplication.
 /// Note that the CUDA kernel is implemented in a seperate file (sgemm.cl).
 /// @return Error code if any.
@@ -58,10 +58,10 @@ int main(void) {
     
     ezcu_dev_t device;
 
-    fprintf(stdout, "... start of the ezCU 3D stencil C/C++ example\n");
+    fprintf(stdout, "... start of the ezcu 3D stencil C/C++ example\n");
 
     ///
-    ///< Initialize ezCU with selecting the default GPU.
+    ///< Initialize ezcu with selecting the default GPU.
     ///
     ezcu_init(GPU);
 
@@ -91,7 +91,7 @@ int main(void) {
     coeffs[4] = -0.001;
 
     /// 
-    ///< Wrap the matrices into ezCU memory objects.
+    ///< Wrap the matrices into ezcu memory objects.
     ///
     ezcu_mem_wrap(device, u, (N+8)*(N+8)*(N+8), FLOAT | READ_WRITE  | HWA);
     ezcu_mem_wrap(device, v, (N+8)*(N+8)*(N+8), FLOAT | READ_WRITE  | HWA);
@@ -118,9 +118,9 @@ int main(void) {
     free(coeffs);
 
     ///
-    ///< Release ezCU resources.
+    ///< Release ezcu resources.
     ///
     ezcu_release();
-    fprintf(stdout, "... end   of the ezCU 3D stencil C/C++ example\n");
+    fprintf(stdout, "... end   of the ezcu 3D stencil C/C++ example\n");
     return EXIT_SUCCESS;
 }

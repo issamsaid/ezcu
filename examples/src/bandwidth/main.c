@@ -28,19 +28,19 @@
 ///
 /// @file bandwidth/main.c
 /// @author Issam SAID
-/// @brief An example of bandwidth benchmark code based on the ezCU C/C++
+/// @brief An example of bandwidth benchmark code based on the ezcu C/C++
 ///        interface.
 ///
 #include <stdio.h>
 #include <stdlib.h>
 #include <time.h>
-#include <ezCU/ezCU.h>
+#include <ezcu/ezcu.h>
 #include <uparser/uparser.h>
 
 ///
-/// @brief The main program of the ezCU based bandwidth C/C++ example.
+/// @brief The main program of the ezcu based bandwidth C/C++ example.
 ///
-/// This is the main routine that shows how to use the ezCU C/C++ interface 
+/// This is the main routine that shows how to use the ezcu C/C++ interface 
 /// to implement a simple bandwidth test.
 /// Note that the CUDA kernel is implemented in a separate file (bandwidth.cu).
 /// @return Error code if any.
@@ -70,10 +70,10 @@ int main(int argc, char** argv) {
     N       *= (1024*1024/4);
     grid[0]  = N/block[0]/ilp;
     
-    fprintf(stdout, "... start of the ezCU bandwidth C/C++ example\n");
+    fprintf(stdout, "... start of the ezcu bandwidth C/C++ example\n");
     
     ///
-    ///< Initialize ezCU with selecting the default GPU.
+    ///< Initialize ezcu with selecting the default GPU.
     ///
     ezcu_init(GPU);
 
@@ -97,7 +97,7 @@ int main(int argc, char** argv) {
     for (i = 0; i< N; ++i) b[i]  = 0;
 
     /// 
-    ///< Wrap the buffers into ezCU memory objects.
+    ///< Wrap the buffers into ezcu memory objects.
     ///
     ezcu_mem_wrap(device, a, N, FLOAT | READ_ONLY  | HWA);
     ezcu_mem_wrap(device, b, N, FLOAT | WRITE_ONLY | HWA);
@@ -140,7 +140,7 @@ int main(int argc, char** argv) {
     free(b);
 
     ///
-    ///< Release ezCU resources.
+    ///< Release ezcu resources.
     ///
     ezcu_release();
 
@@ -148,6 +148,6 @@ int main(int argc, char** argv) {
     ///< Release the parser.
     ///
     uparser_release();
-    fprintf(stdout, "... end   of the ezCU bandwidth C/C++ example\n");
+    fprintf(stdout, "... end   of the ezcu bandwidth C/C++ example\n");
     return EXIT_SUCCESS;
 }

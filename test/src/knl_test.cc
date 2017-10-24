@@ -28,14 +28,14 @@
 ///
 /// @file knl_test.cc
 /// @author Issam SAID
-/// @brief Unit testing file for the ezCU kernels manipulation routines.
+/// @brief Unit testing file for the ezcu kernels manipulation routines.
 ///
 #include <math.h>
-#include <ezCU/knl.h>
-#include <ezCU/dev.h>
-#include <ezCU/mem.h>
-#include <ezCU/timer.h>
-#include <ezCU/base.h>
+#include <ezcu/knl.h>
+#include <ezcu/dev.h>
+#include <ezcu/mem.h>
+#include <ezcu/timer.h>
+#include <ezcu/base.h>
 #include <__ezcu/config/cuda.h>
 #include <__ezcu/config/mem.h>
 #include <__ezcu/util-inl.h>

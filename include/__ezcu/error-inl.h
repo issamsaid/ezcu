@@ -30,10 +30,10 @@
 ///
 /// @file __ezcu/error-inl.h
 /// @author Issam SAID
-/// @brief Private functions used to handle CUDA errors in ezCU.    
+/// @brief Private functions used to handle CUDA errors in ezcu.    
 ///
 #include <stdio.h>
-#include <ezCU/types.h>
+#include <ezcu/types.h>
 #include <__ezcu/types-inl.h>
 #include <__ezcu/config/guard.h>
 #include <__ezcu/config/private.h>

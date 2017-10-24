@@ -28,7 +28,7 @@
 ///
 /// @file sgemm/sgemm.cu
 /// @author Issam SAID
-/// @brief The CUDA kernel used for the matrix multiplication based on ezCU.
+/// @brief The CUDA kernel used for the matrix multiplication based on ezcu.
 ///
 extern "C" __global__ void sgemm(float *a,
                                  float *b,

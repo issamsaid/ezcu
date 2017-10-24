@@ -28,10 +28,11 @@
 ##
 ## @file examples/fortran_interface/stencil_3d/CMakeLists.txt
 ## @author Issam SAID
-## @brief CMake build script for the ezCU Fortran 3D stencil.
+## @brief CMake build script for the ezcu Fortran 3D stencil.
 ##
-project (stencil_3d_fortran Fortran)
-cmake_minimum_required (VERSION 2.8)
+cmake_minimum_required(VERSION 3.8 FATAL_ERROR)
+
+project (stencil_3d_fortran LANGUAGES Fortran)
 
 file(GLOB F_SRCS "*.f90")
 
@@ -52,6 +53,6 @@ add_dependencies(stencil_3d_fortran ezcu_fortran)
 ##    set to TRUE has undefined behavior. 
 ##  
 ## Inform the build location of the target. 
-get_target_property(VAR stencil_3d_fortran LOCATION)
-set (EZCU_FORTRAN_EXAMPLES_FILES 
-     "${EZCU_FORTRAN_EXAMPLES_FILES}" "${VAR}" PARENT_SCOPE)
+# get_target_property(VAR stencil_3d_fortran LOCATION)
+# set (EZCU_FORTRAN_EXAMPLES_FILES 
+#      "${EZCU_FORTRAN_EXAMPLES_FILES}" "${VAR}" PARENT_SCOPE)

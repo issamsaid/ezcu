@@ -28,17 +28,18 @@
 ##
 ## @file examples/src/CMakeLists.txt
 ## @author Issam SAID
-## @brief CMake build script for the ezCU C/C++ examples.
+## @brief CMake build script for the ezcu C/C++ examples.
 ##
-project (c_examples C)
-cmake_minimum_required (VERSION 2.8)
+cmake_minimum_required(VERSION 3.8 FATAL_ERROR)
+
+project(c_examples LANGUAGES C CXX)
 
 ## Set the CUDA host compiler.
 set(CUDA_HOST_COMPILER "${CMAKE_C_COMPILER}"
     CACHE FILEPATH "Host side compiler used by NVCC")
 mark_as_advanced(CUDA_HOST_COMPILER)
 
-## Include the ezCU headers
+## Include the ezcu headers
 include_directories(${CMAKE_SOURCE_DIR}/include)
 
 ## Add a custom target that includes the build of all the C examples
@@ -53,14 +54,13 @@ foreach(dir ${sub_dirs})
 	endif()
 endforeach()
 
-##
-## Workaround to install this target simultaneously with the main target.
+## workaround to install this target simultaneously with the main target.
 ## This is due to a cmake restriction: 
 ##  - Installing a target with the EXCLUDE_FROM_ALL target property 
 ##    set to TRUE has undefined behavior. 
 ##  
-## First: inform the build location of the target. 
+## first: inform the build location of the target. 
 set (EZCU_C_EXAMPLES_FILES ${EZCU_C_EXAMPLES_FILES})
 
-## Then : inform the location where the target is to be installed. 
+## then : inform the location where the target is to be installed. 
 set (EZCU_C_EXAMPLES_INSTALL_DIR ${CMAKE_SOURCE_DIR}/examples/bin)

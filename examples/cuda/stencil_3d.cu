@@ -28,7 +28,7 @@
 ///
 /// @file stencil_3d/stencil_3d.cu
 /// @author Issam SAID
-/// @brief the CUDA kernel used for the 3D stencil computations based on ezCU.
+/// @brief the CUDA kernel used for the 3D stencil computations based on ezcu.
 ///
 #define G(m, z, y, x) m[(8+dimx)*((8+dimy)*(z+4) + y+4) + x+4]
 

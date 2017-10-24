@@ -30,7 +30,7 @@
 ///
 /// @file config/knl.h
 /// @author Issam SAID
-/// @brief Configuration file for the ezCU kernel descriptor.
+/// @brief Configuration file for the ezcu kernel descriptor.
 ///
 
 ///

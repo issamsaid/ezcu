@@ -30,8 +30,9 @@
 ## @author Issam SAID
 ## @brief CMake build script for the ezcu C/C++ bandwidth.
 ##
-project (bandwidth C)
-cmake_minimum_required (VERSION 2.8)
+cmake_minimum_required(VERSION 3.8 FATAL_ERROR)
+
+project (bandwidth LANGUAGES C CXX)
 
 file(GLOB C_SRCS "*.c")
 
@@ -52,5 +53,5 @@ add_dependencies(bandwidth ezcu)
 ##    set to TRUE has undefined behavior. 
 ##  
 ## Inform the build location of the target. 
-get_target_property(VAR bandwidth LOCATION)
-set (EZCU_C_EXAMPLES_FILES "${EZCU_C_EXAMPLES_FILES}" "${VAR}" PARENT_SCOPE)
+# get_target_property(VAR bandwidth LOCATION)
+# set (EZCU_C_EXAMPLES_FILES "${EZCU_C_EXAMPLES_FILES}" "${VAR}" PARENT_SCOPE)

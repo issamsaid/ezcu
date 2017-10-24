@@ -28,9 +28,9 @@
 !!
 !! @file m_ezcu_base
 !! @author Issam SAID
-!! @brief This file implements the Fortran interface of the ezCU main setup 
+!! @brief This file implements the Fortran interface of the ezcu main setup 
 !! routines.
-!! @see ezCU/base.h
+!! @see ezcu/base.h
 !<
 module m_ezcu_base
     use, intrinsic :: iso_c_binding

@@ -30,10 +30,10 @@
 /// @author Issam SAID
 /// @brief Unit testing file for the devices manipulation private functions.
 ///
-#include <ezCU/flags.h>
-#include <ezCU/base.h>
-#include <ezCU/util.h>
-#include <ezCU/dev.h>
+#include <ezcu/flags.h>
+#include <ezcu/base.h>
+#include <ezcu/util.h>
+#include <ezcu/dev.h>
 #include <__ezcu/dev-inl.h>
 #include <gtest/gtest.h>
 

@@ -28,13 +28,13 @@
 ///
 /// @file ezcu_knl.c
 /// @author Issam SAID
-/// @brief The implementation of the ezCU kernels manipulation routines.
+/// @brief The implementation of the ezcu kernels manipulation routines.
 ///
 #include <stdio.h>
 #include <string.h>
-#include <ezCU/knl.h>
-#include <ezCU/timer.h>
-#include <ezCU/mem.h>
+#include <ezcu/knl.h>
+#include <ezcu/timer.h>
+#include <ezcu/mem.h>
 #include <__ezcu/config/cuda.h>
 #include <__ezcu/config/util.h>
 #include <__ezcu/config/dev.h>

@@ -28,20 +28,22 @@
 ##
 ## @file test/fortran_interface/CMakeLists.txt
 ## @author Issam SAID
-## @brief CMake build script for ezCU Fortran interface unit testing.
+## @brief CMake build script for ezcu Fortran interface unit testing.
 ## 
-project (ezcu_test_fortran Fortran)
-cmake_minimum_required (VERSION 2.8)
+cmake_minimum_required(VERSION 3.8 FATAL_ERROR)
+
+project(ezcu_test_fortran LANGUAGES Fortran)
 
 include_directories(${CMAKE_SOURCE_DIR}/modules)
+
 file(GLOB F_SRCS "*.f90")
 
 add_definitions(-DPREFIX=\"${CMAKE_SOURCE_DIR}/test/cuda\")
 
-## Generate the executable
+## generate the executable.
 add_executable(ezcu_test_fortran ${F_SRCS})
 
-## Link the executable to the ezCU_fortran, CUDA and urb_tree
+## Link the executable to the ezcu_fortran, CUDA and urb_tree
 target_link_libraries (ezcu_test_fortran ezcu_fortran)
 target_link_libraries (ezcu_test_fortran ezcu)
 target_link_libraries (ezcu_test_fortran ${CUDA_CUDA_LIBRARY})
@@ -56,7 +58,7 @@ add_dependencies(ezcu_test_fortran ezcu_fortran)
 ##    set to TRUE has undefined behavior. 
 ##  
 ## First: inform the build location of the target. 
-get_target_property(EZCU_TEST_FORTRAN_BUILD_EXE ezcu_test_fortran LOCATION)
+#get_target_property(EZCU_TEST_FORTRAN_BUILD_EXE ezcu_test_fortran LOCATION)
 
 ## Then : inform the location where the target is to be installed. 
-set (EZCU_TEST_FORTRAN_INSTALL_DIR ${CMAKE_SOURCE_DIR}/test/bin)
+#set (EZCU_TEST_FORTRAN_INSTALL_DIR ${CMAKE_SOURCE_DIR}/test/bin)

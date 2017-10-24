@@ -28,8 +28,8 @@
 !!
 !! @file m_ezcu_flags.f90
 !! @author Issam SAID
-!! @brief This file implements the ezCU flags in Fortran.
-!! @see ezCU/flags.h
+!! @brief This file implements the ezcu flags in Fortran.
+!! @see ezcu/flags.h
 !<
 module m_ezcu_flags
     use, intrinsic :: iso_c_binding

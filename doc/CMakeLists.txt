@@ -28,7 +28,7 @@
 ##
 ## @file doc/CMakeLists.txt
 ## @author Issam SAID
-## @brief CMake build script for the ezCU documentation.
+## @brief CMake build script for the ezcu documentation.
 ##
 project (doc)
 cmake_minimum_required (VERSION 2.8)
@@ -47,7 +47,7 @@ if (DOXYGEN_FOUND)
 		WORKING_DIRECTORY 
 			${CMAKE_CURRENT_SOURCE_DIR}
 		COMMENT 
-			"... Generating ezCU documentation with Doxygen" 
+			"... Generating ezcu documentation with Doxygen" 
 		VERBATIM)
 	add_custom_target(
     	doc ALL

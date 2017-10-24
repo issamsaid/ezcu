@@ -29,16 +29,16 @@
 !! @file devices_info/main.f90
 !! @author Issam SAID 
 !! @brief An example of a devices query code based on 
-!! the ezCU Fortran interface.
+!! the ezcu Fortran interface.
 !!
 !<
 program devices_info_fortran
     use m_ezcu
 
-    write(*,*) "... start of the ezCU devices_info Fortran example"
+    write(*,*) "... start of the ezcu devices_info Fortran example"
 
     !!
-    !!< Initialize ezCU with selecting all devices.
+    !!< Initialize ezcu with selecting all devices.
     !!
     call ezcu_init(ALL)
     
@@ -48,8 +48,8 @@ program devices_info_fortran
     call ezcu_info()
 
     !!
-    !!< Release ezCU resources.
+    !!< Release ezcu resources.
     !!
     call ezcu_release()
-    write(*,*) "... end   of the ezCU devices_info Fortran example"
+    write(*,*) "... end   of the ezcu devices_info Fortran example"
 end program devices_info_fortran

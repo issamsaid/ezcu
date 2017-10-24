@@ -30,7 +30,7 @@
 ///
 /// @file config/timer.h
 /// @author Issam SAID
-/// @brief The configuration file for the ezCU timer.
+/// @brief The configuration file for the ezcu timer.
 ///
 #define __EZCU_TIMER_USE_GETTIMEOFDAY
 #define __EZCU_TIMER_MAX                16

@@ -28,10 +28,10 @@
 ///
 /// @file ezcu_flags_test.cc
 /// @author Issam SAID
-/// @brief Unit testing file for the ezCU bitwise flags manipulation.
+/// @brief Unit testing file for the ezcu bitwise flags manipulation.
 ///
-#include <ezCU/flags.h>
-#include <ezCU/types.h>
+#include <ezcu/flags.h>
+#include <ezcu/types.h>
 #include <__ezcu/types-inl.h>
 #include <gtest/gtest.h>
 

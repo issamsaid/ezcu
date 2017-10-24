@@ -30,12 +30,12 @@
 ///
 /// @file __ezcu/knl-inl.h
 /// @author Issam SAID
-/// @brief Private functions used to implement the ezCU kernel descriptor.
+/// @brief Private functions used to implement the ezcu kernel descriptor.
 ///
 #include <stdarg.h>
 #include <string.h>
 #include <ctype.h>
-#include <ezCU/types.h>
+#include <ezcu/types.h>
 #include <__ezcu/config/cuda.h>
 #include <__ezcu/config/private.h>
 #include <__ezcu/config/guard.h>
@@ -119,12 +119,12 @@ __ezcu_knl_get_arg_types(char* code, ezcu_mem_types_flags_t* types) {
 }
 
 ///
-/// @brief Create a ezCU kernel descriptor.
+/// @brief Create a ezcu kernel descriptor.
 ///
-/// This routine creates a ezCU kernel descriptor, provided an CUDA function,
+/// This routine creates a ezcu kernel descriptor, provided an CUDA function,
 /// which contains information about the work size, see types.h. 
 /// @param func is the CUDA function.
-/// @return a ezCU kernel descriptor.
+/// @return a ezcu kernel descriptor.
 ///
 __EZCU_PRIVATE __host__ ezcu_knl_t 
 __ezcu_knl_init(const char* name, const CUfunction func, int num_args) {
@@ -264,10 +264,10 @@ __ezcu_knl_compile(const char *filename, const char *options) {
 // }
 
 ///
-/// @brief Find a ezCU kernel descriptor given a function pointer.
+/// @brief Find a ezcu kernel descriptor given a function pointer.
 ///
 /// @param name is the CUDA function name.
-/// @return a ezCU kernel descriptor.
+/// @return a ezcu kernel descriptor.
 ///
 __EZCU_PRIVATE __host__ ezcu_knl_t  
 __ezcu_knl_find(const char *name) {
@@ -280,13 +280,13 @@ __ezcu_knl_find(const char *name) {
 }
 
 ///
-/// @brief Create a ezCU kernel descriptor.
+/// @brief Create a ezcu kernel descriptor.
 ///
-/// This routine creates a ezCU kernel descriptor, provided an CUDA cl_kernel,
+/// This routine creates a ezcu kernel descriptor, provided an CUDA cl_kernel,
 /// which contains information about the work size and also the offset, see 
 /// types.h. 
 /// @param id is the CUDA cl_kernel.
-/// @return a ezCU kernel descriptor.
+/// @return a ezcu kernel descriptor.
 ///
 __EZCU_PRIVATE __host__ void
 __ezcu_knl_release(void *pointer) {
@@ -301,7 +301,7 @@ __ezcu_knl_release(void *pointer) {
 }
 
 ///
-/// @brief Macros used to print information about a given ezCU kernel.
+/// @brief Macros used to print information about a given ezcu kernel.
 ///
 #define __EZCU_KNL_INFO_LEVEL_0(fmt, ...) fprintf(ezcu->fdout,\
 EZCU_GREEN"\no CUDA "fmt":\n"EZCU_END, ##__VA_ARGS__)
@@ -313,7 +313,7 @@ EZCU_GREEN"\no CUDA "fmt":\n"EZCU_END, ##__VA_ARGS__)
 "\t %-22s "fmt"\n", " ", ##__VA_ARGS__)
 
 ///
-/// @brief Print information about a given ezCU kernel descriptor.
+/// @brief Print information about a given ezcu kernel descriptor.
 ///
 /// @param pointer is the kernel descriptor.
 /// @return Nothing.

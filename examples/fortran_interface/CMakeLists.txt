@@ -28,18 +28,19 @@
 ##
 ## @file examples/fortran_interface/CMakeLists.txt
 ## @author Issam SAID
-## @brief CMake build script for the ezCU Fortran examples.
+## @brief CMake build script for the ezcu Fortran examples.
 ##
-project (fortran_examples Fortran)
-cmake_minimum_required (VERSION 2.8)
+cmake_minimum_required(VERSION 3.8 FATAL_ERROR)
 
-## Include the ezCU Fortran modules
+project(fortran_examples LANGUAGES Fortran)
+
+## include the ezcu Fortran modules.
 include_directories(${CMAKE_SOURCE_DIR}/modules)
 
-## Add a custom target that includes the build of all the Fortran examples
+## add a custom target that includes the build of all the Fortran examples.
 add_custom_target(fortran_examples)
 
-## Build all the subdirectories
+## build all the subdirectories.
 file(GLOB sub_dirs RELATIVE ${CMAKE_SOURCE_DIR}/examples/fortran_interface *)
 foreach(dir ${sub_dirs})
 	if(IS_DIRECTORY ${CMAKE_SOURCE_DIR}/examples/fortran_interface/${dir})
@@ -48,14 +49,13 @@ foreach(dir ${sub_dirs})
 	endif()
 endforeach()
 
-##
-## Workaround to install this target simultaneously with the main target.
-## This is due to a cmake restriction: 
+## workaround to install this target simultaneously with the main target.
+## this is due to a cmake restriction: 
 ##  - Installing a target with the EXCLUDE_FROM_ALL target property 
 ##    set to TRUE has undefined behavior. 
 ##  
-## First: inform the build location of the target. 
-set (EZCU_FORTRAN_EXAMPLES_FILES ${EZCU_FORTRAN_EXAMPLES_FILES})
+## first: inform the build location of the target. 
+#set (EZCU_FORTRAN_EXAMPLES_FILES ${EZCU_FORTRAN_EXAMPLES_FILES})
 
-## Then : inform the location where the target is to be installed. 
-set (EZCU_FORTRAN_EXAMPLES_INSTALL_DIR ${CMAKE_SOURCE_DIR}/examples/bin)
+## then : inform the location where the target is to be installed. 
+#set (EZCU_FORTRAN_EXAMPLES_INSTALL_DIR ${CMAKE_SOURCE_DIR}/examples/bin)

@@ -30,14 +30,14 @@
 ///
 /// @file __ezcu/util-inl.h
 /// @author Issam SAID
-/// @brief Private functions used by the ezCU utilities.    
+/// @brief Private functions used by the ezcu utilities.    
 ///
 #include <stdio.h>
 #include <string.h>
 #include <libgen.h>
 #include <time.h>
 #include <stdbool.h>
-#include <ezCU/types.h>
+#include <ezcu/types.h>
 #include <__ezcu/types-inl.h>
 #include <__ezcu/config/guard.h>
 #include <__ezcu/config/private.h>
@@ -58,7 +58,7 @@ extern ezcu_env_t ezcu;
 #define EZCU_DEBUG(fmt,...) 
 #endif  // __EZCU_DEBUG
 
-#ifdef __EZCU_VERBOSE                             
+#ifdef __VERBOSE                             
 #define EZCU_PRINT(fmt,...)                                                \
     fprintf(ezcu->fdout,                                                   \
             EZCU_GREEN"[EZCU MSG]: "fmt".\n"EZCU_END, ##__VA_ARGS__)
@@ -74,7 +74,7 @@ extern ezcu_env_t ezcu;
 #define EZCU_PRINT(fmt,...) 
 #define EZCU_WARN(fmt,...) 
 #define EZCU_WARN_IF(fmt,...) 
-#endif  // __EZCU_VERBOSE 
+#endif  // __VERBOSE 
 
 __EZCU_PRIVATE int
 __ezcu_ptr_cmp(void *cur_ptr, void *otr_ptr) {

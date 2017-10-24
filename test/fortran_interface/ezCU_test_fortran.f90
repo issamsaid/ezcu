@@ -26,11 +26,11 @@
 !! NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
 !! SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 !!
-!! @file ezCU_test_fortran.f90
+!! @file ezcu_test_fortran.f90
 !! @author Issam SAID
-!! @brief Main file to launch the unit testing of the ezCU Fortran interface.
+!! @brief Main file to launch the unit testing of the ezcu Fortran interface.
 !<
-program ezCU_test_fortran
+program ezcu_test_fortran
     use m_base_test
     use m_dev_test
     use m_mem_test
@@ -49,4 +49,4 @@ program ezCU_test_fortran
     call handler_end()
     call handler_stat()
 
-end program ezCU_test_fortran
+end program ezcu_test_fortran

@@ -29,7 +29,7 @@
 !! @file sgemm/main.f90
 !! @author Issam SAID 
 !! @brief An example of a 3D finite difference stencil code based on 
-!! the ezCU Fortran interface.
+!! the ezcu Fortran interface.
 !!
 !<
 program stencil_3d_fortran
@@ -47,10 +47,10 @@ program stencil_3d_fortran
 
     type(ezcu_dev_t),     pointer :: device
 
-    write(*,*) "... start of the ezCU 3D stencil Fortran example"
+    write(*,*) "... start of the ezcu 3D stencil Fortran example"
 
     !!
-    !!< Initialize ezCU with selecting the default GPU.
+    !!< Initialize ezcu with selecting the default GPU.
     !!
     call ezcu_init(GPU)
 
@@ -78,7 +78,7 @@ program stencil_3d_fortran
     coeffs(5) = -0.001;
 
     !!
-    !!< Wrap the buffers into ezCU memory objects.
+    !!< Wrap the buffers into ezcu memory objects.
     !!
     call ezcu_mem_wrap(u, device, ior(HWA, READ_WRITE))
     call ezcu_mem_wrap(v, device, ior(HWA, READ_WRITE))
@@ -115,8 +115,8 @@ program stencil_3d_fortran
     deallocate(u, v, coeffs)
 
     !!
-    !!< Release ezCU resources.
+    !!< Release ezcu resources.
     !!
     call ezcu_release()
-    write(*,*) "... end   of the ezCU 3D stencil Fortran example"
+    write(*,*) "... end   of the ezcu 3D stencil Fortran example"
 end program stencil_3d_fortran

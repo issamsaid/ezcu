@@ -28,7 +28,7 @@
 !!
 !! @file m_mem_test.f90
 !! @author Issam SAID
-!! @brief Unit testing file for the ezCU Fortran interface for CUDA
+!! @brief Unit testing file for the ezcu Fortran interface for CUDA
 !! memory objects manipulation routines.
 !<
 module m_mem_test

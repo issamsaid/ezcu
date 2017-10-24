@@ -28,9 +28,9 @@
 ##
 ## @file CMakeLists.txt
 ## @author Issam SAID
-## @brief Merge urb_tree object files into he ezCU C library.
+## @brief Merge urb_tree object files into he ezcu C library.
 ##
-message(STATUS "Post-install: merge urb_tree in ezCU")
+message(STATUS "Post-install: merge urb_tree in ezcu")
 if (WIN32)
     #lib /OUT:filename.lib input1.lib input2.lib vsvars32.bat 
 else (WIN32)

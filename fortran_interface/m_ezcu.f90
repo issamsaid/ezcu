@@ -28,7 +28,7 @@
 !!
 !! @file m_ezcu.f90
 !! @author Issam SAID
-!! @brief This file groups all the ezCU Fortran modules in one.
+!! @brief This file groups all the ezcu Fortran modules in one.
 !<
 module m_ezcu
     use m_ezcu_flags

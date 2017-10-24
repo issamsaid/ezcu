@@ -30,7 +30,7 @@
 ///
 /// @file config/util.h
 /// @author Issam SAID
-/// @brief The configuration file for the ezCU utilities.
+/// @brief The configuration file for the ezcu utilities.
 ///
 #define __EZCU_STR_SIZE     256
 #define __EZCU_BUFFER_SIZE  4096

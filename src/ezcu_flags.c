@@ -32,19 +32,19 @@
 ///
 #include <stdio.h>
 #include <string.h>
-#include <ezCU/flags.h>
+#include <ezcu/flags.h>
 #include <__ezcu/util-inl.h>
 #include <__ezcu/error-inl.h>
 
 inline void ezcu_flags_help_default() {
-    EZCU_PRINT("The default ezCU flag is DEFAULT (orthogonal*)");
+    EZCU_PRINT("The default ezcu flag is DEFAULT (orthogonal*)");
     EZCU_PRINT("DEFAULT: select the default device, "
-               "the default memory type or the default behavior of ezCU");
+               "the default memory type or the default behavior of ezcu");
     EZCU_PRINT("*combinations of this flag with others are not possible");
 }
 
 inline void ezcu_flags_help_vendors() {
-    EZCU_PRINT("The possible vendors ezCU flags are (orthogonal*): "
+    EZCU_PRINT("The possible vendors ezcu flags are (orthogonal*): "
                "AMD | APPLE | INTEL | NVIDIA");
     EZCU_PRINT("AMD    : select the devices and resources provided by AMD");
     EZCU_PRINT("APPLE  : select the devices and resources provided by APPLE");
@@ -54,7 +54,7 @@ inline void ezcu_flags_help_vendors() {
 }
 
 inline void ezcu_flags_help_dev_types() {
-    EZCU_PRINT("The possible device types ezCU flags are (inclusive*): "
+    EZCU_PRINT("The possible device types ezcu flags are (inclusive*): "
                "ALL | CPU | ACCELERATOR | GPU");
     EZCU_PRINT("ALL         : select all possible devices");
     EZCU_PRINT("CPU         : select CPU devices only");
@@ -64,7 +64,7 @@ inline void ezcu_flags_help_dev_types() {
 }
 
 inline void ezcu_flags_help_dev_indexes() {
-    EZCU_PRINT("The possible device indexes ezCU flags are (inclusive*): "
+    EZCU_PRINT("The possible device indexes ezcu flags are (inclusive*): "
                "FIRST | SECOND | THIRD   | FOURTH | "
                "FIFTH | SIXTH  | SEVENTH | EIGHTH");
     EZCU_PRINT("FIRST       : select the 1st device found");
@@ -79,7 +79,7 @@ inline void ezcu_flags_help_dev_indexes() {
 }
 
 inline void ezcu_flags_help_dev_props() {
-    EZCU_PRINT("The possible device properties ezCU flags are (inclusive*): "
+    EZCU_PRINT("The possible device properties ezcu flags are (inclusive*): "
                "CC20 | CC30 | CC35 | CC35 | CC60");
     EZCU_PRINT("CC20        : select devices whose compute capability >= 2.0");
     EZCU_PRINT("CC30        : select devices whose compute capability >= 3.0");
@@ -97,7 +97,7 @@ inline void ezcu_flags_help_dev() {
 }
 
 inline void ezcu_flags_help_mem_locations() {
-    EZCU_PRINT("The possible memory locations ezCU flags are (orthogonal*): "
+    EZCU_PRINT("The possible memory locations ezcu flags are (orthogonal*): "
                "HOST | HWA");
     EZCU_PRINT("HOST           : data lives in CPU memory");
     EZCU_PRINT("HWA            : data lives in the hardware accelerator space");
@@ -105,7 +105,7 @@ inline void ezcu_flags_help_mem_locations() {
 }
 
 inline void ezcu_flags_help_mem_props() {
-    EZCU_PRINT("The possible memory properties ezCU flags are (orthogonal*): "
+    EZCU_PRINT("The possible memory properties ezcu flags are (orthogonal*): "
                "PINNED | ZERO_COPY");
     EZCU_PRINT("PINNED         : data is pinned (PCI featured devices only)");
     EZCU_PRINT("ZERO_COPY      : make the data visible to all devices");
@@ -113,7 +113,7 @@ inline void ezcu_flags_help_mem_props() {
 }
 
 inline void ezcu_flags_help_mem_access_modes() {
-    EZCU_PRINT("The possible memory access modes ezCU flags are (orthogonal*): "
+    EZCU_PRINT("The possible memory access modes ezcu flags are (orthogonal*): "
                "READ_ONLY | WRITE_ONLY | READ_WRITE");
     EZCU_PRINT("READ_ONLY      : data read-only (device perspectives)");
     EZCU_PRINT("WRITE_ONLY     : data write-only (device perspectives)");
@@ -122,7 +122,7 @@ inline void ezcu_flags_help_mem_access_modes() {
 }
 
 inline void ezcu_flags_help_mem_types() {
-    EZCU_PRINT("The possible memory types ezCU flags are (orthogonal*): "
+    EZCU_PRINT("The possible memory types ezcu flags are (orthogonal*): "
                "CHAR | INT | UNSIGNED_INT | LONG | UNSIGNED_LONG | "
                "SIZET | FLOAT | DOUBLE | SHORT");
     EZCU_PRINT("CHAR          : data contain chars");
@@ -154,7 +154,7 @@ inline void ezcu_flags_help() {
 inline void ezcu_flags_check_default(ezcu_flags_t flags) { 
     if ((EZCU_FLAGS_HAVE((flags), DEFAULT)) && (flags & (~DEFAULT))) {
         ezcu_flags_help_default();
-        EZCU_EXIT("the ezCU DEFAULT flag should be exclusive");
+        EZCU_EXIT("the ezcu DEFAULT flag should be exclusive");
     }
 } 
 
@@ -178,7 +178,7 @@ inline void ezcu_flags_check_vendors(ezcu_flags_t flags) {
             ! EZCU_FLAGS_HAVE((flags), APPLE)           && 
             ! EZCU_FLAGS_HAVE((flags), INTEL)))) {
         ezcu_flags_help_vendors();
-        EZCU_EXIT("ezCU flags to select vendors are invalid");
+        EZCU_EXIT("ezcu flags to select vendors are invalid");
     }
 }
 
@@ -190,7 +190,7 @@ inline void ezcu_flags_check_dev_types(ezcu_flags_t flags) {
               EZCU_FLAGS_HAVE((flags), GPU)            ||
               EZCU_FLAGS_HAVE((flags), ACCELERATOR)))) {
         ezcu_flags_help_dev_types();
-        EZCU_EXIT("ezCU flags for device type are invalid");
+        EZCU_EXIT("ezcu flags for device type are invalid");
     }
 }
 
@@ -206,7 +206,7 @@ inline void ezcu_flags_check_dev_indexes(ezcu_flags_t flags) {
              EZCU_FLAGS_HAVE((flags), SEVENTH)             || 
              EZCU_FLAGS_HAVE((flags), EIGHTH)))) {
         ezcu_flags_help_dev_indexes();
-        EZCU_EXIT("ezCU flags for device index are invalid");
+        EZCU_EXIT("ezcu flags for device index are invalid");
     }
 }
 
@@ -219,7 +219,7 @@ inline void ezcu_flags_check_dev_props(ezcu_flags_t flags) {
              EZCU_FLAGS_HAVE((flags), CC50)                     || 
              EZCU_FLAGS_HAVE((flags), CC60)))) {
         ezcu_flags_help_dev_props();
-        EZCU_EXIT("ezCU flags for device properties are invalid");
+        EZCU_EXIT("ezcu flags for device properties are invalid");
     }
 }
 
@@ -231,7 +231,7 @@ inline void ezcu_flags_check_mem_locations(ezcu_flags_t flags) {
            (EZCU_FLAGS_HAVE((flags), HOST)              &&
            !EZCU_FLAGS_HAVE((flags), HWA)))) {
         ezcu_flags_help_mem_locations();
-        EZCU_EXIT("ezCU flags for memory locations are invalid");
+        EZCU_EXIT("ezcu flags for memory locations are invalid");
     }
 }
 
@@ -243,7 +243,7 @@ inline void ezcu_flags_check_mem_props(ezcu_flags_t flags) {
            (EZCU_FLAGS_HAVE((flags), ZERO_COPY)           &&
            !EZCU_FLAGS_HAVE((flags), PINNED)))) {
         ezcu_flags_help_mem_props();
-        EZCU_EXIT("ezCU flags for memory properties are invalid");
+        EZCU_EXIT("ezcu flags for memory properties are invalid");
     }
 }
 
@@ -260,7 +260,7 @@ inline void ezcu_flags_check_mem_access_modes(ezcu_flags_t flags) {
             !EZCU_FLAGS_HAVE((flags), READ_ONLY)                &&
             !EZCU_FLAGS_HAVE((flags), READ_WRITE)))) {
         ezcu_flags_help_mem_access_modes();
-        EZCU_EXIT("ezCU flags for memory access modes are invalid");
+        EZCU_EXIT("ezcu flags for memory access modes are invalid");
     }
 }
 
@@ -349,7 +349,7 @@ inline void ezcu_flags_check_mem_types(ezcu_flags_t flags) {
            ! EZCU_FLAGS_HAVE((flags), UNSIGNED_INT)      && 
            ! EZCU_FLAGS_HAVE((flags), DOUBLE)))) {
         ezcu_flags_help_mem_types();
-        EZCU_EXIT("ezCU flags for memory types are invalid");
+        EZCU_EXIT("ezcu flags for memory types are invalid");
     }
 }
 
@@ -491,7 +491,7 @@ inline int ezcu_flags_to_vendors_flags(ezcu_flags_t flags,
         }
     }
 
-    /// if not found consider NVIDIA (the default on ezCU).
+    /// if not found consider NVIDIA (the default on ezcu).
     if (i == EZCU_NB_VENDORS) *v = NVIDIA;
     return 1;
 }
@@ -592,5 +592,5 @@ inline size_t ezcu_flags_to_mem_unit_size(ezcu_mem_types_flags_t flags) {
   if(EZCU_FLAGS_HAVE(flags, FLOAT        )) return sizeof(float);
   if(EZCU_FLAGS_HAVE(flags, DOUBLE       )) return sizeof(double);
   if(EZCU_FLAGS_HAVE(flags, SIZET        )) return sizeof(size_t);
-  EZCU_EXIT("ezCU flags for memory unit size are invalid");
+  EZCU_EXIT("ezcu flags for memory unit size are invalid");
 }

@@ -28,10 +28,10 @@
 ///
 /// @file
 /// @author Issam SAID
-/// @brief Main method for unit testing the ezCU functionalities.
+/// @brief Main method for unit testing the ezcu functionalities.
 /// 
 /// @details This file contains the main program used to launch the unit 
-/// testing of the ezCU functionalities. It relies on the google testing API.
+/// testing of the ezcu functionalities. It relies on the google testing API.
 ///
 #include <cstdio>
 #include <string>

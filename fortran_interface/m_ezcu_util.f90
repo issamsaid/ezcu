@@ -2,7 +2,7 @@
 !! @copyright Copyright (c) 2013-2016, Univrsité Pierre et Marie Curie
 !! All rights reserved.
 !!
-!! <b>ezCU</b> is owned by Université Pierre et Marie Curie (copyright holder),
+!! <b>ezcu</b> is owned by Université Pierre et Marie Curie (copyright holder),
 !! funded by TOTAL, and written by Issam SAID <said.issam@gmail.com>.
 !!
 !! Redistribution and use in source and binary forms, with or without
@@ -31,8 +31,8 @@
 !!
 !! @file m_ezcu_util.f90
 !! @author Issam SAID
-!! @brief This file implements the Fortran interface of the ezCU utilities.
-!! @see ezCU/util.h
+!! @brief This file implements the Fortran interface of the ezcu utilities.
+!! @see ezcu/util.h
 !<
 module m_ezcu_util
     use, intrinsic :: iso_c_binding

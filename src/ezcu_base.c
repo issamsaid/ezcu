@@ -28,7 +28,7 @@
 ///
 /// @file ezcu_base.c
 /// @author Issam SAID
-/// @brief The implementation of the main routines to setup ezCU.
+/// @brief The implementation of the main routines to setup ezcu.
 ///
 #include <stdlib.h>
 #include <time.h>
@@ -36,8 +36,8 @@
 #ifdef __EZCU_MPI
 #include <mpi.h>
 #endif // __EZCU_MPI
-#include <ezCU/base.h>
-#include <ezCU/timer.h>
+#include <ezcu/base.h>
+#include <ezcu/timer.h>
 
 #include <__ezcu/config/dev.h>
 #include <__ezcu/config/knl.h>
@@ -57,7 +57,7 @@
 ezcu_env_t ezcu = NULL;
 
 /// 
-/// @brief Initialize the ezCU environment. 
+/// @brief Initialize the ezcu environment. 
 ///
 __host__ void ezcu_init(ezcu_flags_t flags) {
     int i, j, k, n;
@@ -80,7 +80,7 @@ __host__ void ezcu_init(ezcu_flags_t flags) {
     ezcu_dev_index_flags_t di[EZCU_NB_DEV_INDEXES];
 
     /// if ezcu == NULL means that the library is not initialized yet.
-    /// This test ensures that ezCU is initialized only once.
+    /// This test ensures that ezcu is initialized only once.
     if (ezcu == NULL) {
         ezcu         = (ezcu_env_t) malloc(sizeof(struct __ezcu_env_t));
         ezcu->devs   = &urb_sentinel;
@@ -112,10 +112,10 @@ __host__ void ezcu_init(ezcu_flags_t flags) {
 #endif // __EZCU_MPI
         ezcu->fdout = fopen(tmp_0, "w");
         if (ezcu->fdout == NULL) 
-            EZCU_FAIL("failed to open ezCU output log file");
+            EZCU_FAIL("failed to open ezcu output log file");
         ezcu->fderr = fopen(tmp_1, "w");
         if (ezcu->fderr == NULL) 
-            EZCU_FAIL("failed to open ezCU error log file");
+            EZCU_FAIL("failed to open ezcu error log file");
 #endif // __EZCU_LOG_STD
     
 #ifdef __EZCU_DEBUG
@@ -123,7 +123,7 @@ __host__ void ezcu_init(ezcu_flags_t flags) {
         EZCU_DEBUG("ezcu_init: translated flags =%s", tmp_0);
 #endif
         /// init the driver API.
-        EZCU_CHECK(cuInit(0), "failed to initialize ezCU");
+        EZCU_CHECK(cuInit(0), "failed to initialize ezcu");
 
         /// start devices selection, based on the user defined flags.
         ezcu_flags_check_dev(flags);
@@ -133,7 +133,7 @@ __host__ void ezcu_init(ezcu_flags_t flags) {
         n = __ezcu_dev_query();
         EZCU_EXIT_IF(n == 0, "no CUDA capable devices found, aborting");
         EZCU_EXIT_IF(n > EZCU_NB_DEV_INDEXES, 
-                     "ezCU supports only %d devices at a time, aborting",
+                     "ezcu supports only %d devices at a time, aborting",
                      EZCU_NB_DEV_INDEXES);
 
         EZCU_DEBUG("ezcu_init: the platform has %d possible device(s)", n);
@@ -431,7 +431,7 @@ void ezcu_load(const char *filename, const char *options_format, ...) {
 void ezcu_release() {
     ///
     /// if ezcu != NULL means that the library is not released yet.
-    /// This test ensures that ezCU is released only once.
+    /// This test ensures that ezcu is released only once.
     ///
     if (ezcu != NULL) {
         EZCU_DEBUG("releasing CUDA resources");
@@ -442,13 +442,13 @@ void ezcu_release() {
     #ifndef __EZCU_LOG_STD
         if (fclose(ezcu->fdout)) {
             fprintf(stderr, 
-                    "FATAL ERROR: failed to close the ezCU output log file");
+                    "FATAL ERROR: failed to close the ezcu output log file");
             free(ezcu); ezcu = NULL;
             exit(EXIT_FAILURE);
         }
         if (fclose(ezcu->fderr)) {
             fprintf(stderr, 
-                    "FATAL ERROR: failed to close the ezCU error log file");
+                    "FATAL ERROR: failed to close the ezcu error log file");
             free(ezcu); ezcu = NULL;
             exit(EXIT_FAILURE);
         }
@@ -461,7 +461,7 @@ void ezcu_release() {
 
 void ezcu_info() {
     EZCU_PRINT("");
-    EZCU_PRINT("ezCU resources information");
+    EZCU_PRINT("ezcu resources information");
     urb_tree_walk(&ezcu->devs, NULL, __ezcu_dev_info);
     urb_tree_walk(&ezcu->mems, NULL, __ezcu_mem_info);
     urb_tree_walk(&ezcu->knls, NULL, __ezcu_knl_info);

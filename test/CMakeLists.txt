@@ -28,15 +28,16 @@
 ##
 ## @file test/CMakeLists.txt
 ## @author Issam SAID
-## @brief CMake build script for the ezCU unit testing.
+## @brief CMake build script for the ezcu unit testing.
 ##
-project (build_tests)
-cmake_minimum_required (VERSION 2.8)
+cmake_minimum_required(VERSION 3.8 FATAL_ERROR)
 
-## Build the ezCU C/C++ unit tests.
+project (build_tests LANGUAGES C CXX Fortran CUDA)
+
+## Build the ezcu C/C++ unit tests.
 add_subdirectory(src)
 
-## Build the ezCU fortran interface unit tests.
+## Build the ezcu fortran interface unit tests.
 add_subdirectory(fortran_interface)
 
 ## Add a custom target that includes the build of all the tests

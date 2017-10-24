@@ -2,7 +2,7 @@
 !! @copyright Copyright (c) 2013-2016, Université Pierre et Marie Curie
 !! All rights reserved.
 !!
-!! <b>ezCU</b> is owned by Université Pierre et Marie Curie (COPYRIGHT HOLDER),
+!! <b>ezcu</b> is owned by Université Pierre et Marie Curie (COPYRIGHT HOLDER),
 !! funded by TOTAL, and written by Issam SAID <said.issam@gmail.com>.
 !!
 !! Redistribution and use in source and binary forms, with or without
@@ -31,8 +31,8 @@
 !!
 !! @file m_ezcu_timer.f90
 !! @author Issam SAID
-!! @brief This file implements the Fortran interface of the ezCU timer.
-!! @see ezCU/timer.h
+!! @brief This file implements the Fortran interface of the ezcu timer.
+!! @see ezcu/timer.h
 !<
 module m_ezcu_timer
     use, intrinsic :: iso_c_binding

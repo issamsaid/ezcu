@@ -28,7 +28,7 @@
 ##
 ## @file examples/src/stencil_3d/CMakeLists.txt
 ## @author Issam SAID
-## @brief CMake build script for the ezCU C/C++ 3D finite difference stencil.
+## @brief CMake build script for the ezcu C/C++ 3D finite difference stencil.
 ##
 project (stencil_3d C)
 cmake_minimum_required (VERSION 2.8)
@@ -51,5 +51,5 @@ add_dependencies(stencil_3d ezcu)
 ##    set to TRUE has undefined behavior. 
 ##  
 ## Inform the build location of the target. 
-get_target_property(VAR stencil_3d LOCATION)
-set (EZCU_C_EXAMPLES_FILES "${EZCU_C_EXAMPLES_FILES}" "${VAR}" PARENT_SCOPE)
+# get_target_property(VAR stencil_3d LOCATION)
+# set (EZCU_C_EXAMPLES_FILES "${EZCU_C_EXAMPLES_FILES}" "${VAR}" PARENT_SCOPE)

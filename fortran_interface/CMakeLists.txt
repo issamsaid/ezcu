@@ -28,16 +28,17 @@
 ##
 ## @file fortran_interface/CMakeLists.txt
 ## @author Issam SAID
-## @brief CMake build script for the ezCU Fortran interface.
+## @brief CMake build script for the ezcu Fortran interface.
 ##
-project (ezcu_fortran Fortran)
-cmake_minimum_required (VERSION 2.8)
+cmake_minimum_required(VERSION 3.8 FATAL_ERROR)
 
-## Build the ezCU fortran static library.
+project (ezcu_fortran LANGUAGES Fortran)
+
+## build the ezcu Fortran static library.
 file(GLOB F_SRCS "*.f90")
 set(CMAKE_Fortran_MODULE_DIRECTORY "${CMAKE_SOURCE_DIR}/modules")
 add_library(ezcu_fortran STATIC ${F_SRCS})
-set_target_properties(ezcu_fortran PROPERTIES OUTPUT_NAME "ezCU_fortran")
+set_target_properties(ezcu_fortran PROPERTIES OUTPUT_NAME "ezcu_fortran")
 add_dependencies(ezcu_fortran ezcu)
 
 ##
@@ -47,7 +48,7 @@ add_dependencies(ezcu_fortran ezcu)
 ##    set to TRUE has undefined behavior. 
 ##  
 ## First: inform the build location of the target. 
-get_target_property(EZCU_FORTRAN_BUILD_LIB ezcu_fortran LOCATION)
+#get_target_property(EZCU_FORTRAN_BUILD_LIB ezcu_fortran LOCATION)
 
 ## Then : inform the location where the target is to be installed. 
 set(EZCU_FORTRAN_INSTALL_DIR ${CMAKE_SOURCE_DIR}/lib)

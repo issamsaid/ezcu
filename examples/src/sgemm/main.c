@@ -29,13 +29,13 @@
 /// @file sgemm/main.c
 /// @author Issam SAID
 /// @brief An example of matrix to matrix multiplication code based on 
-/// the ezCU C/C++ interface.
+/// the ezcu C/C++ interface.
 ///
 #include <stdio.h>
 #include <stdlib.h>
 #include <time.h>
 #include <string.h>
-#include <ezCU/ezCU.h>
+#include <ezcu/ezcu.h>
 
 ///
 /// @brief The main program of the ezcu based sgemm C/C++ example.
@@ -56,7 +56,7 @@ int main(void) {
    
     ezcu_dev_t device;
 
-    fprintf(stdout, "... start of the ezCU sgemm C/C++ example\n");
+    fprintf(stdout, "... start of the ezcu sgemm C/C++ example\n");
 
     ///
     ///< Initialize ezcu with selecting the default GPU.
@@ -115,6 +115,6 @@ int main(void) {
     ///< Release ezcu resources.
     ///
     ezcu_release();
-    fprintf(stdout, "... end   of the ezCU sgemm C/C++ example\n");
+    fprintf(stdout, "... end   of the ezcu sgemm C/C++ example\n");
     return EXIT_SUCCESS;
 }

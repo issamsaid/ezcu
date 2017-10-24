@@ -30,7 +30,7 @@
 ///
 /// @file config/format.h
 /// @author Issam SAID
-/// @brief Configuration file for formatting in ezCU.
+/// @brief Configuration file for formatting in ezcu.
 ///
 
 ///

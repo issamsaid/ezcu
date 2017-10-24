@@ -31,45 +31,45 @@
 ## @brief Install all the subdirectories when make install is invoked.
 ##
 
-## Install the ezCU Fortran interface.
+## Install the ezcu Fortran interface.
 if (EXISTS ${EZCU_FORTRAN_BUILD_LIB})
     message(STATUS "Post-install: install the Fortran interface")
     file(COPY ${EZCU_FORTRAN_BUILD_LIB}
          DESTINATION ${EZCU_FORTRAN_INSTALL_DIR})
 endif (EXISTS ${EZCU_FORTRAN_BUILD_LIB})
 
-## Install the ezCU C unit testing executable.
+## Install the ezcu C unit testing executable.
 if (EXISTS ${EZCU_TEST_BUILD_EXE})
-    message(STATUS "Post-install: install the ezCU C unit test binary")
+    message(STATUS "Post-install: install the ezcu C unit test binary")
     file(COPY ${EZCU_TEST_BUILD_EXE}
          DESTINATION ${EZCU_TEST_INSTALL_DIR})
 endif (EXISTS ${EZCU_TEST_BUILD_EXE})
 
-## Install the ezCU Fortran interface unit testing executable.
+## Install the ezcu Fortran interface unit testing executable.
 if (EXISTS ${EZCU_TEST_FORTRAN_BUILD_EXE})
-    message(STATUS "Post-install: install the ezCU Fortran unit test binary")
+    message(STATUS "Post-install: install the ezcu Fortran unit test binary")
     file(COPY ${EZCU_TEST_FORTRAN_BUILD_EXE}
          DESTINATION ${EZCU_TEST_FORTRAN_INSTALL_DIR})
 endif (EXISTS ${EZCU_TEST_FORTRAN_BUILD_EXE})
 
-## Install the ezCU C examples.
+## Install the ezcu C examples.
 if (DEFINED EZCU_C_EXAMPLES_FILES)
     foreach (file ${EZCU_C_EXAMPLES_FILES})
         if (EXISTS ${file})
             get_filename_component(n ${file} NAME)
-            message(STATUS "Post-install: install the ezCU C example ${n}")
+            message(STATUS "Post-install: install the ezcu C example ${n}")
             file(COPY ${file} 
                  DESTINATION ${EZCU_C_EXAMPLES_INSTALL_DIR})
         endif (EXISTS ${file})
     endforeach(file ${EZCU_C_EXAMPLES_FILES})
 endif (DEFINED EZCU_C_EXAMPLES_FILES)
 
-## Install the ezCU Fortran examples.
+## Install the ezcu Fortran examples.
 if (DEFINED EZCU_FORTRAN_EXAMPLES_FILES)
     foreach (file ${EZCU_FORTRAN_EXAMPLES_FILES})
         if (EXISTS ${file})
             get_filename_component(n ${file} NAME)
-            message(STATUS "Post-install: install the ezCU Fortran example ${n}")
+            message(STATUS "Post-install: install the ezcu Fortran example ${n}")
             file(COPY ${file} 
                  DESTINATION ${EZCU_FORTRAN_EXAMPLES_INSTALL_DIR})
         endif (EXISTS ${file})

@@ -29,7 +29,7 @@
 !! @file sgemm/main.f90
 !! @author Issam SAID 
 !! @brief An example of a matrix multiplication code based on 
-!! the ezCU Fortran interface.
+!! the ezcu Fortran interface.
 !!
 !<
 program sgemm_fortran
@@ -47,10 +47,10 @@ program sgemm_fortran
     type(ezcu_dev_t),     pointer :: device
     integer(kind=4)               :: n4 = N
 
-    write(*,*) "... start of the ezCU sgemm Fortran example"
+    write(*,*) "... start of the ezcu sgemm Fortran example"
 
     !!
-    !!< Initialize ezCU with selecting the default GPU.
+    !!< Initialize ezcu with selecting the default GPU.
     !!
     call ezcu_init(GPU)
 
@@ -72,7 +72,7 @@ program sgemm_fortran
     c = 0.0
 
     !!
-    !!< Wrap the matrices into ezCU memory objects.
+    !!< Wrap the matrices into ezcu memory objects.
     !!
     call ezcu_mem_wrap(a, device, ior(HWA, READ_ONLY))
     call ezcu_mem_wrap(b, device, ior(HWA, READ_ONLY))
@@ -101,8 +101,8 @@ program sgemm_fortran
     deallocate(a, b, c)
 
     !!
-    !!< Release ezCU resources.
+    !!< Release ezcu resources.
     !!
     call ezcu_release()
-    write(*,*) "... end   of the ezCU sgemm Fortran example"
+    write(*,*) "... end   of the ezcu sgemm Fortran example"
 end program sgemm_fortran

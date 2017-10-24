@@ -28,9 +28,9 @@
 ///
 /// @file timer_test.cc
 /// @author Issam SAID
-/// @brief Unit testing file for the ezCU timer routines.
+/// @brief Unit testing file for the ezcu timer routines.
 ///
-#include <ezCU/timer.h>
+#include <ezcu/timer.h>
 #ifdef _WIN32
 #include <Windows.h>
 #else

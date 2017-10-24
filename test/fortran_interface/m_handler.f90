@@ -28,10 +28,10 @@
 !!
 !! @file m_handler.f90
 !! @author Issam SAID
-!! @brief The ezCU Fortran interface unit testing handler.
+!! @brief The ezcu Fortran interface unit testing handler.
 !! 
 !! @details This file contains a list of Fortran routines used to ease the 
-!! unit testing of the ezCU Fortran interface.
+!! unit testing of the ezcu Fortran interface.
 !<
 module m_handler
     use, intrinsic :: iso_c_binding

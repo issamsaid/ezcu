@@ -28,13 +28,13 @@
 !!
 !! @file m_ezcu_mem.f90
 !! @author Issam SAID
-!! @brief This file implements the Fortran interface of the ezCU memory 
+!! @brief This file implements the Fortran interface of the ezcu memory 
 !! manipulation routines.
 !!
-!! @details All the ezCU memory management routines are implemented in Fortran
+!! @details All the ezcu memory management routines are implemented in Fortran
 !! for arrays preallocated in stack, for allocatables and for pointers. In each
 !! case the arrays can be 1 dimensional, 2 dimensional or 3 dimensional.
-!! @see ezCU/mem.h
+!! @see ezcu/mem.h
 !<
 module m_ezcu_mem
     use, intrinsic :: iso_c_binding

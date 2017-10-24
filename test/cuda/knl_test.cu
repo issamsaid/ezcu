@@ -28,7 +28,7 @@
 ///
 /// @file test/cuda/knl_test.cu
 /// @author Issam SAID
-/// @brief the CUDA kernels used for ezCU kernel utilities tesing.
+/// @brief the CUDA kernels used for ezcu kernel utilities tesing.
 /// 
 
 #define G(m, z, y, x) m[(2*sx+dimx)*((2*sy+dimy)*(z+sz) + y+sy) + x+sx]

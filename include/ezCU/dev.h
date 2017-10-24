@@ -28,24 +28,24 @@
 /// NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
 /// SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 ///
-/// @file ezCU/dev.h
+/// @file ezcu/dev.h
 /// @author Issam SAID
 /// @brief Function prototypes of CUDA devices manipulation routines.
 ///
-/// @details This file describes the library functions used by ezCU to 
+/// @details This file describes the library functions used by ezcu to 
 /// initialize, release and manipulate an CUDA device descriptor.
 ///
 #include <stdbool.h>
-#include <ezCU/types.h>
-#include <ezCU/flags.h>
+#include <ezcu/types.h>
+#include <ezcu/flags.h>
 
 CPPGUARD_BEGIN()
 
 ///
-/// @brief Select a device descriptor from those initialized by ezCU.
+/// @brief Select a device descriptor from those initialized by ezcu.
 ///
-/// This routine selects a ezCU device, based on bitwise flags, from a list of 
-/// the CUDA devices initially created when launching the ezCU library.
+/// This routine selects a ezcu device, based on bitwise flags, from a list of 
+/// the CUDA devices initially created when launching the ezcu library.
 /// @param flags the bitwise flags provided by the user.
 /// @return The device descriptor corresponding to the user request.
 ///
@@ -55,8 +55,8 @@ ezcu_dev_t  ezcu_dev_find(ezcu_flags_t flags);
 /// @brief Wait until a given device finishes all its operations.
 ///
 /// This routine is used to synchronize with the command queue related to a 
-/// ezCU device descriptor.
-/// @param d the ezCU device descriptor.
+/// ezcu device descriptor.
+/// @param d the ezcu device descriptor.
 /// @return Nothing.
 ///
 void ezcu_dev_wait(ezcu_dev_t d);
@@ -66,7 +66,7 @@ void ezcu_dev_wait(ezcu_dev_t d);
 ///
 /// This routine query a given CUDA device extensions string and checks if 
 /// it contains a user provided extension.
-/// @param d the ezCU device descriptor.
+/// @param d the ezcu device descriptor.
 /// @param extension is the string describing the CUDA extension.
 /// @return A boolean to inform if the extension is supported.
 ///

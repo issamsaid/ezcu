@@ -28,14 +28,15 @@
 ##
 ## @file test/src/CMakeLists.txt
 ## @author Issam SAID
-## @brief CMake build script for the ezCU C/C++ unit testing.
+## @brief CMake build script for the ezcu C/C++ unit testing.
 ##
-project (ezcu_test CXX C)
-cmake_minimum_required (VERSION 2.8)
+cmake_minimum_required(VERSION 3.8 FATAL_ERROR)
+
+project (ezcu_test LANGUAGES C CXX CUDA)
 
 ##
-## Use the gtest framework if the user sets its path 
-## or download and install it as an external project
+## use the gtest framework if the user sets its path 
+## or download and install it as an external project.
 ##
 if (DEFINED ENV{GTEST_DIR})
     include_directories("$ENV{GTEST_DIR}/googletest/include")
@@ -69,10 +70,10 @@ else (DEFINED ENV{GTEST_DIR})
     include_directories("${SOURCE_DIR}/googletest/include")
 endif (DEFINED ENV{GTEST_DIR})
 
-## Include the ezCU headers
+## Include the ezcu headers
 include_directories(${CMAKE_SOURCE_DIR}/include)
 
-## Include additional ezCU test headers
+## Include additional ezcu test headers
 include_directories(${CMAKE_SOURCE_DIR}/test/include)
 
 file(GLOB C_SRCS "*.cc" "*.h")
@@ -82,7 +83,7 @@ add_definitions(-DPREFIX=\"${CMAKE_SOURCE_DIR}/test/cuda\")
 ## Generate the executable
 add_executable(ezcu_test ${C_SRCS})
 
-## Link the executable to the ezCU, CUDA, and urb_tree and gtest
+## Link the executable to the ezcu, CUDA, and urb_tree and gtest
 target_link_libraries (ezcu_test ezcu)
 target_link_libraries (ezcu_test ${CUDA_CUDA_LIBRARY})
 target_link_libraries (ezcu_test ${NVRTC_LIBRARY})
@@ -97,7 +98,7 @@ add_dependencies(ezcu_test ezcu)
 ##    set to TRUE has undefined behavior. 
 ##  
 ## First: inform the build location of the target. 
-get_target_property(EZCU_TEST_BUILD_EXE ezcu_test LOCATION)
+#get_target_property(EZCU_TEST_BUILD_EXE ezcu_test LOCATION)
 
 ## Then : inform the location where the target is to be installed. 
-set (EZCU_TEST_INSTALL_DIR ${CMAKE_SOURCE_DIR}/test/bin)
+#set (EZCU_TEST_INSTALL_DIR ${CMAKE_SOURCE_DIR}/test/bin)

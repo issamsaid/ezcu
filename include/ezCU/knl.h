@@ -28,16 +28,16 @@
 /// NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
 /// SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 ///
-/// @file ezCU/knl.h
+/// @file ezcu/knl.h
 /// @author Issam SAID
 /// @brief Function prototypes of CUDA devices manipulation routines.
 ///
-/// @details This file describes the library functions used by ezCU to 
+/// @details This file describes the library functions used by ezcu to 
 /// initialize, release and manipulate an CUDA kernel descriptor.
 ///
 #include <stdint.h>
-#include <ezCU/types.h>
-#include <ezCU/flags.h>
+#include <ezcu/types.h>
+#include <ezcu/flags.h>
 
 CPPGUARD_BEGIN();
 
@@ -45,7 +45,7 @@ CPPGUARD_BEGIN();
 /// @brief Set a char value for a specific kernel argument.
 ///
 /// This routine sets the value of a kernel argument to a char 
-/// of a given CUDA kernel (identified by a ezCU kernel descriptor).
+/// of a given CUDA kernel (identified by a ezcu kernel descriptor).
 /// @param name is the string that identifies the kernel descriptor.
 /// @param idx is the position of the argument in the list 
 /// @return Nothing.
@@ -56,7 +56,7 @@ void ezcu_knl_set_char(const char *name, int idx, char c);
 /// @brief Set an integer (32 bits) value for a specific kernel argument.
 ///
 /// This routine sets the value of a kernel argument to an integer (32 bits)
-/// of a given CUDA kernel (identified by a ezCU kernel descriptor).
+/// of a given CUDA kernel (identified by a ezcu kernel descriptor).
 /// @param name is the string that identifies the kernel descriptor.
 /// @param idx is the position of the argument in the list 
 /// @return Nothing.
@@ -67,7 +67,7 @@ void    ezcu_knl_set_int32(const char *name, int idx, int32_t i32);
 /// @brief Set an unsigned (32 bits) value for a specific kernel argument.
 ///
 /// This routine sets the value of a kernel argument to an unsigned (32 bits)
-/// of a given CUDA kernel (identified by a ezCU kernel descriptor).
+/// of a given CUDA kernel (identified by a ezcu kernel descriptor).
 /// @param name is the string that identifies the kernel descriptor.
 /// @param idx is the position of the argument in the list 
 /// @return Nothing.
@@ -78,7 +78,7 @@ void    ezcu_knl_set_uint32(const char *name, int idx, uint32_t i32);
 /// @brief Set an integer (64 bits) value for a specific kernel argument.
 ///
 /// This routine sets the value of a kernel argument to an integer (64 bits)
-/// of a given CUDA kernel (identified by a ezCU kernel descriptor).
+/// of a given CUDA kernel (identified by a ezcu kernel descriptor).
 /// @param name is the string that identifies the kernel descriptor.
 /// @param idx is the position of the argument in the list 
 /// @return Nothing.
@@ -89,7 +89,7 @@ void    ezcu_knl_set_int64(const char *name, int idx, int64_t i64);
 /// @brief Set an unsigned (64 bits) value for a specific kernel argument.
 ///
 /// This routine sets the value of a kernel argument to an unsigned (64 bits)
-/// of a given CUDA kernel (identified by a ezCU kernel descriptor).
+/// of a given CUDA kernel (identified by a ezcu kernel descriptor).
 /// @param name is the string that identifies the kernel descriptor.
 /// @param idx is the position of the argument in the list 
 /// @return Nothing.
@@ -100,7 +100,7 @@ void    ezcu_knl_set_uint64(const char *name, int idx, uint64_t i64);
 /// @brief Set a float value for a specific kernel argument.
 ///
 /// This routine sets the value of a kernel argument to a float
-/// of a given CUDA kernel (identified by a ezCU kernel descriptor).
+/// of a given CUDA kernel (identified by a ezcu kernel descriptor).
 /// @param name is the string that identifies the kernel descriptor.
 /// @param idx is the position of the argument in the list 
 /// @return Nothing.
@@ -111,7 +111,7 @@ void    ezcu_knl_set_float(const char *name, int idx, float f);
 /// @brief Set a double value for a specific kernel argument.
 ///
 /// This routine sets the value of a kernel argument to a double
-/// of a given CUDA kernel (identified by a ezCU kernel descriptor).
+/// of a given CUDA kernel (identified by a ezcu kernel descriptor).
 /// @param name is the string that identifies the kernel descriptor.
 /// @param idx is the position of the argument in the list 
 /// @return Nothing.
@@ -122,7 +122,7 @@ void    ezcu_knl_set_double(const char *name, int idx, double d);
 /// @brief Set a memory address for a specific kernel argument.
 ///
 /// This routine sets the value of a kernel argument to a memory address
-/// of a given CUDA kernel (identified by a ezCU kernel descriptor). 
+/// of a given CUDA kernel (identified by a ezcu kernel descriptor). 
 /// @param name is the string that identifies the kernel descriptor.
 /// @param idx is the position of the argument in the list 
 /// @return Nothing.
@@ -170,7 +170,7 @@ void    ezcu_knl_set_wrk(const char *name, unsigned int wrk,
 /// This routine ensures the integrity, between the host and a 
 /// given CUDA device, of the memory objects being manipulated by 
 /// given CUDA kernel, and runs the latter on that same device. The
-/// execution is asynchronous which is the default behavior in ezCU.
+/// execution is asynchronous which is the default behavior in ezcu.
 /// @param name is the string that identifies the kernel descriptor.
 /// @param d is the device descriptor of the CUDA device to run the kernel
 ///        on.

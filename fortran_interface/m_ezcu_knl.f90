@@ -28,9 +28,9 @@
 !!
 !! @file m_ezcu_knl.f90
 !! @author Issam SAID
-!! @brief This file implements the Fortran interface of the ezCU kernels
+!! @brief This file implements the Fortran interface of the ezcu kernels
 !! manipulation routines.
-!! @see ezCU/knl.h
+!! @see ezcu/knl.h
 !<
 module m_ezcu_knl
     use, intrinsic :: iso_c_binding

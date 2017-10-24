@@ -30,7 +30,7 @@
 ///
 /// @file config/guard.h
 /// @author Issam SAID
-/// @brief Set a header and footer for C++ codes to be able to use ezCU.
+/// @brief Set a header and footer for C++ codes to be able to use ezcu.
 ///
 #ifdef __cplusplus     
 #define CPPGUARD_BEGIN() extern "C" {

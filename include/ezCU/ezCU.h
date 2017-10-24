@@ -28,19 +28,19 @@
 /// NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
 /// SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 ///
-/// @file ezCU/ezCU.h
+/// @file ezcu/ezcu.h
 /// @author Issam SAID
-/// @brief A general header file that groups the most important ezCU headers.
+/// @brief A general header file that groups the most important ezcu headers.
 ///
 #define EZCU_VERSION_1_0 1
 
-#include <ezCU/flags.h>
-#include <ezCU/types.h>
-#include <ezCU/base.h>
-#include <ezCU/dev.h>
-#include <ezCU/mem.h>
-#include <ezCU/knl.h>
-#include <ezCU/util.h>
-#include <ezCU/timer.h>
+#include <ezcu/flags.h>
+#include <ezcu/types.h>
+#include <ezcu/base.h>
+#include <ezcu/dev.h>
+#include <ezcu/mem.h>
+#include <ezcu/knl.h>
+#include <ezcu/util.h>
+#include <ezcu/timer.h>
 
 #endif  // __EZCU_H_

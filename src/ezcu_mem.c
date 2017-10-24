@@ -28,10 +28,10 @@
 ///
 /// @file ezcu_mem.c
 /// @author Issam SAID
-/// @brief The implementation of the ezCU memory objects manipulation routines.
+/// @brief The implementation of the ezcu memory objects manipulation routines.
 ///
 #include <stdio.h>
-#include <ezCU/mem.h>
+#include <ezcu/mem.h>
 #include <__ezcu/config/mem.h>
 #include <__ezcu/config/dev.h>
 #include <__ezcu/config/util.h>
@@ -139,11 +139,12 @@ ezcu_mem_t ezcu_mem_wrap(ezcu_dev_t d, void *h,
 }
 
 void ezcu_mem_release(void *h) {
-    urb_t * n = urb_tree_pop(&ezcu->mems, h, __ezcu_ptr_cmp);
+    urb_t * n = urb_tree_find(&ezcu->mems, h, __ezcu_ptr_cmp);
     if (n != &urb_sentinel) {
-        ((ezcu_mem_t)n->value)->refs = 1; /// force deletion on the device.
+        //((ezcu_mem_t)n->value)->refs = 1; /// force deletion on the device.
         __ezcu_mem_release(n->value);  
-    } 
+        urb_tree_delete(&n, NULL, __ezcu_mem_release);
+    }
 }
 
 void ezcu_mem_update(void* h, ezcu_flags_t f) {

@@ -28,7 +28,7 @@
 !!
 !! @file m_base_test.f90
 !! @author Issam SAID
-!! @brief Unit testing file for the ezCU Fortran interface for the main 
+!! @brief Unit testing file for the ezcu Fortran interface for the main 
 !! library setup routines.
 !<
 module m_base_test

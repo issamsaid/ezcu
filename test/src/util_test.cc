@@ -28,11 +28,11 @@
 ///
 /// @file util_test.cc
 /// @author Issam SAID
-/// @brief Unit testing file for the ezCU utilities.
+/// @brief Unit testing file for the ezcu utilities.
 ///
-#include <ezCU/flags.h>
-#include <ezCU/base.h>
-#include <ezCU/util.h>
+#include <ezcu/flags.h>
+#include <ezcu/base.h>
+#include <ezcu/util.h>
 #include <__ezcu/dev-inl.h>
 #include <gtest/gtest.h>
 

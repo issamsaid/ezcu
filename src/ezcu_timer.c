@@ -30,11 +30,11 @@
 ///
 /// @file ezcu_timer.c
 /// @author Issam SAID
-/// @brief The implementation of the ezCU timer manipulation routines.
+/// @brief The implementation of the ezcu timer manipulation routines.
 ///
 #include <sys/time.h>
 #include <stdint.h>
-#include <ezCU/timer.h>
+#include <ezcu/timer.h>
 #include <__ezcu/config/timer.h>
 
 static ezcu_time_unit_t __ezcu_timer_unit;

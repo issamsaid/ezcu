@@ -28,9 +28,9 @@
 ///
 /// @file util-inl_test.cc
 /// @author Issam SAID
-/// @brief Unit testing file for the ezCU private utilities.
+/// @brief Unit testing file for the ezcu private utilities.
 ///
-#include <ezCU/flags.h>
+#include <ezcu/flags.h>
 #include <__ezcu/util-inl.h>
 #include <__ezcu/config/util.h>
 #include <gtest/gtest.h>

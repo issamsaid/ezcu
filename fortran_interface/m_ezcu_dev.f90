@@ -28,9 +28,9 @@
 !!
 !! @file m_ezcu_dev.f90
 !! @author Issam SAID
-!! @brief This file implements the Fortran interface of the ezCU device 
+!! @brief This file implements the Fortran interface of the ezcu device 
 !! manipulation routines.
-!! @see ezCU/dev.h
+!! @see ezcu/dev.h
 !<
 module m_ezcu_dev
     use, intrinsic :: iso_c_binding

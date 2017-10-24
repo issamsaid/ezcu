@@ -30,7 +30,7 @@
 ///
 /// @file config/mem.h
 /// @author Issam SAID
-/// @brief The configuration file of the ezCU memory descriptor. 
+/// @brief The configuration file of the ezcu memory descriptor. 
 ///
 
 ///

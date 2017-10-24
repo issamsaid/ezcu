@@ -28,7 +28,7 @@
 ///
 /// @file knl_performance.h
 /// @author Issam SAID
-/// @brief Extra routines used to evaluate the performance of the ezCU kernels
+/// @brief Extra routines used to evaluate the performance of the ezcu kernels
 /// manipulation routines.
 ///
 #include <__ezcu/error-inl.h>

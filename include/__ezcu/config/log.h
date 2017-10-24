@@ -30,7 +30,7 @@
 ///
 /// @file config/log.h
 /// @author Issam SAID
-/// @brief Configuration file for logging in ezCU.
+/// @brief Configuration file for logging in ezcu.
 ///
 
 ///
@@ -40,19 +40,19 @@
 #endif // __EZCU_LOG_STD
 
 ///
-/// @brief Set the verbose mode of ezCU up.
+/// @brief Set the verbose mode of ezcu up.
 ///
-#ifdef __EZCU_VERBOSE
-#endif // __EZCU_VERBOSE          
+#ifdef __VERBOSE
+#endif // __VERBOSE          
 
 ///
-/// @brief Set the debug mode of ezCU up.
+/// @brief Set the debug mode of ezcu up.
 ///
 #ifdef __EZCU_DEBUG
 
-#ifndef __EZCU_VERBOSE
-#define __EZCU_VERBOSE
-#endif // __EZCU_VERBOSE         
+#ifndef __VERBOSE
+#define __VERBOSE
+#endif // __VERBOSE         
 
 #ifndef __EZCU_LOG_STD
 #define __EZCU_LOG_STD

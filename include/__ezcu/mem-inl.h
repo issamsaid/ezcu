@@ -30,12 +30,12 @@
 ///
 /// @file __ezcu/mem-inl.h
 /// @author Issam SAID
-/// @brief Private functions used to implement the ezCU memory descriptor.
+/// @brief Private functions used to implement the ezcu memory descriptor.
 ///
 #include <stdio.h>
 #include <stdbool.h>
-#include <ezCU/flags.h>
-#include <ezCU/types.h>
+#include <ezcu/flags.h>
+#include <ezcu/types.h>
 #include <__ezcu/config/cuda.h>
 #include <__ezcu/config/private.h>
 #include <__ezcu/config/guard.h>
@@ -127,9 +127,9 @@ __ezcu_mem_find(void *h) {
 }
 
 ///
-/// @brief Release a given ezCU memory descriptor.
+/// @brief Release a given ezcu memory descriptor.
 ///
-/// This routine frees the CUDA resources related to a ezCU memory descriptor,
+/// This routine frees the CUDA resources related to a ezcu memory descriptor,
 /// identified by a host pointer, which include the CUDA memory identifier.
 /// @param h is the host memory pointer that identifies the descriptor.
 /// @return Nothing.

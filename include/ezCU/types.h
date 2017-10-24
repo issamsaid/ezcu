@@ -28,13 +28,13 @@
 /// NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
 /// SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 ///
-/// @file ezCU/types.h
+/// @file ezcu/types.h
 /// @author Issam SAID
-/// @brief Prototypes of the public types and structures used by ezCU 
+/// @brief Prototypes of the public types and structures used by ezcu 
 /// to describe the CUDA resources.
 ///
 /// @details This file contains the definition of the types used by 
-/// ezCU to describe the CUDA resources such as the devices the kernels 
+/// ezcu to describe the CUDA resources such as the devices the kernels 
 /// and the memory objects.
 ///
 #include <__ezcu/config/guard.h>

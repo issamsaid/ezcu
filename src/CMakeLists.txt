@@ -28,25 +28,34 @@
 ##
 ## @file src/CMakeLists.txt
 ## @author Issam SAID
-## @brief CMake build script for the ezCU C library.
+## @brief CMake build script for the ezcu C library.
 ##
-project (ezcu CXX)
-cmake_minimum_required (VERSION 2.8)
+cmake_minimum_required(VERSION 3.8 FATAL_ERROR)
 
-## Build the ezCU C static library.
+project (ezcu LANGUAGES C CXX CUDA)
+
+## include the ezcu headers.
 include_directories(${CMAKE_SOURCE_DIR}/include)
+
+## gather the source files.
 file(GLOB C_SRCS "*.c")
-cuda_add_library(ezcu STATIC ${C_SRCS})
+
+## create the library.
+add_library(ezcu STATIC ${C_SRCS})
+
+## setup the appropriate dependencies. 
 add_dependencies(ezcu liburb_tree)
-set_target_properties(ezcu PROPERTIES OUTPUT_NAME "ezCU")
+
+## rename the library.
+set_target_properties(ezcu PROPERTIES OUTPUT_NAME "ezcu")
 install(TARGETS ezcu ARCHIVE DESTINATION lib)
 
-## Add the pathes to ezcu which we need during post install.
-get_target_property(EZCU_BUILD_LIB ezcu LOCATION)
-get_filename_component(EZCU_BUILD_DIR ${EZCU_BUILD_LIB} DIRECTORY)
-string(REPLACE ${EZCU_BUILD_DIR} 
-       ${CMAKE_SOURCE_DIR}/lib EZCU_INSTALL_LIB 
-       ${EZCU_BUILD_LIB})
+# ## Add the paths to ezcu which we need during post install.
+# get_target_property(EZCU_BUILD_LIB ezcu LOCATION)
+# get_filename_component(EZCU_BUILD_DIR ${EZCU_BUILD_LIB} DIRECTORY)
+# string(REPLACE ${EZCU_BUILD_DIR} 
+#        ${CMAKE_SOURCE_DIR}/lib EZCU_INSTALL_LIB 
+#        ${EZCU_BUILD_LIB})
 
-install(CODE "set(EZCU_BUILD_LIB \"${EZCU_BUILD_LIB}\")")
-install(CODE "set(EZCU_INSTALL_LIB \"${EZCU_INSTALL_LIB}\")")
+# install(CODE "set(EZCU_BUILD_LIB \"${EZCU_BUILD_LIB}\")")
+# install(CODE "set(EZCU_INSTALL_LIB \"${EZCU_INSTALL_LIB}\")")

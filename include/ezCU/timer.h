@@ -28,11 +28,11 @@
 /// NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
 /// SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 ///
-/// @file ezCU/timer.h
+/// @file ezcu/timer.h
 /// @author Issam SAID
 /// @brief Function prototypes of timing utilities.
 ///
-/// @details This file contains a set of timing routines used by ezCU to time
+/// @details This file contains a set of timing routines used by ezcu to time
 /// the execution of CUDA kernels.
 ///
 #include <__ezcu/config/guard.h>
@@ -53,7 +53,7 @@ typedef enum __ezcu_time_unit_t {
 } ezcu_time_unit_t;
 
 ///
-/// @brief Set the time unit of ezCU.
+/// @brief Set the time unit of ezcu.
 ///
 /// This routine helps choose the desired time unit to be used to measure
 /// the execution time of CUDA kernels.
@@ -64,7 +64,7 @@ void   ezcu_timer_uset(ezcu_time_unit_t unit);
 ///
 /// @brief Return the used time unit by the timer.
 ///
-/// This routine returns a string describing the time unit used by ezCU.
+/// This routine returns a string describing the time unit used by ezcu.
 /// @return A string describing the time unit.
 ///
 char*  ezcu_timer_uget();

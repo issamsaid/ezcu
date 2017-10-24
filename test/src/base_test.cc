@@ -28,12 +28,12 @@
 /// 
 /// @file base_test.cc
 /// @author Issam SAID
-/// @brief The unit testing file of the ezCU setup main routines.
+/// @brief The unit testing file of the ezcu setup main routines.
 ///
-#include <ezCU/flags.h>
-#include <ezCU/base.h>
-#include <ezCU/util.h>
-#include <ezCU/dev.h>
+#include <ezcu/flags.h>
+#include <ezcu/base.h>
+#include <ezcu/util.h>
+#include <ezcu/dev.h>
 #include <__ezcu/dev-inl.h>
 #include <gtest/gtest.h>
 

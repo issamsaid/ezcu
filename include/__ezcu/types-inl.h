@@ -30,14 +30,14 @@
 ///
 /// @file __ezcu/types-inl.h
 /// @author Issam SAID
-/// @brief  Types and structures used by ezCU to describe the CUDA resources.
+/// @brief  Types and structures used by ezcu to describe the CUDA resources.
 ///
 /// @details This file contains the definition of the types used by 
-/// ezCU to describe the CUDA resources such as the devices the kernels 
+/// ezcu to describe the CUDA resources such as the devices the kernels 
 /// and the memory objects.
 ///
 #include <stdio.h>
-#include <ezCU/flags.h>
+#include <ezcu/flags.h>
 #include <urb_tree/urb_tree.h>
 #include <__ezcu/config/guard.h>
 #include <__ezcu/config/knl.h>
@@ -47,7 +47,7 @@
 CPPGUARD_BEGIN();
 
 ///
-/// @brief The ezCU device descriptor.
+/// @brief The ezcu device descriptor.
 ///
 /// This structure is a high level description of an CUDA device.
 /// It contains an CUDA command queue that is dedicated to run kernels
@@ -62,12 +62,12 @@ __host__ struct __ezcu_dev_t {
 };
 
 ///
-/// @brief The ezCU memory object descriptor.
+/// @brief The ezcu memory object descriptor.
 ///
 /// This structure is a high level description of a CUDA memory object.
 ///
 __host__ struct __ezcu_mem_t {
-    ezcu_flags_t flags;     ///< the ezCU flags used to allocate the memory.
+    ezcu_flags_t flags;     ///< the ezcu flags used to allocate the memory.
     size_t size;            ///< the size of the memory in number of elements.
     size_t unit_size;       ///< the size of each element in bytes.
     CUdeviceptr id;         ///< the CUDA identifier of the memory object.  
@@ -77,7 +77,7 @@ __host__ struct __ezcu_mem_t {
 };
 
 ///
-/// @brief The ezCU kernel descriptor.
+/// @brief The ezcu kernel descriptor.
 ///
 /// This structure is a high level description of an CUDA kernel.
 ///
@@ -94,9 +94,9 @@ __host__ struct __ezcu_knl_t {
 };
 
 ///
-/// @brief The ezCU environment descriptor.
+/// @brief The ezcu environment descriptor.
 ///
-/// This structure represents the ezCU resources manager.
+/// This structure represents the ezcu resources manager.
 ///
 __host__ struct __ezcu_env_t {
     urb_t   *devs;                 ///< red-black tree of the used devices.

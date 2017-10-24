@@ -28,7 +28,7 @@
 ##
 ## @file cmake/post_install/CMakeLists.txt
 ## @author Issam SAID
-## @brief CMake post-install build script for ezCU.
+## @brief CMake post-install build script for ezcu.
 ##
 install(SCRIPT "${CMAKE_SOURCE_DIR}/cmake/post_install/MergeDependLibs.cmake")
 install(SCRIPT "${CMAKE_SOURCE_DIR}/cmake/post_install/InstallSubdirs.cmake")

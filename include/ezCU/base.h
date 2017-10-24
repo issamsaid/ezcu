@@ -28,16 +28,16 @@
 /// NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
 /// SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 ///
-/// @file ezCU/base.h
+/// @file ezcu/base.h
 /// @author Issam SAID
-/// @brief Function prototypes of the main routines to setup ezCU.
+/// @brief Function prototypes of the main routines to setup ezcu.
 /// 
-/// @details This file contains the main ezCU routines to setup a CUDA
+/// @details This file contains the main ezcu routines to setup a CUDA
 /// environment which includes the desired devices and the 
 /// CUDA kernels source code.
 ///
-#include <ezCU/types.h>
-#include <ezCU/flags.h>
+#include <ezcu/types.h>
+#include <ezcu/flags.h>
 #include <__ezcu/config/guard.h>
 
 CPPGUARD_BEGIN()
@@ -47,7 +47,7 @@ CPPGUARD_BEGIN()
 ///
 /// This routine selects the CUDA platform and the devices indicated
 /// by the user, with the help of bitwise flags, and wraps them into an
-/// CUDA context. Flags are used by ezCU to select the platform vendor
+/// CUDA context. Flags are used by ezcu to select the platform vendor
 /// (AMD, APPLE, INTEL or NVIDIA) or to select the device type (CPU, GPU,
 /// ACCELERATOR).
 /// @see flags.h for more information.
@@ -57,10 +57,10 @@ CPPGUARD_BEGIN()
 void ezcu_init(ezcu_flags_t flags);
 
 ///
-/// @brief Release the CUDA resources and quits the ezCU library.
+/// @brief Release the CUDA resources and quits the ezcu library.
 ///
 /// This routine releases the CUDA memory objects, kernels and command
-/// queues that are allocated by the user when running ezCU.
+/// queues that are allocated by the user when running ezcu.
 /// @return Nothing. 
 ///
 void ezcu_release();
@@ -81,7 +81,7 @@ void ezcu_load(const char *filename, const char *options_format, ...);
 ///
 /// This routine prints information about the CUDA platform,
 /// the CUDA devices, the CUDA kernels and the CUDA memory
-/// objects allocated by the user when running ezCU.
+/// objects allocated by the user when running ezcu.
 /// @return Nothing.
 ///
 void ezcu_info();

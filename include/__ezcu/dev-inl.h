@@ -30,13 +30,13 @@
 ///
 /// @file __ezcu/dev-inl.h
 /// @author Issam SAID
-/// @brief Private functions used to implement the ezCU device descriptor.
+/// @brief Private functions used to implement the ezcu device descriptor.
 ///
 #include <stdio.h>
 #include <string.h>
 #include <stdbool.h>
-#include <ezCU/flags.h>
-#include <ezCU/types.h>
+#include <ezcu/flags.h>
+#include <ezcu/types.h>
 #include <__ezcu/config/util.h>
 #include <__ezcu/config/dev.h>
 #include <__ezcu/config/private.h>
@@ -70,7 +70,7 @@ __EZCU_PRIVATE int
 __ezcu_dev_select_by_vendor(CUdevice *dev_ids, 
                             CUdevice in_devices, ezcu_vendor_flags_t f) {
     if (f != NVIDIA) {
-        EZCU_WARN("for the time being only NVIDIA is supported by ezCU");
+        EZCU_WARN("for the time being only NVIDIA is supported by ezcu");
         return 0;
     } else{ return in_devices; }
 }
@@ -120,11 +120,11 @@ __ezcu_dev_select_by_dev_index(CUdevice *dev_ids, int in_devices,
 ///
 /// @brief Initialize a device descriptor.
 ///
-/// This routine creates a ezCU device descriptor, provided an CUDA device id,
+/// This routine creates a ezcu device descriptor, provided an CUDA device id,
 /// which contains an CUDA command queue that is associated to the device id,
 /// see types.h.
 /// @param id the CUDA device id of the descriptor to create.
-/// @return A ezCU device descriptor.
+/// @return A ezcu device descriptor.
 ///
 __EZCU_PRIVATE ezcu_dev_t 
 __ezcu_dev_init(CUdevice id) {
@@ -155,9 +155,9 @@ __ezcu_dev_init(CUdevice id) {
 ///
 /// @brief Delete a device descriptor.
 ///
-/// This routine deletes a ezCU device descriptor after releasing the 
+/// This routine deletes a ezcu device descriptor after releasing the 
 /// CUDA device id associated with the descriptor.
-/// @param pointer the ezCU device descriptor.
+/// @param pointer the ezcu device descriptor.
 /// @return Nothing.
 ///
 __EZCU_PRIVATE void

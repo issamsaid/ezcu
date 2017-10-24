@@ -28,7 +28,7 @@
 !!
 !! @file m_knl_test.f90
 !! @author Issam SAID
-!! @brief Unit testing file for the ezCU Fortran interface for CUDA
+!! @brief Unit testing file for the ezcu Fortran interface for CUDA
 !! kernels manipulation routines.
 !<
 module m_knl_test

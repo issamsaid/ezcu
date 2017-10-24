@@ -30,11 +30,11 @@
 ///
 /// @file config/dev.h
 /// @author Issam SAID
-/// @brief Configuration file for the ezCU device descriptor.
+/// @brief Configuration file for the ezcu device descriptor.
 ///
 
 ///
-/// @brief Show long information about ezCU device descriptors.
+/// @brief Show long information about ezcu device descriptors.
 ///
 #define __EZCU_DEV_LONG_INFO_ENABLED  
 #define __EZCU_DEV_NSTREAMS           1

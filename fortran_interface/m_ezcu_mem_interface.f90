@@ -28,9 +28,9 @@
 !!
 !! @file m_ezcu_mem_interface.f90
 !! @author Issam SAID
-!! @brief This file implements the Fortran interface of the ezCU memory 
+!! @brief This file implements the Fortran interface of the ezcu memory 
 !! manipulation routines.
-!! @see ezCU/mem.h
+!! @see ezcu/mem.h
 !<
 module m_ezcu_mem_interface
     use, intrinsic :: iso_c_binding

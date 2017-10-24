@@ -30,7 +30,7 @@
 /// @author Issam SAID
 /// @brief Unit testing file for the memory manipulation private functions.
 ///
-#include <ezCU/flags.h>
+#include <ezcu/flags.h>
 #include <__ezcu/mem-inl.h>
 #include <gtest/gtest.h>
 

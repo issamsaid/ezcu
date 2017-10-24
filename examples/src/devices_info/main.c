@@ -28,30 +28,30 @@
 ///
 /// @file devices_info/main.c
 /// @author Issam SAID
-/// @brief An example of CUDA devices quey based on the ezCU C/C++ interface.
+/// @brief An example of CUDA devices quey based on the ezcu C/C++ interface.
 ///
 #include <stdio.h>
 #include <stdlib.h>
-#include <ezCU/ezCU.h>
+#include <ezcu/ezcu.h>
 
 ///
-/// @brief The main program of the ezCU devices query example.
+/// @brief The main program of the ezcu devices query example.
 ///
-/// This is the main routine that shows how to use the ezCU C/C++ interface 
+/// This is the main routine that shows how to use the ezcu C/C++ interface 
 /// to implement a simple CUDA devices query program.
 /// @return Error code if any.
 ///
 int main(void) {
-    fprintf(stdout, "... start of the ezCU devices info example\n");
+    fprintf(stdout, "... start of the ezcu devices info example\n");
 
-    ///< Initialize ezCU with all possible devices.
+    ///< Initialize ezcu with all possible devices.
     ezcu_init(ALL);
 
     ///< Show the information of the loaded devices.
     ezcu_info();
 
-    ///< Release ezCU resources.
+    ///< Release ezcu resources.
     ezcu_release();
-    fprintf(stdout, "... end   of the ezCU devices info example\n");
+    fprintf(stdout, "... end   of the ezcu devices info example\n");
     return EXIT_SUCCESS;
 }

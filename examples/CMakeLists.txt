@@ -28,7 +28,7 @@
 ##
 ## @file examples/CMakeLists.txt
 ## @author Issam SAID
-## @brief CMake build script for the ezCU unit testing.
+## @brief CMake build script for the ezcu unit testing.
 ##
 project (build_examples C Fortran)
 cmake_minimum_required (VERSION 2.8)
@@ -54,7 +54,7 @@ else (DEFINED ENV{UPARSER_DIR})
     ## Get uilst source and binary directories
     ExternalProject_Get_Property(uparser SOURCE_DIR BINARY_DIR)
 
-    ## Create a libuparser target to be used as a endency by ezCU
+    ## Create a libuparser target to be used as a endency by ezcu
     add_library(libuparser STATIC IMPORTED GLOBAL)
     add_dependencies(libuparser uparser)
 
@@ -67,10 +67,10 @@ else (DEFINED ENV{UPARSER_DIR})
     include_directories("${SOURCE_DIR}/include")
 endif (DEFINED ENV{UPARSER_DIR})
 
-## Build the ezCU C/C++ examples.
+## Build the ezcu C/C++ examples.
 add_subdirectory(src)
 
-## Build the ezCU fortran examples.
+## Build the ezcu fortran examples.
 add_subdirectory(fortran_interface)
 
 ## Add a custom target that includes the build of all the targets

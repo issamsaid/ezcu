@@ -28,13 +28,13 @@
 /// NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
 /// SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 ///
-/// @file ezCU/flags.h
+/// @file ezcu/flags.h
 /// @author Issam SAID
-/// @brief Bitwise flags used by ezCU to select CUDA resources.
+/// @brief Bitwise flags used by ezcu to select CUDA resources.
 ///
 /// @details This file describes the bitwise flags that users can use to 
 /// select CUDA resources (devices, memory objects) or to determine the 
-/// ezCU library behavior.
+/// ezcu library behavior.
 ///
 #include <stdio.h>
 #include <stdint.h>
@@ -43,12 +43,12 @@
 CPPGUARD_BEGIN()
 
 ///
-/// @brief Define a bitfield type to be used to select ezCU resources.
+/// @brief Define a bitfield type to be used to select ezcu resources.
 ///
 typedef uint64_t ezcu_flags_t;
 
-/// @brief The ezCU default flag (orthogonal).
-#define DEFAULT 0x1000000000000000 ///< The ezCU default behavior.  
+/// @brief The ezcu default flag (orthogonal).
+#define DEFAULT 0x1000000000000000 ///< The ezcu default behavior.  
 
 ///
 /// Device selection flags.
@@ -195,7 +195,7 @@ typedef enum {
        (mask & 0xFFFFFFFF00000000)) == (mask & 0xFFFFFFFF00000000))
 
 ///
-/// @brief Print a help message about the default ezCU flag.
+/// @brief Print a help message about the default ezcu flag.
 ///
 /// @param None.
 /// @return Nothing.
@@ -203,7 +203,7 @@ typedef enum {
 void ezcu_flags_help_default();
 
 ///
-/// @brief Print a help message about the vendors ezCU flags.
+/// @brief Print a help message about the vendors ezcu flags.
 ///
 /// @param None.
 /// @return Nothing.
@@ -211,7 +211,7 @@ void ezcu_flags_help_default();
 void ezcu_flags_help_vendors();
 
 ///
-/// @brief Print a help message about the device types ezCU flags.
+/// @brief Print a help message about the device types ezcu flags.
 ///
 /// @param None.
 /// @return Nothing.
@@ -219,7 +219,7 @@ void ezcu_flags_help_vendors();
 void ezcu_flags_help_dev_types();
 
 ///
-/// @brief Print a help message about the device indexes ezCU flags.
+/// @brief Print a help message about the device indexes ezcu flags.
 ///
 /// @param None.
 /// @return Nothing.
@@ -227,7 +227,7 @@ void ezcu_flags_help_dev_types();
 void ezcu_flags_help_dev_indexes();
 
 ///
-/// @brief Print a help message about the device properties ezCU flags.
+/// @brief Print a help message about the device properties ezcu flags.
 ///
 /// @param None.
 /// @return Nothing.
@@ -235,7 +235,7 @@ void ezcu_flags_help_dev_indexes();
 void ezcu_flags_help_dev_props();
 
 ///
-/// @brief Print a help message about the devices ezCU flags.
+/// @brief Print a help message about the devices ezcu flags.
 ///
 /// @param None.
 /// @return Nothing.
@@ -243,7 +243,7 @@ void ezcu_flags_help_dev_props();
 void ezcu_flags_help_dev();
 
 ///
-/// @brief Print a help message about the memory locations ezCU flags.
+/// @brief Print a help message about the memory locations ezcu flags.
 ///
 /// @param None.
 /// @return Nothing.
@@ -251,7 +251,7 @@ void ezcu_flags_help_dev();
 void ezcu_flags_help_mem_locations();
 
 ///
-/// @brief Print a help message about the memory properties ezCU flags.
+/// @brief Print a help message about the memory properties ezcu flags.
 ///
 /// @param None.
 /// @return Nothing.
@@ -259,7 +259,7 @@ void ezcu_flags_help_mem_locations();
 void ezcu_flags_help_mem_props();
 
 ///
-/// @brief Print a help message about the memory acces modes ezCU flags.
+/// @brief Print a help message about the memory acces modes ezcu flags.
 ///
 /// @param None.
 /// @return Nothing.
@@ -267,7 +267,7 @@ void ezcu_flags_help_mem_props();
 void ezcu_flags_help_mem_access_modes();
 
 ///
-/// @brief Print a help message about the memory types ezCU flags.
+/// @brief Print a help message about the memory types ezcu flags.
 ///
 /// @param None.
 /// @return Nothing.
@@ -275,7 +275,7 @@ void ezcu_flags_help_mem_access_modes();
 void ezcu_flags_help_mem_types();
 
 ///
-/// @brief Print a help message about the memory objects ezCU flags.
+/// @brief Print a help message about the memory objects ezcu flags.
 ///
 /// @param None.
 /// @return Nothing.
@@ -283,7 +283,7 @@ void ezcu_flags_help_mem_types();
 void ezcu_flags_help_mem();
 
 ///
-/// @brief Print a help message about all the possible ezCU flags.
+/// @brief Print a help message about all the possible ezcu flags.
 ///
 /// @param None.
 /// @return Nothing.
@@ -403,7 +403,7 @@ void ezcu_flags_dev_to_str(ezcu_flags_t flags, char *string);
 void ezcu_flags_mem_to_str(ezcu_flags_t flags, char *string);
 
 ///
-/// @brief Return the vendor flags found in a set of ezCU flags.
+/// @brief Return the vendor flags found in a set of ezcu flags.
 ///
 /// @param flags are the user defined flags.
 /// @param v will contain the found vendor flags. 
@@ -412,7 +412,7 @@ void ezcu_flags_mem_to_str(ezcu_flags_t flags, char *string);
 int ezcu_flags_to_vendors_flags(ezcu_flags_t flags, ezcu_vendor_flags_t *v);
 
 ///
-/// @brief Return the device types flags found in a set of ezCU flags.
+/// @brief Return the device types flags found in a set of ezcu flags.
 ///
 /// @param flags are the user defined flags.
 /// @param tab is the array that will contain the found device types flags. 
@@ -422,7 +422,7 @@ int ezcu_flags_to_dev_types_flags(ezcu_flags_t flags,
                                   ezcu_dev_type_flags_t *tab);
 
 ///
-/// @brief Return the device properties flags found in a set of ezCU flags.
+/// @brief Return the device properties flags found in a set of ezcu flags.
 ///
 /// @param flags are the user defined flags.
 /// @param tab is the array that will contain the found device properties flags. 
@@ -432,7 +432,7 @@ int ezcu_flags_to_dev_props_flags(ezcu_flags_t flags,
                                   ezcu_dev_prop_flags_t *tab);
 
 ///
-/// @brief Return the device indexes flags found in a set of ezCU flags.
+/// @brief Return the device indexes flags found in a set of ezcu flags.
 ///
 /// @param flags are the user defined flags.
 /// @param tab is the array that will contain the found device indexes flags. 
@@ -442,7 +442,7 @@ int ezcu_flags_to_dev_indexes_flags(ezcu_flags_t flags,
                                     ezcu_dev_index_flags_t *tab);
 
 ///
-/// @brief Demestify a set of ezCU flags for devices selection.
+/// @brief Demestify a set of ezcu flags for devices selection.
 ///
 /// @param flags are the user defined flags.
 /// @param tab is the array that will contain the found device indexes flags. 

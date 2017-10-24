@@ -28,11 +28,11 @@
 ///
 /// @file ezcu_util.c
 /// @author Issam SAID
-/// @brief The implementation of the ezCU utilities.
+/// @brief The implementation of the ezcu utilities.
 ///
 #include <string.h>
-#include <ezCU/util.h>
-#include <ezCU/flags.h>
+#include <ezcu/util.h>
+#include <ezcu/flags.h>
 #include <__ezcu/types-inl.h>
 #include <__ezcu/dev-inl.h>
 #include <__ezcu/mem-inl.h>

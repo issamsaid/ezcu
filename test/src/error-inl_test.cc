@@ -30,7 +30,7 @@
 /// @author Issam SAID
 /// @brief Unit testing file for the errors handling functions.
 ///
-#include <ezCU/flags.h>
+#include <ezcu/flags.h>
 #include <__ezcu/error-inl.h>
 #include <gtest/gtest.h>
 
