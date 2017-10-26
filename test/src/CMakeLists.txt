@@ -39,35 +39,35 @@ project (ezcu_test LANGUAGES C CXX CUDA)
 ## or download and install it as an external project.
 ##
 if (DEFINED ENV{GTEST_DIR})
-    include_directories("$ENV{GTEST_DIR}/googletest/include")
-    add_library(libgtest STATIC IMPORTED GLOBAL)
-    set_target_properties(libgtest PROPERTIES
-        "IMPORTED_LOCATION" "$ENV{GTEST_DIR}/googletest/lib/libgtest.a"
-        "IMPORTED_LINK_INTERFACE_LIBRARIES" "${CMAKE_THREAD_LIBS_INIT}"
+  include_directories("$ENV{GTEST_DIR}/googletest/include")
+  add_library(libgtest STATIC IMPORTED GLOBAL)
+  set_target_properties(libgtest PROPERTIES
+    "IMPORTED_LOCATION" "$ENV{GTEST_DIR}/googletest/lib/libgtest.a"
+    "IMPORTED_LINK_INTERFACE_LIBRARIES" "${CMAKE_THREAD_LIBS_INIT}"
     )
 else (DEFINED ENV{GTEST_DIR})
-    ## Download and install googletest
-    ExternalProject_Add(
-        gtest
-        GIT_REPOSITORY https://github.com/google/googletest.git
-        PREFIX ${CMAKE_CURRENT_BINARY_DIR}/gtest
-        INSTALL_COMMAND ""
-        UPDATE_COMMAND  "")
+  ## Download and install googletest
+  ExternalProject_Add(
+    gtest
+    GIT_REPOSITORY https://github.com/google/googletest.git
+    PREFIX ${CMAKE_CURRENT_BINARY_DIR}/gtest
+    INSTALL_COMMAND ""
+    UPDATE_COMMAND  "")
 
-    ## Get googletest source and binary directories from CMake project
-    ExternalProject_Get_Property(gtest SOURCE_DIR BINARY_DIR)
+  ## Get googletest source and binary directories from CMake project
+  ExternalProject_Get_Property(gtest SOURCE_DIR BINARY_DIR)
 
-    ## Create a libgtest target to be used as a dependency by test programs
-    add_library(libgtest IMPORTED STATIC GLOBAL)
-    add_dependencies(libgtest gtest)
+  ## Create a libgtest target to be used as a dependency by test programs
+  add_library(libgtest IMPORTED STATIC GLOBAL)
+  add_dependencies(libgtest gtest)
 
-    ## Set libgtest properties
-    set_target_properties(libgtest PROPERTIES
-        "IMPORTED_LOCATION" "${BINARY_DIR}/googlemock/gtest/libgtest.a"
-        "IMPORTED_LINK_INTERFACE_LIBRARIES" "${CMAKE_THREAD_LIBS_INIT}")
+  ## Set libgtest properties
+  set_target_properties(libgtest PROPERTIES
+    "IMPORTED_LOCATION" "${BINARY_DIR}/googlemock/gtest/libgtest.a"
+    "IMPORTED_LINK_INTERFACE_LIBRARIES" "${CMAKE_THREAD_LIBS_INIT}")
 
-    ## Include the googletest headers
-    include_directories("${SOURCE_DIR}/googletest/include")
+  ## Include the googletest headers
+  include_directories("${SOURCE_DIR}/googletest/include")
 endif (DEFINED ENV{GTEST_DIR})
 
 ## Include the ezcu headers

@@ -39,26 +39,26 @@ extern ezcu_env_t ezcu;
 
 namespace {
 
-    class UtilInlTest : public ::testing::Test {
+  class UtilInlTest : public ::testing::Test {
     protected:
     	virtual void SetUp() { 
-            ezcu        = (ezcu_env_t) malloc(sizeof(struct __ezcu_env_t));
-            ezcu->devs  = &urb_sentinel;
-            ezcu->knls  = &urb_sentinel;
-            ezcu->mems  = &urb_sentinel;
-            ezcu->fdout = stdout;
-            ezcu->fderr = stderr;
+        ezcu        = (ezcu_env_t) malloc(sizeof(struct __ezcu_env_t));
+        ezcu->devs  = &urb_sentinel;
+        ezcu->knls  = &urb_sentinel;
+        ezcu->mems  = &urb_sentinel;
+        ezcu->fdout = stdout;
+        ezcu->fderr = stderr;
+      }
+      virtual void TearDown() { 
+        if (ezcu) {
+          free(ezcu); 
+          ezcu = NULL;
         }
-        virtual void TearDown() { 
-            if (ezcu) {
-                free(ezcu); 
-                ezcu = NULL;
-            }
-        }
-    };
+      }
+  };
 
-    TEST_F(UtilInlTest, __ezcu_tell_file) {
-    	ASSERT_GT(__ezcu_tell_file(PREFIX"/knl_test.cu"), 1);
+  TEST_F(UtilInlTest, __ezcu_tell_file) {
+    ASSERT_GT(__ezcu_tell_file(PREFIX"/knl_test.cu"), 1);
 	}
 
 	TEST_F(UtilInlTest, __ezcu_file_check_ext) {
@@ -78,5 +78,4 @@ namespace {
 						bin_filename));
 		remove(PREFIX"/knl_test.fatbin");
 	}
-
-}  // namespace
+}  /// namespace

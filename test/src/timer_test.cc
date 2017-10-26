@@ -46,80 +46,79 @@
 
 namespace {
 
-    class TimerTest: public ::testing::Test {
+  class TimerTest: public ::testing::Test {
     protected:
-        double t;
-        virtual void SetUp() {}
+      double t;
+      virtual void SetUp() {}
 
-        virtual void TearDown() {}
-    };
+      virtual void TearDown() {}
+  };
 
-    TEST_F(TimerTest, read_timer_in_seconds) {
-        ezcu_timer_uset(SECONDS);
-        ezcu_timer_tick();
-        SLEEP(1);
-        t = ezcu_timer_read();
-        ASSERT_NEAR(t, 1., 1.e-2);
+  TEST_F(TimerTest, read_timer_in_seconds) {
+    ezcu_timer_uset(SECONDS);
+    ezcu_timer_tick();
+    SLEEP(1);
+    t = ezcu_timer_read();
+    ASSERT_NEAR(t, 1., 1.e-2);
+  }
+
+  TEST_F(TimerTest, read_timer_in_milli_seconds) {
+    ezcu_timer_uset(MILLI_SECONDS);
+    ezcu_timer_tick();
+    SLEEP(1);
+    t = ezcu_timer_read();
+    ASSERT_NEAR(t, 1.e3, 1.e1);
+  }
+
+  TEST_F(TimerTest, read_timer_in_micro_seconds) {
+    ezcu_timer_uset(MICRO_SECONDS);
+    ezcu_timer_tick();
+    SLEEP(1);
+    t = ezcu_timer_read();
+    ASSERT_NEAR(t, 1.e6, 1.e4);
+  }
+
+  TEST_F(TimerTest, read_timer_in_nano_seconds) {
+    ezcu_timer_uset(NANO_SECONDS);
+    ezcu_timer_tick();
+    SLEEP(1);
+    t = ezcu_timer_read();
+    ASSERT_NEAR(t, 1.e9, 1.e8);
+  }
+
+  TEST_F(TimerTest, nested_timing) {
+    double t1, t2, t3, t4;
+    ezcu_timer_uset(NANO_SECONDS);
+    ezcu_timer_tick();
+    SLEEP(1);
+    ezcu_timer_tick();
+    SLEEP(1);
+    ezcu_timer_tick();
+    SLEEP(1);
+    ezcu_timer_tick();
+    SLEEP(1);
+    t4 = ezcu_timer_read();
+    t3 = ezcu_timer_read();
+    t2 = ezcu_timer_read();
+    t1 = ezcu_timer_read();
+    ASSERT_NEAR(t1, 4.e9, 1.e8);
+    ASSERT_NEAR(t2, 3.e9, 1.e8);
+    ASSERT_NEAR(t3, 2.e9, 1.e8);
+    ASSERT_NEAR(t4, 1.e9, 1.e8);
+  }
+
+  TEST_F(TimerTest, loop_timing) {
+    unsigned int i, n = 5;
+    double all, t[n];
+    ezcu_timer_uset(SECONDS);
+    ezcu_timer_tick();
+    for (i = 0; i < n; ++i) {
+      ezcu_timer_tick();
+      SLEEP(1);
+      t[i] = ezcu_timer_read();
     }
-
-    TEST_F(TimerTest, read_timer_in_milli_seconds) {
-        ezcu_timer_uset(MILLI_SECONDS);
-        ezcu_timer_tick();
-        SLEEP(1);
-        t = ezcu_timer_read();
-        ASSERT_NEAR(t, 1.e3, 1.e1);
-    }
-
-    TEST_F(TimerTest, read_timer_in_micro_seconds) {
-        ezcu_timer_uset(MICRO_SECONDS);
-        ezcu_timer_tick();
-        SLEEP(1);
-        t = ezcu_timer_read();
-        ASSERT_NEAR(t, 1.e6, 1.e4);
-    }
-
-    TEST_F(TimerTest, read_timer_in_nano_seconds) {
-        ezcu_timer_uset(NANO_SECONDS);
-        ezcu_timer_tick();
-        SLEEP(1);
-        t = ezcu_timer_read();
-        ASSERT_NEAR(t, 1.e9, 1.e8);
-    }
-
-    TEST_F(TimerTest, nested_timing) {
-        double t1, t2, t3, t4;
-        ezcu_timer_uset(NANO_SECONDS);
-        ezcu_timer_tick();
-        SLEEP(1);
-        ezcu_timer_tick();
-        SLEEP(1);
-        ezcu_timer_tick();
-        SLEEP(1);
-        ezcu_timer_tick();
-        SLEEP(1);
-        t4 = ezcu_timer_read();
-        t3 = ezcu_timer_read();
-        t2 = ezcu_timer_read();
-        t1 = ezcu_timer_read();
-        ASSERT_NEAR(t1, 4.e9, 1.e8);
-        ASSERT_NEAR(t2, 3.e9, 1.e8);
-        ASSERT_NEAR(t3, 2.e9, 1.e8);
-        ASSERT_NEAR(t4, 1.e9, 1.e8);
-    }
-
-    TEST_F(TimerTest, loop_timing) {
-        unsigned int i, n = 5;
-        double all, t[n];
-        ezcu_timer_uset(SECONDS);
-        ezcu_timer_tick();
-        for (i = 0; i < n; ++i) {
-            ezcu_timer_tick();
-            SLEEP(1);
-            t[i] = ezcu_timer_read();
-        }
-        all = ezcu_timer_read();
-        for (i = 0; i < n; ++i) ASSERT_NEAR(t[i], 1., 1.e-1);
-        ASSERT_NEAR(all, n*1., 1.e-1);
-    }
-
+    all = ezcu_timer_read();
+    for (i = 0; i < n; ++i) ASSERT_NEAR(t[i], 1., 1.e-1);
+    ASSERT_NEAR(all, n*1., 1.e-1);
+  }
 }  // namespace

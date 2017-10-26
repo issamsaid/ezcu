@@ -38,40 +38,39 @@
 
 namespace {
 
-    class UtilTest : public ::testing::Test {
-    protected:
-    	virtual void SetUp() {}
-        virtual void TearDown() {}
-    };
+  class UtilTest : public ::testing::Test {
+  protected:
+    virtual void SetUp() {}
+    virtual void TearDown() {}
+  };
 
-    TEST_F(UtilTest, ezcu_str2flags) {
-        ezcu_init(ALL);
-        ASSERT_EQ(ezcu_str2flags("HWA"), HWA);
-        ASSERT_EQ(ezcu_str2flags("HOST"), HOST);
-        ASSERT_EQ(ezcu_str2flags("CPU"), CPU);
-        ASSERT_EQ(ezcu_str2flags("GPU"), GPU);
-        ASSERT_EQ(ezcu_str2flags("ACCELERATOR"), ACCELERATOR);
-        ASSERT_EQ(ezcu_str2flags("ALL"), ALL);
-        ezcu_release();
-	}
+  TEST_F(UtilTest, ezcu_str2flags) {
+    ezcu_init(ALL);
+    ASSERT_EQ(ezcu_str2flags("HWA"), HWA);
+    ASSERT_EQ(ezcu_str2flags("HOST"), HOST);
+    ASSERT_EQ(ezcu_str2flags("CPU"), CPU);
+    ASSERT_EQ(ezcu_str2flags("GPU"), GPU);
+    ASSERT_EQ(ezcu_str2flags("ACCELERATOR"), ACCELERATOR);
+    ASSERT_EQ(ezcu_str2flags("ALL"), ALL);
+    ezcu_release();
+  }
 
-    TEST_F(UtilTest, ezcu_count) {
-        size_t n, s;
-        ezcu_init(ALL);
-        n = __ezcu_dev_query();
-        s = ezcu_count(ALL);
-        ASSERT_EQ(n, s);
-        ezcu_release();
+  TEST_F(UtilTest, ezcu_count) {
+    size_t n, s;
+    ezcu_init(ALL);
+    n = __ezcu_dev_query();
+    s = ezcu_count(ALL);
+    ASSERT_EQ(n, s);
+    ezcu_release();
 
-        ezcu_init(ACCELERATOR);
-        s = ezcu_count(ACCELERATOR);
-        ASSERT_EQ(n, s);
-        ezcu_release();
+    ezcu_init(ACCELERATOR);
+    s = ezcu_count(ACCELERATOR);
+    ASSERT_EQ(n, s);
+    ezcu_release();
 
-        ezcu_init(GPU);
-        s = ezcu_count(GPU);
-        ASSERT_EQ(n, s);
-        ezcu_release();
-    }
-
+    ezcu_init(GPU);
+    s = ezcu_count(GPU);
+    ASSERT_EQ(n, s);
+    ezcu_release();
+  }
 }  // namespace

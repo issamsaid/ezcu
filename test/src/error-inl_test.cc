@@ -38,27 +38,26 @@ extern ezcu_env_t ezcu;
 
 namespace {
 
-    class ErrorInlTest : public ::testing::Test {
+  class ErrorInlTest : public ::testing::Test {
     protected:
-        virtual void SetUp() { 
-            ezcu        = (ezcu_env_t) malloc(sizeof(struct __ezcu_env_t));
-            ezcu->devs  = &urb_sentinel;
-            ezcu->knls  = &urb_sentinel;
-            ezcu->mems  = &urb_sentinel;
-            ezcu->fdout = stdout;
-            ezcu->fderr = stderr;
-            cuInit(0);
+      virtual void SetUp() { 
+        ezcu        = (ezcu_env_t) malloc(sizeof(struct __ezcu_env_t));
+        ezcu->devs  = &urb_sentinel;
+        ezcu->knls  = &urb_sentinel;
+        ezcu->mems  = &urb_sentinel;
+        ezcu->fdout = stdout;
+        ezcu->fderr = stderr;
+        cuInit(0);
+      }
+      virtual void TearDown() { 
+        if (ezcu) {
+          free(ezcu); 
+          ezcu = NULL;
         }
-        virtual void TearDown() { 
-            if (ezcu) {
-                free(ezcu); 
-                ezcu = NULL;
-            }
-        }
-    };
+      }
+  };
 
-    TEST_F(ErrorInlTest, EZCU_EXIT) {
-        
-    }
+  TEST_F(ErrorInlTest, EZCU_EXIT) {
+  }
 
 }  // namespace
