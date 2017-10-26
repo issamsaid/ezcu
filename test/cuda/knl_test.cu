@@ -37,8 +37,8 @@
 extern "C" __global__ void test_knl_1(float *input, 
                                       float *output,
                                       int dimx) {
-    int gid = threadIdx.x + blockIdx.x*blockDim.x;
-    output[gid] = input[gid];
+  int gid = threadIdx.x + blockIdx.x*blockDim.x;
+  output[gid] = input[gid];
 }
 
 extern "C" __global__ void test_knl_2(float *input, 
@@ -47,15 +47,15 @@ extern "C" __global__ void test_knl_2(float *input,
                                       float *coefy,
                                       float *coefz,
                                       int dimx, int dimy, int dimz) {
-    int gid = threadIdx.x + blockIdx.x*blockDim.x;
-    output[gid] = input[gid];
+  int gid = threadIdx.x + blockIdx.x*blockDim.x;
+  output[gid] = input[gid];
 }
 
 extern "C" __global__ void test_knl_3(float *input, 
                                       float *output,
                                       int dimx, int dimy, int dimz) {
-    int gid = threadIdx.x + blockIdx.x*blockDim.x;
-    output[gid] = input[gid];
+  int gid = threadIdx.x + blockIdx.x*blockDim.x;
+  output[gid] = input[gid];
 }
 
 extern "C" __global__ void stencil_v_3d(float  *input,
@@ -145,9 +145,9 @@ extern "C" __global__ void add_source_2d(int ix, int iz,
                                          int lx, int lz, 
                                          float* source, 
                                          int it, float* u) {
-    float src = source[it];
-    W(iz, ix)     +=  src*(1.f-rxt)*(1.f-rzt);
-    W(iz_p, ix)   +=  src*rzt*(1.f-rxt);
-    W(iz,   ix_p) +=  src*(1.f-rzt)*rxt;
-    W(iz_p, ix_p) +=  src*rzt*rxt;
+  float src = source[it];
+  W(iz, ix)     +=  src*(1.f-rxt)*(1.f-rzt);
+  W(iz_p, ix)   +=  src*rzt*(1.f-rxt);
+  W(iz,   ix_p) +=  src*(1.f-rzt)*rxt;
+  W(iz_p, ix_p) +=  src*rzt*rxt;
 }
