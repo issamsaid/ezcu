@@ -1,5 +1,5 @@
 set(CMAKE_Fortran_FLAGS_DEBUG   
-    "${CMAKE_Fortran_FLAGS_DEBUG} -Mpreprocess -w -Mextend -D__EZCU_DEBUG -O0 -Mbounds -Mchkptr -Mchkstk -DLOG_DEBUG")
+    "${CMAKE_Fortran_FLAGS_DEBUG} -Mpreprocess -w -Mextend -D__DEBUG -O0 -Mbounds -Mchkptr -Mchkstk -DLOG_DEBUG")
 set(CMAKE_Fortran_FLAGS_RELEASE 
     "${CMAKE_Fortran_FLAGS_RELEASE}  -Mpreprocess -w -Mextend -O3 -Minfo=opt")
 set(CMAKE_Fortran_FLAGS         

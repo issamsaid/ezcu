@@ -1,4 +1,4 @@
-set(CMAKE_C_FLAGS_DEBUG   "${CMAKE_C_FLAGS_DEBUG} -D__EZCU_DEBUG -Wall -O0 -g")
+set(CMAKE_C_FLAGS_DEBUG   "${CMAKE_C_FLAGS_DEBUG} -D__DEBUG -Wall -O0 -g")
 set(CMAKE_C_FLAGS_RELEASE "${CMAKE_C_FLAGS_RELEASE} -fmerge-constants -O3")
 find_package(OpenMP)
 if (OPENMP_FOUND)

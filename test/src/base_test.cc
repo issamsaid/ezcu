@@ -41,192 +41,192 @@ extern ezcu_env_t ezcu;
 
 namespace {
 
-    class BaseTest : public ::testing::Test {
-    protected:
-        const static int N=100;
-        virtual void SetUp() {}
-        virtual void TearDown() {}
-    };
+  class BaseTest : public ::testing::Test {
+  protected:
+    const static int N=100;
+    virtual void SetUp() {}
+    virtual void TearDown() {}
+  };
 
-    TEST_F(BaseTest, init_default) {
-        ASSERT_TRUE(ezcu == NULL);
-        ezcu_init(DEFAULT);
-        ASSERT_TRUE(ezcu != NULL);
-        ezcu_release();
-        ASSERT_TRUE(ezcu == NULL);
+  TEST_F(BaseTest, init_default) {
+    ASSERT_TRUE(ezcu == NULL);
+    ezcu_init(DEFAULT);
+    ASSERT_TRUE(ezcu != NULL);
+    ezcu_release();
+    ASSERT_TRUE(ezcu == NULL);
+  }
+
+  TEST_F(BaseTest, init_default_singleton) {
+    ASSERT_TRUE(ezcu == NULL);
+    ezcu_init(DEFAULT);
+    ASSERT_TRUE(ezcu != NULL);
+    ezcu_init(DEFAULT);
+    ezcu_init(DEFAULT);
+    ezcu_init(DEFAULT);
+    ezcu_init(DEFAULT);
+    ezcu_init(DEFAULT);
+    ASSERT_TRUE(ezcu != NULL);
+    ezcu_release();
+    ASSERT_TRUE(ezcu == NULL);
+  }
+
+  TEST_F(BaseTest, release_default_singleton) {
+    ASSERT_TRUE(ezcu == NULL);
+    ezcu_init(DEFAULT);
+    ASSERT_TRUE(ezcu != NULL);
+    ezcu_release();
+    ezcu_release();
+    ezcu_release();
+    ezcu_release();
+    ezcu_release();
+    ezcu_release();
+    ezcu_release();
+    ASSERT_TRUE(ezcu == NULL);
+  }
+
+  TEST_F(BaseTest, init_vendor) {
+    unsigned int n;
+    ASSERT_TRUE(ezcu == NULL);
+    ezcu_init(NVIDIA);
+    n = __ezcu_dev_query();
+    ASSERT_TRUE(ezcu != NULL);
+    ASSERT_TRUE(ezcu->initialized[NVIDIA & EZCU_LKP_MASK]);
+    ASSERT_FALSE(ezcu->initialized[AMD & EZCU_LKP_MASK]);
+    ASSERT_FALSE(ezcu->initialized[APPLE & EZCU_LKP_MASK]);
+    ASSERT_FALSE(ezcu->initialized[INTEL & EZCU_LKP_MASK]);
+    ezcu_release();
+    ASSERT_GE(n, 0);
+  }
+
+  TEST_F(BaseTest, init_wrong_vendor) {
+    ASSERT_DEATH(ezcu_init(AMD), ".*");
+    ASSERT_DEATH(ezcu_init(INTEL), ".*");
+    ASSERT_DEATH(ezcu_init(APPLE), ".*");
+  }
+
+  TEST_F(BaseTest, init_all) {
+    unsigned int n;
+    ASSERT_TRUE(ezcu == NULL);
+    ezcu_init(ALL);
+    n = __ezcu_dev_query();
+    ASSERT_TRUE(ezcu != NULL);
+    ASSERT_TRUE(ezcu->initialized[NVIDIA & EZCU_LKP_MASK]);
+    ASSERT_FALSE(ezcu->initialized[AMD & EZCU_LKP_MASK]);
+    ASSERT_FALSE(ezcu->initialized[APPLE & EZCU_LKP_MASK]);
+    ASSERT_FALSE(ezcu->initialized[INTEL & EZCU_LKP_MASK]);
+    ezcu_release();
+    ASSERT_GE(n, 0);
+  }
+
+  TEST_F(BaseTest, init_gpu) {
+    unsigned int n;
+    ASSERT_TRUE(ezcu == NULL);
+    ezcu_init(GPU);
+    n = __ezcu_dev_query();
+    ASSERT_TRUE(ezcu != NULL);
+    ASSERT_TRUE(ezcu->initialized[NVIDIA & EZCU_LKP_MASK]);
+    ASSERT_FALSE(ezcu->initialized[AMD & EZCU_LKP_MASK]);
+    ASSERT_FALSE(ezcu->initialized[APPLE & EZCU_LKP_MASK]);
+    ASSERT_FALSE(ezcu->initialized[INTEL & EZCU_LKP_MASK]);
+    ezcu_release();
+    ASSERT_GE(n, 0);
+  }
+
+  TEST_F(BaseTest, init_first_gpu) {
+    unsigned int n;
+    ASSERT_TRUE(ezcu == NULL);
+    ezcu_init(GPU | FIRST);
+    n = ezcu_count(ALL);
+    ASSERT_TRUE(ezcu != NULL);
+    ASSERT_TRUE(ezcu->initialized[NVIDIA & EZCU_LKP_MASK]);
+    ASSERT_FALSE(ezcu->initialized[AMD & EZCU_LKP_MASK]);
+    ASSERT_FALSE(ezcu->initialized[APPLE & EZCU_LKP_MASK]);
+    ASSERT_FALSE(ezcu->initialized[INTEL & EZCU_LKP_MASK]);
+    ezcu_release();
+    ASSERT_EQ(n, 1);
+  }
+
+  TEST_F(BaseTest, init_second_gpu) {
+    unsigned int n;
+    ASSERT_TRUE(ezcu == NULL);
+    ezcu_init(GPU);
+    n = ezcu_count(ALL);
+    ezcu_release();
+
+    if (n>1) {
+      ezcu_init(GPU | SECOND);
+      ASSERT_TRUE(ezcu != NULL);
+      ASSERT_TRUE(ezcu->initialized[NVIDIA & EZCU_LKP_MASK]);
+      ASSERT_FALSE(ezcu->initialized[AMD & EZCU_LKP_MASK]);
+      ASSERT_FALSE(ezcu->initialized[APPLE & EZCU_LKP_MASK]);
+      n = ezcu_count(ALL);
+      ezcu_release();
+      ASSERT_EQ(n, 1);
     }
+  }
 
-    TEST_F(BaseTest, init_default_singleton) {
-        ASSERT_TRUE(ezcu == NULL);
-        ezcu_init(DEFAULT);
-        ASSERT_TRUE(ezcu != NULL);
-        ezcu_init(DEFAULT);
-        ezcu_init(DEFAULT);
-        ezcu_init(DEFAULT);
-        ezcu_init(DEFAULT);
-        ezcu_init(DEFAULT);
-        ASSERT_TRUE(ezcu != NULL);
-        ezcu_release();
-        ASSERT_TRUE(ezcu == NULL);
+  TEST_F(BaseTest, init_second_and_fourth_gpu) {
+    unsigned int n;
+    ASSERT_TRUE(ezcu == NULL);
+    ezcu_init(GPU);
+    n = ezcu_count(ALL);
+    ezcu_release();
+
+    if (n>3) {
+      ezcu_init(GPU | SECOND | FOURTH);
+      ASSERT_TRUE(ezcu != NULL);
+      ASSERT_TRUE(ezcu->initialized[NVIDIA & EZCU_LKP_MASK]);
+      ASSERT_FALSE(ezcu->initialized[AMD & EZCU_LKP_MASK]);
+      ASSERT_FALSE(ezcu->initialized[APPLE & EZCU_LKP_MASK]);
+      n = ezcu_count(ALL);
+      ezcu_release();
+      ASSERT_EQ(n, 2);
     }
-
-    TEST_F(BaseTest, release_default_singleton) {
-        ASSERT_TRUE(ezcu == NULL);
-        ezcu_init(DEFAULT);
-        ASSERT_TRUE(ezcu != NULL);
-        ezcu_release();
-        ezcu_release();
-        ezcu_release();
-        ezcu_release();
-        ezcu_release();
-        ezcu_release();
-        ezcu_release();
-        ASSERT_TRUE(ezcu == NULL);
-    }
-
-    TEST_F(BaseTest, init_vendor) {
-        unsigned int n;
-        ASSERT_TRUE(ezcu == NULL);
-        ezcu_init(NVIDIA);
-        n = __ezcu_dev_query();
-        ASSERT_TRUE(ezcu != NULL);
-        ASSERT_TRUE(ezcu->initialized[NVIDIA & EZCU_LKP_MASK]);
-        ASSERT_FALSE(ezcu->initialized[AMD & EZCU_LKP_MASK]);
-        ASSERT_FALSE(ezcu->initialized[APPLE & EZCU_LKP_MASK]);
-        ASSERT_FALSE(ezcu->initialized[INTEL & EZCU_LKP_MASK]);
-        ezcu_release();
-        ASSERT_GE(n, 0);
-    }
-
-    TEST_F(BaseTest, init_wrong_vendor) {
-        ASSERT_DEATH(ezcu_init(AMD), ".*");
-        ASSERT_DEATH(ezcu_init(INTEL), ".*");
-        ASSERT_DEATH(ezcu_init(APPLE), ".*");
-    }
-
-    TEST_F(BaseTest, init_all) {
-        unsigned int n;
-        ASSERT_TRUE(ezcu == NULL);
-        ezcu_init(ALL);
-        n = __ezcu_dev_query();
-        ASSERT_TRUE(ezcu != NULL);
-        ASSERT_TRUE(ezcu->initialized[NVIDIA & EZCU_LKP_MASK]);
-        ASSERT_FALSE(ezcu->initialized[AMD & EZCU_LKP_MASK]);
-        ASSERT_FALSE(ezcu->initialized[APPLE & EZCU_LKP_MASK]);
-        ASSERT_FALSE(ezcu->initialized[INTEL & EZCU_LKP_MASK]);
-        ezcu_release();
-        ASSERT_GE(n, 0);
-    }
-
-    TEST_F(BaseTest, init_gpu) {
-        unsigned int n;
-        ASSERT_TRUE(ezcu == NULL);
-        ezcu_init(GPU);
-        n = __ezcu_dev_query();
-        ASSERT_TRUE(ezcu != NULL);
-        ASSERT_TRUE(ezcu->initialized[NVIDIA & EZCU_LKP_MASK]);
-        ASSERT_FALSE(ezcu->initialized[AMD & EZCU_LKP_MASK]);
-        ASSERT_FALSE(ezcu->initialized[APPLE & EZCU_LKP_MASK]);
-        ASSERT_FALSE(ezcu->initialized[INTEL & EZCU_LKP_MASK]);
-        ezcu_release();
-        ASSERT_GE(n, 0);
-    }
-
-    TEST_F(BaseTest, init_first_gpu) {
-        unsigned int n;
-        ASSERT_TRUE(ezcu == NULL);
-        ezcu_init(GPU | FIRST);
-        n = ezcu_count(ALL);
-        ASSERT_TRUE(ezcu != NULL);
-        ASSERT_TRUE(ezcu->initialized[NVIDIA & EZCU_LKP_MASK]);
-        ASSERT_FALSE(ezcu->initialized[AMD & EZCU_LKP_MASK]);
-        ASSERT_FALSE(ezcu->initialized[APPLE & EZCU_LKP_MASK]);
-        ASSERT_FALSE(ezcu->initialized[INTEL & EZCU_LKP_MASK]);
-        ezcu_release();
-        ASSERT_EQ(n, 1);
-    }
-
-    TEST_F(BaseTest, init_second_gpu) {
-        unsigned int n;
-        ASSERT_TRUE(ezcu == NULL);
-        ezcu_init(GPU);
-        n = ezcu_count(ALL);
-        ezcu_release();
-
-        if (n>1) {
-            ezcu_init(GPU | SECOND);
-            ASSERT_TRUE(ezcu != NULL);
-            ASSERT_TRUE(ezcu->initialized[NVIDIA & EZCU_LKP_MASK]);
-            ASSERT_FALSE(ezcu->initialized[AMD & EZCU_LKP_MASK]);
-            ASSERT_FALSE(ezcu->initialized[APPLE & EZCU_LKP_MASK]);
-            n = ezcu_count(ALL);
-            ezcu_release();
-            ASSERT_EQ(n, 1);
-        }
-    }
-
-    TEST_F(BaseTest, init_second_and_fourth_gpu) {
-        unsigned int n;
-        ASSERT_TRUE(ezcu == NULL);
-        ezcu_init(GPU);
-        n = ezcu_count(ALL);
-        ezcu_release();
-
-        if (n>3) {
-            ezcu_init(GPU | SECOND | FOURTH);
-            ASSERT_TRUE(ezcu != NULL);
-            ASSERT_TRUE(ezcu->initialized[NVIDIA & EZCU_LKP_MASK]);
-            ASSERT_FALSE(ezcu->initialized[AMD & EZCU_LKP_MASK]);
-            ASSERT_FALSE(ezcu->initialized[APPLE & EZCU_LKP_MASK]);
-            n = ezcu_count(ALL);
-            ezcu_release();
-            ASSERT_EQ(n, 2);
-        }
-    }
+  }
 
     ///
     /// TODO: fix cudaSetDevice within another thread.
-    TEST_F(BaseTest, init_with_cc) {
-        size_t i;
-        ASSERT_TRUE(ezcu == NULL);
-        ezcu_init(GPU | CC20 | CC35);
+  TEST_F(BaseTest, init_with_cc) {
+    size_t i;
+    ASSERT_TRUE(ezcu == NULL);
+    ezcu_init(GPU | CC20 | CC35);
+    ASSERT_GE(ezcu_count(ALL), 1);
+    ezcu_dev_prop_flags_t nDevProps[] = {CC20, CC30, CC35, CC50, CC60};
+    ezcu_dev_t d = ezcu_dev_find(DEFAULT);
+    int minor = d->minor;
+    int major = d->major;
+    ezcu_release();        
+    for (i=0; i<sizeof(nDevProps)/sizeof(*nDevProps); i++) {
+      if (__ezcu_dev_get_cc_hex(minor, major) >=
+        ezcu_flags_to_dev_prop(nDevProps[i])) {
+        ezcu_init(nDevProps[i]);
         ASSERT_GE(ezcu_count(ALL), 1);
-        ezcu_dev_prop_flags_t nDevProps[] = {CC20, CC30, CC35, CC50, CC60};
-        ezcu_dev_t d = ezcu_dev_find(DEFAULT);
-        int minor = d->minor;
-        int major = d->major;
         ezcu_release();        
-        for (i=0; i<sizeof(nDevProps)/sizeof(*nDevProps); i++) {
-            if (__ezcu_dev_get_cc_hex(minor, major) >=
-                ezcu_flags_to_dev_prop(nDevProps[i])) {
-                ezcu_init(nDevProps[i]);
-                ASSERT_GE(ezcu_count(ALL), 1);
-                ezcu_release();        
-            }
-        }   
-    }
+      }
+    }   
+  }
 
-    TEST_F(BaseTest, load) {
-        ASSERT_TRUE(ezcu == NULL);
-        ezcu_init(ALL);
-        ezcu_load(PREFIX"/knl_test.cu", NULL);
-        ezcu_release();
-        ASSERT_TRUE(ezcu == NULL);
-    }
+  TEST_F(BaseTest, load) {
+    ASSERT_TRUE(ezcu == NULL);
+    ezcu_init(ALL);
+    ezcu_load(PREFIX"/knl_test.cu", NULL);
+    ezcu_release();
+    ASSERT_TRUE(ezcu == NULL);
+  }
 
-    TEST_F(BaseTest, info) {
-        ezcu_init(DEFAULT);
-        ezcu_info();
-        ezcu_release();
-    }
+  TEST_F(BaseTest, info) {
+    ezcu_init(DEFAULT);
+    ezcu_info();
+    ezcu_release();
+  }
 
-    TEST_F(BaseTest, stress_init_release) {
-        int i;        
-        for (i=0; i<N; i++) {
-            ezcu_init(ALL);
-            ezcu_info();
-            ezcu_release();
-        }
+  TEST_F(BaseTest, stress_init_release) {
+    int i;        
+    for (i=0; i<N; i++) {
+      ezcu_init(ALL);
+      ezcu_info();
+      ezcu_release();
     }
+  }
 
 }  // namespace

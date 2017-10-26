@@ -42,80 +42,88 @@
 
 CPPGUARD_BEGIN();
 
+#define __STR(CONSTANT) #CONSTANT
+
 extern ezcu_env_t ezcu;
 
 extern void ezcu_release();
 
-#define EZCU_FAIL(fmt,...)                                               \
-    {                                                                    \
-        fprintf(stderr, EZCU_RED"[EZCU FATAL]: "fmt" @%s:%d.\n"EZCU_END, \
-                ##__VA_ARGS__, __FILE__, __LINE__);                      \
-        exit(EXIT_FAILURE);                                              \
-    }
+#define EZCU_FAIL(fmt,...)                                          \
+  do{                                                               \
+    fprintf(stderr, "%s[EZCU FATAL]: " __STR(fmt) " @%s:%d.\n%s",   \
+            EZCU_RED, ##__VA_ARGS__, __FILE__, __LINE__, EZCU_END); \
+    exit(EXIT_FAILURE);                                             \
+  } while(0)
 
-#define EZCU_FAIL_IF(predicate, fmt,...)                                 \
-    if (predicate) {                                                     \
-        fprintf(stderr, EZCU_RED"[EZCU FATAL]: "fmt" @%s:%d.\n"EZCU_END, \
-                ##__VA_ARGS__, __FILE__, __LINE__);                      \
-        exit(EXIT_FAILURE);                                              \
-    }
+#define EZCU_FAIL_IF(predicate, fmt,...)                              \
+  do{                                                                 \
+    if (predicate) {                                                  \
+      fprintf(stderr, "%s[EZCU FATAL]: " __STR(fmt) " @%s:%d.\n%s",   \
+              EZCU_RED, ##__VA_ARGS__, __FILE__, __LINE__, EZCU_END); \
+      exit(EXIT_FAILURE);                                             \
+    }                                                                 \
+  } while(0)
 
-#define EZCU_ABORT(status, fmt,...)                                           \
-    {                                                                         \
-        if(status != CUDA_SUCCESS) {                                          \
-            char __tmp_0[__EZCU_STR_SIZE];                                    \
-            char __tmp_1[__EZCU_BUFFER_SIZE];                                 \
-            cuGetErrorName(status, (const char**)&__tmp_0);                   \
-            cuGetErrorString(status, (const char**)&__tmp_1);                 \
-            fprintf(stderr,                                                   \
-                    EZCU_RED"[EZCU ABORT(%s)]: "fmt" (%s) @%s:%d.\n"EZCU_END, \
-                    __tmp_0, ##__VA_ARGS__, __tmp_1, __FILE__, __LINE__);     \
-            exit(EXIT_FAILURE);                                               \
-        }                                                                     \
-    }
+#define EZCU_ABORT(status, fmt,...)                                  \
+  do {                                                               \
+    if(status != CUDA_SUCCESS) {                                     \
+      char __tmp_0[__EZCU_STR_SIZE];                                 \
+      char __tmp_1[__EZCU_BUFFER_SIZE];                              \
+      cuGetErrorName(status, (const char**)&__tmp_0);                \
+      cuGetErrorString(status, (const char**)&__tmp_1);              \
+      fprintf(stderr,                                                \
+              "%s[EZCU ABORT(%s)]: " __STR(fmt) " (%s) @%s:%d.\n%s", \
+              EZCU_RED, __tmp_0,                                     \
+              ##__VA_ARGS__, __tmp_1, __FILE__, __LINE__, EZCU_END); \
+      exit(EXIT_FAILURE);                                            \
+    }                                                                \
+  } while(0)
 
-#define EZCU_EXIT(fmt,...)                                                  \
-    {                                                                       \
-        fprintf(ezcu->fderr, EZCU_RED"[EZCU ERR]: "fmt" @%s:%d.\n"EZCU_END, \
-                ##__VA_ARGS__, __FILE__, __LINE__);                         \
-        ezcu_release();                                                     \
-        exit(EXIT_FAILURE);                                                 \
-    }
+#define EZCU_EXIT(fmt,...)                                           \
+  do {                                                               \
+    fprintf(ezcu->fderr, "%s[EZCU ERR]: " __STR(fmt) " @%s:%d.\n%s", \
+            EZCU_RED, ##__VA_ARGS__, __FILE__, __LINE__, EZCU_END);  \
+    ezcu_release();                                                  \
+    exit(EXIT_FAILURE);                                              \
+  } while(0)
 
-#define EZCU_EXIT_IF(predicate, fmt,...)                                    \
-    if (predicate) {                                                        \
-        fprintf(ezcu->fderr, EZCU_RED"[EZCU ERR]: "fmt" @%s:%d.\n"EZCU_END, \
-                ##__VA_ARGS__, __FILE__, __LINE__);                         \
-        ezcu_release();                                                     \
-        exit(EXIT_FAILURE);                                                 \
-    }
+#define EZCU_EXIT_IF(predicate, fmt,...)                               \
+  do {                                                                 \
+    if (predicate) {                                                   \
+      fprintf(ezcu->fderr, "%s[EZCU ERR]: " __STR(fmt) " @%s:%d.\n%s", \
+              EZCU_RED, ##__VA_ARGS__, __FILE__, __LINE__,EZCU_END);   \
+      ezcu_release();                                                  \
+      exit(EXIT_FAILURE);                                              \
+    }                                                                  \
+  } while(0)
 
-#define EZCU_CHECK(status, fmt,...)                                         \
-    {                                                                       \
-        if(status != CUDA_SUCCESS) {                                        \
-            char* __tmp_0;                                                  \
-            char* __tmp_1;                                                  \
-            cuGetErrorName(status, (const char**)&__tmp_0);                 \
-            cuGetErrorString(status, (const char**)&__tmp_1);               \
-            fprintf(ezcu->fderr,                                            \
-                    EZCU_RED"[EZCU ERR(%s)]: "fmt" (%s) @%s:%d.\n"EZCU_END, \
-                    __tmp_0, ##__VA_ARGS__, __tmp_1, __FILE__, __LINE__);   \
-            ezcu_release();                                                 \
-            exit(EXIT_FAILURE);                                             \
-        }                                                                   \
-    }
+#define EZCU_CHECK(status, fmt,...)                                  \
+  do {                                                               \
+    if(status != CUDA_SUCCESS) {                                     \
+      char* __tmp_0;                                                 \
+      char* __tmp_1;                                                 \
+      cuGetErrorName(status, (const char**)&__tmp_0);                \
+      cuGetErrorString(status, (const char**)&__tmp_1);              \
+      fprintf(ezcu->fderr,                                           \
+              "%s[EZCU ERR(%s)]: " __STR(fmt) " (%s) @%s:%d.\n%s",   \
+              EZCU_RED, __tmp_0,                                     \
+              ##__VA_ARGS__, __tmp_1, __FILE__, __LINE__, EZCU_END); \
+      ezcu_release();                                                \
+      exit(EXIT_FAILURE);                                            \
+    }                                                                \
+  } while(0)
 
-#define EZCU_NVRTC_CHECK(status, fmt,...)                                   \
-    {                                                                       \
-        if(status != NVRTC_SUCCESS) {                                       \
-            const char* __tmp = nvrtcGetErrorString(status);                \
-            fprintf(ezcu->fderr,                                            \
-                    EZCU_RED"[EZCU ERR(%s)]: "fmt" @%s:%d.\n"EZCU_END, \
-                    __tmp, ##__VA_ARGS__, __FILE__, __LINE__);              \
-            ezcu_release();                                                 \
-            exit(EXIT_FAILURE);                                             \
-        }                                                                   \
-    }
+#define EZCU_NVRTC_CHECK(status, fmt,...)                                    \
+  do {                                                                       \
+    if(status != NVRTC_SUCCESS) {                                            \
+      const char* __tmp = nvrtcGetErrorString(status);                       \
+      fprintf(ezcu->fderr,                                                   \
+              "%s[EZCU ERR(%s)]: " __STR(fmt) " @%s:%d.\n%s",                \
+              EZCU_RED, __tmp, ##__VA_ARGS__, __FILE__, __LINE__, EZCU_END); \
+      ezcu_release();                                                        \
+      exit(EXIT_FAILURE);                                                    \
+    }                                                                        \
+  } while(0)
 
 CPPGUARD_END();
 

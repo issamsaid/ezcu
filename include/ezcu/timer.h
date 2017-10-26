@@ -46,10 +46,10 @@ CPPGUARD_BEGIN();
 /// micro seconds, milli seconds and seconds. 
 ///
 typedef enum __ezcu_time_unit_t {
-    NANO_SECONDS  = 1,
-    MICRO_SECONDS = 1000,
-    MILLI_SECONDS = 1000000,
-    SECONDS       = 1000000000
+  NANO_SECONDS  = 1,
+  MICRO_SECONDS = 1000,
+  MILLI_SECONDS = 1000000,
+  SECONDS       = 1000000000
 } ezcu_time_unit_t;
 
 ///

@@ -42,111 +42,111 @@
 extern ezcu_env_t ezcu;
 
 ezcu_flags_t ezcu_str2flags(const char* str) {
-    ezcu_flags_t flags;
-    if (strcmp(str, "HWA") == 0)
-        flags = HWA;
-    else if (strcmp(str, "HOST") == 0)
-        flags = HOST;
-    else if (strcmp(str, "CPU") == 0)
-        flags = CPU;
-    else if (strcmp(str, "GPU") == 0)
-        flags = GPU;
-    else if (strcmp(str, "ALL") == 0)
-        flags = ALL;
-    else if (strcmp(str, "ACCELERATOR") == 0)
-        flags = ACCELERATOR;
-    else if (strcmp(str, "NVIDIA") == 0)
-        flags = NVIDIA;
-    else if (strcmp(str, "AMD") == 0)
-        flags = AMD;
-    else if (strcmp(str, "APPLE") == 0)
-        flags = APPLE;
-    else if (strcmp(str, "INTEL") == 0)
-        flags = INTEL;
-    else if (strcmp(str, "FIRST") == 0)
-        flags = FIRST;
-    else if (strcmp(str, "SECOND") == 0)
-        flags = SECOND;
-    else if (strcmp(str, "THIRD") == 0)
-        flags = THIRD;
-    else if (strcmp(str, "FOURTH") == 0)
-        flags = FOURTH;
-    else if (strcmp(str, "FIFTH") == 0)
-        flags = FIFTH;
-    else if (strcmp(str, "SIXTH") == 0)
-        flags = SIXTH;
-    else if (strcmp(str, "SEVENTH") == 0)
-        flags = SEVENTH;
-    else if (strcmp(str, "EIGHTH") == 0)
-        flags = EIGHTH;
-    else if (strcmp(str, "CC20") == 0)
-        flags = CC20;
-    else if (strcmp(str, "CC30") == 0)
-        flags = CC30;
-    else if (strcmp(str, "CC35") == 0)
-        flags = CC35;
-    else if (strcmp(str, "CC50") == 0)
-        flags = CC50;
-    else if (strcmp(str, "CC60") == 0)
-        flags = CC60;
-    else if (strcmp(str, "PINNED") == 0)
-        flags = PINNED;
-    else if (strcmp(str, "ZERO_COPY") == 0)
-        flags = ZERO_COPY;
-    else if (strcmp(str, "READ_ONLY") == 0)
-        flags = READ_ONLY;
-    else if (strcmp(str, "WRITE_ONLY") == 0)
-        flags = WRITE_ONLY;
-    else if (strcmp(str, "READ_WRITE") == 0)
-        flags = READ_WRITE;
-    else
-        EZCU_EXIT("unknown ezcu_flags_t");
-    return flags;
+  ezcu_flags_t flags;
+  if (strcmp(str, "HWA") == 0)
+    flags = HWA;
+  else if (strcmp(str, "HOST") == 0)
+    flags = HOST;
+  else if (strcmp(str, "CPU") == 0)
+    flags = CPU;
+  else if (strcmp(str, "GPU") == 0)
+    flags = GPU;
+  else if (strcmp(str, "ALL") == 0)
+    flags = ALL;
+  else if (strcmp(str, "ACCELERATOR") == 0)
+    flags = ACCELERATOR;
+  else if (strcmp(str, "NVIDIA") == 0)
+    flags = NVIDIA;
+  else if (strcmp(str, "AMD") == 0)
+    flags = AMD;
+  else if (strcmp(str, "APPLE") == 0)
+    flags = APPLE;
+  else if (strcmp(str, "INTEL") == 0)
+    flags = INTEL;
+  else if (strcmp(str, "FIRST") == 0)
+    flags = FIRST;
+  else if (strcmp(str, "SECOND") == 0)
+    flags = SECOND;
+  else if (strcmp(str, "THIRD") == 0)
+    flags = THIRD;
+  else if (strcmp(str, "FOURTH") == 0)
+    flags = FOURTH;
+  else if (strcmp(str, "FIFTH") == 0)
+    flags = FIFTH;
+  else if (strcmp(str, "SIXTH") == 0)
+    flags = SIXTH;
+  else if (strcmp(str, "SEVENTH") == 0)
+    flags = SEVENTH;
+  else if (strcmp(str, "EIGHTH") == 0)
+    flags = EIGHTH;
+  else if (strcmp(str, "CC20") == 0)
+    flags = CC20;
+  else if (strcmp(str, "CC30") == 0)
+    flags = CC30;
+  else if (strcmp(str, "CC35") == 0)
+    flags = CC35;
+  else if (strcmp(str, "CC50") == 0)
+    flags = CC50;
+  else if (strcmp(str, "CC60") == 0)
+    flags = CC60;
+  else if (strcmp(str, "PINNED") == 0)
+    flags = PINNED;
+  else if (strcmp(str, "ZERO_COPY") == 0)
+    flags = ZERO_COPY;
+  else if (strcmp(str, "READ_ONLY") == 0)
+    flags = READ_ONLY;
+  else if (strcmp(str, "WRITE_ONLY") == 0)
+    flags = WRITE_ONLY;
+  else if (strcmp(str, "READ_WRITE") == 0)
+    flags = READ_WRITE;
+  else
+    EZCU_EXIT("unknown ezcu_flags_t");
+  return flags;
 }
 
 bool ezcu_has(ezcu_flags_t flags) { 
-    if (ezcu != NULL) {
-        return ezcu_count(flags) > 0; 
-    }
-    return false;
+  if (ezcu != NULL) {
+    return ezcu_count(flags) > 0; 
+  }
+  return false;
 }
 
 size_t ezcu_count(ezcu_flags_t flags) {
-    size_t nb = 0;
-    if (ezcu != NULL) {
+  size_t nb = 0;
+  if (ezcu != NULL) {
 
         /// Parse flags. 
-        int i, j, k, ndt, ndp, ndi;
-        ezcu_vendor_flags_t v;
-        ezcu_dev_type_flags_t  dt[EZCU_NB_DEV_TYPES];
-        ezcu_dev_prop_flags_t  dp[EZCU_NB_DEV_PROPS];
-        ezcu_dev_index_flags_t di[EZCU_NB_DEV_INDEXES];
+    int i, j, k, ndt, ndp, ndi;
+    ezcu_vendor_flags_t v;
+    ezcu_dev_type_flags_t  dt[EZCU_NB_DEV_TYPES];
+    ezcu_dev_prop_flags_t  dp[EZCU_NB_DEV_PROPS];
+    ezcu_dev_index_flags_t di[EZCU_NB_DEV_INDEXES];
 
-        ezcu_flags_check_dev(flags);
+    ezcu_flags_check_dev(flags);
 
-        if (EZCU_FLAGS_HAVE(flags, ALL)) {
-            flags &= ~ALL;
-            flags |= CPU | GPU;
-        } else {
-            if (EZCU_FLAGS_HAVE(flags, ACCELERATOR)) {
-                flags &= ~ACCELERATOR;
-                flags |= GPU;
-            }
-        }
-
-        ezcu_flags_parse_dev(flags, &v, dt, &ndt, dp, &ndp, di, &ndi);
-
-        if (ezcu->initialized[v & EZCU_LKP_MASK]) {
-            for (k=0; k < ndt; k++) {
-                for (j=0; j < ndp; j++) {
-                    for (i=0; i < ndi; i++) {
-                        if (ezcu->lookup[dt[k] & EZCU_LKP_MASK]
-                                        [dp[j] & EZCU_LKP_MASK]
-                                        [di[i] & EZCU_LKP_MASK] != -1) nb++;
-                    }
-                }
-            }
-        }
+    if (EZCU_FLAGS_HAVE(flags, ALL)) {
+      flags &= ~ALL;
+      flags |= CPU | GPU;
+    } else {
+      if (EZCU_FLAGS_HAVE(flags, ACCELERATOR)) {
+        flags &= ~ACCELERATOR;
+        flags |= GPU;
+      }
     }
-    return nb;
+
+    ezcu_flags_parse_dev(flags, &v, dt, &ndt, dp, &ndp, di, &ndi);
+
+    if (ezcu->initialized[v & EZCU_LKP_MASK]) {
+      for (k=0; k < ndt; k++) {
+        for (j=0; j < ndp; j++) {
+          for (i=0; i < ndi; i++) {
+            if (ezcu->lookup[dt[k] & EZCU_LKP_MASK]
+                            [dp[j] & EZCU_LKP_MASK]
+                            [di[i] & EZCU_LKP_MASK] != -1) nb++;
+          }
+        }
+      }
+    }
+  }
+  return nb;
 }

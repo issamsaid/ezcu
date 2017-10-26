@@ -41,37 +41,37 @@
 extern ezcu_env_t ezcu;
 
 ezcu_dev_t ezcu_dev_find(ezcu_flags_t flags) {
-    CUdevice id;
-    int ndt, ndp, ndi;
-    ezcu_dev_t device = NULL;
-    ezcu_vendor_flags_t    v;
-    ezcu_dev_type_flags_t  dt[EZCU_NB_DEV_TYPES];
-    ezcu_dev_prop_flags_t  dp[EZCU_NB_DEV_PROPS];
-    ezcu_dev_index_flags_t di[EZCU_NB_DEV_INDEXES];
-    char tmp[__EZCU_STR_SIZE];
-    ezcu_flags_dev_to_str(flags, tmp);
-    EZCU_DEBUG("start dev find: flags = %s", tmp);
-    ezcu_flags_check_dev(flags);    
-    ezcu_flags_parse_dev(flags, &v, dt, &ndt, dp, &ndp, di, &ndi);
-    EZCU_EXIT_IF(ndi > 1,
-                 "flags should correspond to only one device at a time");
-    if((ezcu->initialized[v & EZCU_LKP_MASK]) &&
-       (id=ezcu->lookup[dt[0]     & EZCU_LKP_MASK]
-                       [dp[ndp-1] & EZCU_LKP_MASK]
-                       [di[0]     & EZCU_LKP_MASK]) != -1) {
-        device = (ezcu_dev_t)urb_tree_find(&ezcu->devs, 
-                                           &id, __ezcu_devid_cmp)->value;
-    }
-    EZCU_EXIT_IF(device == NULL,
-                "device can not found, check flags, aborting (flags =%s)", tmp);
-    EZCU_DEBUG("end   dev find: found id = %d", device->id);
-    return device;
+  CUdevice id;
+  int ndt, ndp, ndi;
+  ezcu_dev_t device = NULL;
+  ezcu_vendor_flags_t    v;
+  ezcu_dev_type_flags_t  dt[EZCU_NB_DEV_TYPES];
+  ezcu_dev_prop_flags_t  dp[EZCU_NB_DEV_PROPS];
+  ezcu_dev_index_flags_t di[EZCU_NB_DEV_INDEXES];
+  char tmp[__EZCU_STR_SIZE];
+  ezcu_flags_dev_to_str(flags, tmp);
+  EZCU_DEBUG("start dev find: flags = %s", tmp);
+  ezcu_flags_check_dev(flags);    
+  ezcu_flags_parse_dev(flags, &v, dt, &ndt, dp, &ndp, di, &ndi);
+  EZCU_EXIT_IF(ndi > 1,
+   "flags should correspond to only one device at a time");
+  if((ezcu->initialized[v & EZCU_LKP_MASK]) &&
+   (id=ezcu->lookup[dt[0]     & EZCU_LKP_MASK]
+     [dp[ndp-1] & EZCU_LKP_MASK]
+     [di[0]     & EZCU_LKP_MASK]) != -1) {
+    device = (ezcu_dev_t)urb_tree_find(&ezcu->devs, 
+     &id, __ezcu_devid_cmp)->value;
+  }
+  EZCU_EXIT_IF(device == NULL,
+    "device can not found, check flags, aborting (flags =%s)", tmp);
+  EZCU_DEBUG("end   dev find: found id = %d", device->id);
+  return device;
 }
 
 void ezcu_dev_wait(ezcu_dev_t d) { 
-    EZCU_DEBUG("start dev wait: id = %d", d->id);
-    EZCU_CHECK(cuCtxPushCurrent(d->ctx), "failed to push the device context");
-    EZCU_CHECK(cuCtxSynchronize(), "failed to synchronize the device context");
-    EZCU_CHECK(cuCtxPopCurrent(&d->ctx), "failed to pop the device context");
-    EZCU_DEBUG("end   dev wait: id = %d", d->id);
+  EZCU_DEBUG("start dev wait: id = %d", d->id);
+  EZCU_CHECK(cuCtxPushCurrent(d->ctx), "failed to push the device context");
+  EZCU_CHECK(cuCtxSynchronize(), "failed to synchronize the device context");
+  EZCU_CHECK(cuCtxPopCurrent(&d->ctx), "failed to pop the device context");
+  EZCU_DEBUG("end   dev wait: id = %d", d->id);
 }

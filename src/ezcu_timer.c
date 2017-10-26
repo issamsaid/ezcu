@@ -54,32 +54,32 @@ static struct timespec __ezcu_timer_pop;
 #endif  // _WIN32
 
 void ezcu_timer_uset(ezcu_time_unit_t unit) {
-    __ezcu_timer_unit = unit;
+  __ezcu_timer_unit = unit;
 }
 
 char* ezcu_timer_uget() {
-    switch (__ezcu_timer_unit) {
+  switch (__ezcu_timer_unit) {
     case NANO_SECONDS:
-        return "ns";
+    return "ns";
     case MICRO_SECONDS:
-        return "us";
+    return "us";
     case MILLI_SECONDS:
-        return "ms";
+    return "ms";
     case SECONDS:
-        return "s";
+    return "s";
     default:
-        return "s";
-    }
+    return "s";
+  }
 }
 
 void ezcu_timer_tick() {
-    if (__ezcu_timer_index == __EZCU_TIMER_MAX - 1) __ezcu_timer_index = 0;
+  if (__ezcu_timer_index == __EZCU_TIMER_MAX - 1) __ezcu_timer_index = 0;
 #ifdef _WIN32
-    QueryPerformanceCounter(&__ezcu_timer_push[__ezcu_timer_index++]);
+  QueryPerformanceCounter(&__ezcu_timer_push[__ezcu_timer_index++]);
 #elif defined(__EZCU_TIMER_USE_GETTIMEOFDAY)
-    gettimeofday(&__ezcu_timer_push[__ezcu_timer_index++], 0);
+  gettimeofday(&__ezcu_timer_push[__ezcu_timer_index++], 0);
 #elif defined(__EZCU_TIMER_USE_CLOCK_GETTIME)
-    clock_gettime(CLOCK_REALTIME, &__ezcu_timer_push[__ezcu_timer_index++]);
+  clock_gettime(CLOCK_REALTIME, &__ezcu_timer_push[__ezcu_timer_index++]);
 #else
 #error "no wall clock timer is defined."
 #endif  // _WIN32
@@ -87,41 +87,38 @@ void ezcu_timer_tick() {
 
 double ezcu_timer_read() {
 #ifdef _WIN32
-    QueryPerformanceCounter(&__ezcu_timer_pop);
-    __ezcu_timer_index = __ezcu_timer_index - 1;
-    __ezcu_timer_elapsed = (__ezcu_timer_pop.QuadPart
-                            - __ezcu_timer_push[__ezcu_timer_index].QuadPart)
-        *__ezcu_timer_unit/freq_.QuadPart;
+  QueryPerformanceCounter(&__ezcu_timer_pop);
+  __ezcu_timer_index   = __ezcu_timer_index - 1;
+  __ezcu_timer_elapsed = (__ezcu_timer_pop.QuadPart
+                        - __ezcu_timer_push[__ezcu_timer_index].QuadPart)
+  *__ezcu_timer_unit/freq_.QuadPart;
 #elif defined(__EZCU_TIMER_USE_GETTIMEOFDAY)
-    gettimeofday(&__ezcu_timer_pop, 0);
-    __ezcu_timer_index = __ezcu_timer_index - 1;
-    __ezcu_timer_elapsed = __ezcu_timer_pop.tv_sec * 1e9
-        - __ezcu_timer_push[__ezcu_timer_index].tv_sec * 1e9
-        + __ezcu_timer_pop.tv_usec * 1e3
-        - __ezcu_timer_push[__ezcu_timer_index].tv_usec * 1e3;
+  gettimeofday(&__ezcu_timer_pop, 0);
+  __ezcu_timer_index   = __ezcu_timer_index - 1;
+  __ezcu_timer_elapsed = 
+      __ezcu_timer_pop.tv_sec * 1e9
+    - __ezcu_timer_push[__ezcu_timer_index].tv_sec * 1e9
+    + __ezcu_timer_pop.tv_usec * 1e3
+    - __ezcu_timer_push[__ezcu_timer_index].tv_usec * 1e3;
 #elif defined(__EZCU_TIMER_USE_CLOCK_GETTIME)
-    clock_gettime(CLOCK_REALTIME, &__ezcu_timer_pop);
-    __ezcu_timer_index = __ezcu_timer_index - 1;
-    __ezcu_timer_elapsed = __ezcu_timer_pop.tv_sec * 1e9
+  clock_gettime(CLOCK_REALTIME, &__ezcu_timer_pop);
+  __ezcu_timer_index   = __ezcu_timer_index - 1;
+  __ezcu_timer_elapsed = __ezcu_timer_pop.tv_sec * 1e9
         - __ezcu_timer_push[__ezcu_timer_index].tv_sec * 1e9
         + __ezcu_timer_pop.tv_nsec
         - __ezcu_timer_push[__ezcu_timer_index].tv_nsec;
 #else
 #error "no wall clock timer is defined."
 #endif  // _WIN32
-    return (double)__ezcu_timer_elapsed/__ezcu_timer_unit;
+  return (double)__ezcu_timer_elapsed/__ezcu_timer_unit;
 }
 
 double ezcu_timer_coef() {
-    switch (__ezcu_timer_unit) {
-    case NANO_SECONDS:
-        return 1.e-9;
-    case MICRO_SECONDS:
-        return 1.e-6;
-    case MILLI_SECONDS:
-        return 1.e-3;
-    case SECONDS:
-        return 1.;
-    }
-    return 1.;
+  switch (__ezcu_timer_unit) {
+    case NANO_SECONDS:  return 1.e-9;
+    case MICRO_SECONDS: return 1.e-6;
+    case MILLI_SECONDS: return 1.e-3;
+    case SECONDS:       return 1.;
+    default:            return 1.;
+  }
 }

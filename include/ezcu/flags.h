@@ -56,15 +56,15 @@ typedef uint64_t ezcu_flags_t;
 ///
 /// @brief Vendor flags (orthogonal).
 typedef enum {
-    AMD     = 0x0800000000000000, ///< AMD devices.
-    APPLE   = 0x0400000000000001, ///< APPLE devices.
-    INTEL   = 0x0200000000000002, ///< INTEL devices.
-    NVIDIA  = 0x0100000000000003  ///< NVIDIA platform.
+  AMD     = 0x0800000000000000, ///< AMD devices.
+  APPLE   = 0x0400000000000001, ///< APPLE devices.
+  INTEL   = 0x0200000000000002, ///< INTEL devices.
+  NVIDIA  = 0x0100000000000003  ///< NVIDIA platform.
 } ezcu_vendor_flags_t;
 
 /// @brief Device vendors mask.
 #define EZCU_FLAGS_VENDORS_MASK \
-    ((AMD | APPLE | NVIDIA | INTEL) & 0x0F00000000000000)
+  ((AMD | APPLE | NVIDIA | INTEL) & 0x0F00000000000000)
 
 /// @brief The number of the device vendors.
 #define EZCU_NB_VENDORS 4
@@ -73,35 +73,35 @@ typedef enum {
 /// ALL:         can be anything.
 /// ACCELERATOR: can be a GPU.
 typedef enum { 
-    ALL         = 0x00F0000000000000,  ///< All devices in list.
-    CPU         = 0x0080000000000001,  ///< CPU devices in list.
-    ACCELERATOR = 0x0070000000000002,  ///< Accelerators in list.
-    GPU         = 0x0040000000000003   ///< GPU devices in list.
+  ALL         = 0x00F0000000000000,  ///< All devices in list.
+  CPU         = 0x0080000000000001,  ///< CPU devices in list.
+  ACCELERATOR = 0x0070000000000002,  ///< Accelerators in list.
+  GPU         = 0x0040000000000003   ///< GPU devices in list.
 } ezcu_dev_type_flags_t;
 
 /// @brief Device types mask.
 #define EZCU_FLAGS_DEV_TYPES_MASK \
-    ((ALL | CPU | ACCELERATOR | GPU) & 0x00F0000000000000)
+  ((ALL | CPU | ACCELERATOR | GPU) & 0x00F0000000000000)
 
 /// @brief The number of device types.
 #define EZCU_NB_DEV_TYPES 4
 
 /// @brief Device indexes flags (inclusive).
 typedef enum {
-    FIRST       = 0x0000100000000000, ///< The 1st device in list.
-    SECOND      = 0x0000200000000101, ///< The 2nd device in list.
-    THIRD       = 0x0000400000000202, ///< The 3rd device in list.
-    FOURTH      = 0x0000800000000303, ///< The 4th device in list.
-    FIFTH       = 0x0001000000000404, ///< The 5th device in list.
-    SIXTH       = 0x0002000000000505, ///< The 6th device in list.
-    SEVENTH     = 0x0004000000000606, ///< The 7th device in list.
-    EIGHTH      = 0x0008000000000707  ///< The 8th device in list.
+  FIRST       = 0x0000100000000000, ///< The 1st device in list.
+  SECOND      = 0x0000200000000101, ///< The 2nd device in list.
+  THIRD       = 0x0000400000000202, ///< The 3rd device in list.
+  FOURTH      = 0x0000800000000303, ///< The 4th device in list.
+  FIFTH       = 0x0001000000000404, ///< The 5th device in list.
+  SIXTH       = 0x0002000000000505, ///< The 6th device in list.
+  SEVENTH     = 0x0004000000000606, ///< The 7th device in list.
+  EIGHTH      = 0x0008000000000707  ///< The 8th device in list.
 } ezcu_dev_index_flags_t;
 
 /// @brief Device indexes mask.
 #define EZCU_FLAGS_DEV_INDEXES_MASK       \
-    ((FIRST | SECOND | THIRD   | FOURTH | \
-      FIFTH | SIXTH  | SEVENTH | EIGHTH) & 0x000FF00000000000)
+  ((FIRST | SECOND | THIRD   | FOURTH | \
+    FIFTH | SIXTH  | SEVENTH | EIGHTH) & 0x000FF00000000000)
 
 /// @brief The number of device types.
 #define EZCU_NB_DEV_INDEXES 8
@@ -113,19 +113,19 @@ typedef enum {
 /// CC30 supports CC20
 /// NB: those are for GPUs so we set the GPU bit as well .
 typedef enum {
-    CC20    = 0x004000F000002000, ///< Compute capability 2.0.  
-    CC30    = 0x004001F000003001, ///< Compute capability 3.0.
-    CC35    = 0x004003F000003502, ///< Compute capability 3.5.
-    CC50    = 0x004007F000005003, ///< Compute capability 5.0.
-    CC60    = 0x00400FF000006004  ///< Compute capability 6.0.        
-    /// reserved              
-    /// reserved              
-    /// reserved              
+  CC20    = 0x004000F000002000, ///< Compute capability 2.0.  
+  CC30    = 0x004001F000003001, ///< Compute capability 3.0.
+  CC35    = 0x004003F000003502, ///< Compute capability 3.5.
+  CC50    = 0x004007F000005003, ///< Compute capability 5.0.
+  CC60    = 0x00400FF000006004  ///< Compute capability 6.0.        
+  /// reserved              
+  /// reserved              
+  /// reserved              
 } ezcu_dev_prop_flags_t;
 
 /// @brief Device properties mask.
 #define EZCU_FLAGS_DEV_PROPS_MASK \
-    ((CC20 | CC30 | CC35 | CC50 | CC60) & 0x00F00FF000000000)
+  ((CC20 | CC30 | CC35 | CC50 | CC60) & 0x00F00FF000000000)
                           
 /// @brief The number of device props.
 #define EZCU_NB_DEV_PROPS 5
@@ -136,8 +136,8 @@ typedef enum {
 ///
 /// @brief Memory location flags (orthogonal).
 typedef enum {
-    HOST = 0x0100000000000000, ///< Store memory on the host.
-    HWA  = 0x0200000000000001  ///< Store memory on the device.
+  HOST = 0x0100000000000000, ///< Store memory on the host.
+  HWA  = 0x0200000000000001  ///< Store memory on the device.
 } ezcu_mem_locs_flags_t;
 
 /// @brief Memory locations mask.
@@ -145,8 +145,8 @@ typedef enum {
 
 /// @brief Memory properties flags (inclusive).
 typedef enum {
-    PINNED    = 0x0010000000000000, ///< Use pinned memory.
-    ZERO_COPY = 0x0020000000000001  ///< Make the memory zero-copy.
+  PINNED    = 0x0010000000000000, ///< Use pinned memory.
+  ZERO_COPY = 0x0020000000000001  ///< Make the memory zero-copy.
 } ezcu_mem_props_flags_t;
 
 /// @brief Memory properties mask.
@@ -154,34 +154,34 @@ typedef enum {
 
 /// @brief Memory access mode flags (orthogonal).
 typedef enum {
-    READ_ONLY  = 0x0001000000000000, ///< Use read-only data.  
-    WRITE_ONLY = 0x0002000000000001, ///< Use write-only data.  
-    READ_WRITE = 0x0004000000000002  ///< Use read-write data.  
+  READ_ONLY  = 0x0001000000000000, ///< Use read-only data.  
+  WRITE_ONLY = 0x0002000000000001, ///< Use write-only data.  
+  READ_WRITE = 0x0004000000000002  ///< Use read-write data.  
 } ezcu_mem_access_flags_t;
 
 /// @brief Memory access modes mask.
 #define EZCU_FLAGS_MEM_ACCESS_MODES_MASK \
-    ((READ_WRITE | WRITE_ONLY | READ_ONLY) & 0x000F000000000000)
+  ((READ_WRITE | WRITE_ONLY | READ_ONLY) & 0x000F000000000000)
 
 /// @brief Memory data-types flags (orthogonal).
 typedef enum {
-    CHAR          = 0x0000010000000000, ///< Data contain chars.  
-    INT           = 0x0000020000000001, ///< Data contain integers.  
-    UNSIGNED_INT  = 0x0000040000000002, ///< Data contain unsigned ints.  
-    FLOAT         = 0x0000080000000003, ///< Data contain floats.  
-    LONG          = 0x0000100000000004, ///< Data contain long ints.  
-    UNSIGNED_LONG = 0x0000200000000005, ///< Data contain unsigned longs.  
-    SIZET         = 0x0000400000000006, ///< Data contain size_ts.  
-    DOUBLE        = 0x0000800000000007, ///< Data contain doubles.  
-    POINTER       = 0x0000001000000008, ///< Data is a pointer.  
-    SHORT         = 0x0000002000000009, ///< Data contain shorts.  
+  CHAR          = 0x0000010000000000, ///< Data contain chars.  
+  INT           = 0x0000020000000001, ///< Data contain integers.  
+  UNSIGNED_INT  = 0x0000040000000002, ///< Data contain unsigned ints.  
+  FLOAT         = 0x0000080000000003, ///< Data contain floats.  
+  LONG          = 0x0000100000000004, ///< Data contain long ints.  
+  UNSIGNED_LONG = 0x0000200000000005, ///< Data contain unsigned longs.  
+  SIZET         = 0x0000400000000006, ///< Data contain size_ts.  
+  DOUBLE        = 0x0000800000000007, ///< Data contain doubles.  
+  POINTER       = 0x0000001000000008, ///< Data is a pointer.  
+  SHORT         = 0x0000002000000009, ///< Data contain shorts.  
 } ezcu_mem_types_flags_t;
 
 /// @brief Memory data-types mask.
 #define EZCU_FLAGS_MEM_TYPES_MASK              \
-    ((CHAR          | INT    |                 \
-      UNSIGNED_INT  | LONG   | UNSIGNED_LONG | \
-      SIZET | FLOAT | DOUBLE | SHORT) & 0x0000FFF000000000)
+  ((CHAR          | INT    |                 \
+    UNSIGNED_INT  | LONG   | UNSIGNED_LONG | \
+    SIZET | FLOAT | DOUBLE | SHORT) & 0x0000FFF000000000)
 
 /// @brief Extract the internal values from flags.
 #define EZCU_VAL_MASK 0x000000000000FF00
@@ -191,8 +191,8 @@ typedef enum {
 
 /// @brief Macro to check whether a set of flags contains a given mask.
 #define EZCU_FLAGS_HAVE(flags, mask) \
-    (((flags & 0xFFFFFFFF00000000) & \
-       (mask & 0xFFFFFFFF00000000)) == (mask & 0xFFFFFFFF00000000))
+  (((flags & 0xFFFFFFFF00000000) & \
+    (mask & 0xFFFFFFFF00000000)) == (mask & 0xFFFFFFFF00000000))
 
 ///
 /// @brief Print a help message about the default ezcu flag.

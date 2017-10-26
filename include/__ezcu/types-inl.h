@@ -54,11 +54,11 @@ CPPGUARD_BEGIN();
 /// on that device.
 ///
 __host__ struct __ezcu_dev_t {
-    CUdevice id;                 ///< the CUDA device identifier.
-    int major, minor;            ///< the CUDA device major/minor.
-    char name[__EZCU_STR_SIZE];  ///< the CUDA device name.
-    CUcontext ctx;               ///< the CUDA device context.
-    CUstream *streams;           ///< CUDA streams dedicated to the device.
+  CUdevice id;                 ///< the CUDA device identifier.
+  int major, minor;            ///< the CUDA device major/minor.
+  char name[__EZCU_STR_SIZE];  ///< the CUDA device name.
+  CUcontext ctx;               ///< the CUDA device context.
+  CUstream *streams;           ///< CUDA streams dedicated to the device.
 };
 
 ///
@@ -67,13 +67,13 @@ __host__ struct __ezcu_dev_t {
 /// This structure is a high level description of a CUDA memory object.
 ///
 __host__ struct __ezcu_mem_t {
-    ezcu_flags_t flags;     ///< the ezcu flags used to allocate the memory.
-    size_t size;            ///< the size of the memory in number of elements.
-    size_t unit_size;       ///< the size of each element in bytes.
-    CUdeviceptr id;         ///< the CUDA identifier of the memory object.  
-    void *h;                ///< a pointer to the host memory.
-    int refs;               ///< the number of kernels using this memory.
-    CUstream stream;
+  ezcu_flags_t flags;     ///< the ezcu flags used to allocate the memory.
+  size_t size;            ///< the size of the memory in number of elements.
+  size_t unit_size;       ///< the size of each element in bytes.
+  CUdeviceptr id;         ///< the CUDA identifier of the memory object.  
+  void *h;                ///< a pointer to the host memory.
+  int refs;               ///< the number of kernels using this memory.
+  CUstream stream;
 };
 
 ///
@@ -82,15 +82,15 @@ __host__ struct __ezcu_mem_t {
 /// This structure is a high level description of an CUDA kernel.
 ///
 __host__ struct __ezcu_knl_t {
-    unsigned int grid[__EZCU_KNL_MAX_GRID_DIM];  ///< the grid dimensions.
-    unsigned int block[__EZCU_KNL_MAX_GRID_DIM]; ///< the block dimensions.
-    unsigned int num_args;              ///< the number of arguments.
-    unsigned int smem;                  ///< the amount of shared memory.
-    CUfunction id;                      ///< the CUDA function pointer.
-    void **args;                        ///< the function arguments.
-    ezcu_mem_types_flags_t *args_types; ///< the function arguments types.
-    urb_t *vals;                        ///< a red-black tree of intrinsics. 
-    urb_t *mems;                        ///< a red-black tree of mem objects. 
+  unsigned int grid[__EZCU_KNL_MAX_GRID_DIM];  ///< the grid dimensions.
+  unsigned int block[__EZCU_KNL_MAX_GRID_DIM]; ///< the block dimensions.
+  unsigned int num_args;              ///< the number of arguments.
+  unsigned int smem;                  ///< the amount of shared memory.
+  CUfunction id;                      ///< the CUDA function pointer.
+  void **args;                        ///< the function arguments.
+  ezcu_mem_types_flags_t *args_types; ///< the function arguments types.
+  urb_t *vals;                        ///< a red-black tree of intrinsics. 
+  urb_t *mems;                        ///< a red-black tree of mem objects. 
 };
 
 ///
@@ -99,18 +99,17 @@ __host__ struct __ezcu_knl_t {
 /// This structure represents the ezcu resources manager.
 ///
 __host__ struct __ezcu_env_t {
-    urb_t   *devs;                 ///< red-black tree of the used devices.
-    urb_t   *knls;                 ///< red-black tree of the used kernels.
-    urb_t   *mems;                 ///< red-black tree of active mem objects.
-    FILE*   fdout;                 ///< file descriptor for logging.
-    FILE*   fderr;                 ///< file descriptor for error reporting.
-    int      nids;                 ///< number of selected devices.
-    CUdevice *ids;                 ///< selected devices.
-    int      nccs;                 ///< number of selected architectures.
-    int      *ccs;                 ///< selected architectures.
-    char cc_opts[__EZCU_STR_SIZE]; ///< compute capabilities compile flags.
-    bool initialized[EZCU_NB_VENDORS];
-    CUdevice lookup[EZCU_NB_DEV_TYPES][EZCU_NB_DEV_PROPS][EZCU_NB_DEV_INDEXES];
+  urb_t   *devs;                 ///< red-black tree of the used devices.
+  urb_t   *knls;                 ///< red-black tree of the used kernels.
+  urb_t   *mems;                 ///< red-black tree of active mem objects.
+  FILE*   fdout;                 ///< file descriptor for logging.
+  FILE*   fderr;                 ///< file descriptor for error reporting.
+  int      nids;                 ///< number of selected devices.
+  CUdevice *ids;                 ///< selected devices.
+  int      nccs;                 ///< number of selected architectures.
+  int      *ccs;                 ///< selected architectures.
+  bool initialized[EZCU_NB_VENDORS];
+  CUdevice lookup[EZCU_NB_DEV_TYPES][EZCU_NB_DEV_PROPS][EZCU_NB_DEV_INDEXES];
 };
 
 CPPGUARD_END();

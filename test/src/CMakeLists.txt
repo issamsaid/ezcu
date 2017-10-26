@@ -85,6 +85,7 @@ add_executable(ezcu_test ${C_SRCS})
 
 ## Link the executable to the ezcu, CUDA, and urb_tree and gtest
 target_link_libraries (ezcu_test ezcu)
+target_compile_features(ezcu_test PUBLIC cxx_std_11)
 target_link_libraries (ezcu_test ${CUDA_CUDA_LIBRARY})
 target_link_libraries (ezcu_test ${NVRTC_LIBRARY})
 target_link_libraries (ezcu_test liburb_tree)

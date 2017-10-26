@@ -45,75 +45,71 @@
 inline void ezcu_knl_set_wrk(const char *name,
                              unsigned int wrk, 
                              unsigned int *grid, unsigned int *block) {
-    ezcu_knl_t k = __ezcu_knl_find(name);
-    unsigned int i;
-    EZCU_DEBUG("start knl set wrk %s", name);
-    for (i=0; i<__EZCU_KNL_MAX_GRID_DIM; i++) {
-        #ifdef __EZCU_ROUNDUP_WRK
-        k->grid[i]  = grid[i]; //__ezcu_nmult32(grid[i], block[i]);
-        #else
-        k->grid[i]  = grid[i];
-        #endif // __EZCU_ROUNDUP_WRK
-        k->block[i] = block[i];
-    }
-    EZCU_DEBUG("grid = {%u, %u, %u}, block = {%u, %u, %u}",
-               k->grid[0], k->grid[1], k->grid[2],
-               k->block[0], k->block[1], k->block[2]);
-    EZCU_DEBUG("end   knl set wrk %s", name);
-    EZCU_DEBUG("");
+  ezcu_knl_t k = __ezcu_knl_find(name);
+  unsigned int i;
+  EZCU_DEBUG("start knl set wrk %s", name);
+  for (i=0; i<__EZCU_KNL_MAX_GRID_DIM; i++) {
+    k->grid[i]  = grid[i]; //__ezcu_nmult32(grid[i], block[i]);
+    k->block[i] = block[i];
+  }
+  EZCU_DEBUG("grid = {%u, %u, %u}, block = {%u, %u, %u}",
+  k->grid[0], k->grid[1], k->grid[2],
+  k->block[0], k->block[1], k->block[2]);
+  EZCU_DEBUG("end   knl set wrk %s", name);
+  EZCU_DEBUG("");
 }
 
 inline void ezcu_knl_set_char(const char *name, int idx, char c) {
-    ezcu_knl_t k = __ezcu_knl_find(name);
-    return __ezcu_knl_set_char(k, idx, &c);
+  ezcu_knl_t k = __ezcu_knl_find(name);
+  return __ezcu_knl_set_char(k, idx, &c);
 }
 
 inline void ezcu_knl_set_int32(const char *name, int idx, int32_t i32) {
-    ezcu_knl_t k = __ezcu_knl_find(name);
-    return __ezcu_knl_set_int32(k, idx, &i32);
+  ezcu_knl_t k = __ezcu_knl_find(name);
+  return __ezcu_knl_set_int32(k, idx, &i32);
 }
 
 inline void ezcu_knl_set_uint32(const char *name, int idx, uint32_t i32) {
-    ezcu_knl_t k = __ezcu_knl_find(name);
-    return __ezcu_knl_set_uint32(k, idx, &i32);
+  ezcu_knl_t k = __ezcu_knl_find(name);
+  return __ezcu_knl_set_uint32(k, idx, &i32);
 }
 
 inline void ezcu_knl_set_int64(const char *name, int idx, int64_t i64) {
-    ezcu_knl_t k = __ezcu_knl_find(name);
-    return __ezcu_knl_set_int64(k, idx, &i64);
+  ezcu_knl_t k = __ezcu_knl_find(name);
+  return __ezcu_knl_set_int64(k, idx, &i64);
 }
 
 inline void ezcu_knl_set_uint64(const char *name, int idx, uint64_t i64) {
-    ezcu_knl_t k = __ezcu_knl_find(name);
-    return __ezcu_knl_set_uint64(k, idx, &i64);
+  ezcu_knl_t k = __ezcu_knl_find(name);
+  return __ezcu_knl_set_uint64(k, idx, &i64);
 }
 
 inline void ezcu_knl_set_float(const char *name, int idx, float f) {
-    ezcu_knl_t k = __ezcu_knl_find(name);
-    return __ezcu_knl_set_float(k, idx, &f);
+  ezcu_knl_t k = __ezcu_knl_find(name);
+  return __ezcu_knl_set_float(k, idx, &f);
 }
 
 inline void ezcu_knl_set_double(const char *name, int idx, double d) {
-    ezcu_knl_t k = __ezcu_knl_find(name);
-    return __ezcu_knl_set_double(k, idx, &d);
+  ezcu_knl_t k = __ezcu_knl_find(name);
+  return __ezcu_knl_set_double(k, idx, &d);
 }
 
 inline void ezcu_knl_set_mem(const char *name, int idx, void *h) {
-    ezcu_knl_t k = __ezcu_knl_find(name);
-    return __ezcu_knl_set_mem(k, idx, h);
+  ezcu_knl_t k = __ezcu_knl_find(name);
+  return __ezcu_knl_set_mem(k, idx, h);
 }
 
 inline void ezcu_knl_set_args(const char *name, ...) {
-    ezcu_knl_t k = __ezcu_knl_find(name);
-    va_list list;
-    va_start(list, name);
-    __ezcu_knl_set_args_valist(k, list);
-    va_end(list);
+  ezcu_knl_t k = __ezcu_knl_find(name);
+  va_list list;
+  va_start(list, name);
+  __ezcu_knl_set_args_valist(k, list);
+  va_end(list);
 }
 
 inline void ezcu_knl_set_shared(const char *name, unsigned int bytes) {
-    ezcu_knl_t k = __ezcu_knl_find(name);
-    k->smem = bytes;
+  ezcu_knl_t k = __ezcu_knl_find(name);
+  k->smem = bytes;
 }
 
 ///
@@ -123,125 +119,128 @@ inline void ezcu_knl_set_shared(const char *name, unsigned int bytes) {
 ///   - timed run     : timed synchronous execution
 ///
 inline void ezcu_knl_exec(const char *name, ezcu_dev_t d) {
-    ezcu_knl_t k = __ezcu_knl_find(name);
-    EZCU_DEBUG("start exec (async) kernel : %s", name);
-    EZCU_CHECK(cuCtxPushCurrent(d->ctx), "failed to push the context");
-    urb_tree_walk(&k->mems, NULL, __ezcu_mem_sync);
-    EZCU_CHECK(cuLaunchKernel(k->id, 
-                              k->grid[0], k->grid[1], k->grid[2],
-                              k->block[0], k->block[1], k->block[2],
-                              k->smem, d->streams[__EZCU_DEV_CPT_STREAM], 
-                              k->args, NULL),
-               "failed to launch CUDA kernel '%s'", name);
-    EZCU_CHECK(cuCtxPopCurrent(&d->ctx), "failed to pop the context");
-    EZCU_DEBUG("end   exec (async) kernel : %s", name);
-    EZCU_DEBUG("");
+  ezcu_knl_t k = __ezcu_knl_find(name);
+  EZCU_DEBUG("start exec (async) kernel : %s", name);
+  EZCU_CHECK(cuCtxPushCurrent(d->ctx), "failed to push the context");
+  urb_tree_walk(&k->mems, NULL, __ezcu_mem_sync);
+  EZCU_CHECK(cuLaunchKernel(k->id, 
+    k->grid[0], k->grid[1], k->grid[2],
+    k->block[0], k->block[1], k->block[2],
+    k->smem, d->streams[__EZCU_DEV_CPT_STREAM], 
+    k->args, NULL),
+  "failed to launch CUDA kernel '%s'", name);
+  EZCU_CHECK(cuCtxPopCurrent(&d->ctx), "failed to pop the context");
+  EZCU_DEBUG("end   exec (async) kernel : %s", name);
+  EZCU_DEBUG("");
 }
 
 inline void ezcu_knl_sync_exec(const char *name, ezcu_dev_t d) {
-    ezcu_knl_t k = __ezcu_knl_find(name);
-    EZCU_DEBUG("start exec (sync) kernel  : %s", name);
-    EZCU_CHECK(cuCtxPushCurrent(d->ctx), "failed to push the context");
-    urb_tree_walk(&k->mems, NULL, __ezcu_mem_sync);
+  ezcu_knl_t k = __ezcu_knl_find(name);
+  EZCU_DEBUG("start exec (sync) kernel  : %s", name);
+  EZCU_CHECK(cuCtxPushCurrent(d->ctx), "failed to push the context");
+  urb_tree_walk(&k->mems, NULL, __ezcu_mem_sync);
 
-    EZCU_CHECK(cuLaunchKernel(k->id, 
-                              k->grid[0], k->grid[1], k->grid[2],
-                              k->block[0], k->block[1], k->block[2],
-                              k->smem, d->streams[__EZCU_DEV_CPT_STREAM], 
-                              k->args, NULL),
-               "failed to launch CUDA kernel '%s'", name);
-    EZCU_CHECK(cuCtxSynchronize(), "failed to synchronize the device context");
-    EZCU_CHECK(cuCtxPopCurrent(&d->ctx), "failed to pop the context");
-    EZCU_DEBUG("end  exec (sync) kernel  : %s", name);
-    EZCU_DEBUG("");
+  EZCU_CHECK(cuLaunchKernel(k->id, 
+    k->grid[0], k->grid[1], k->grid[2],
+    k->block[0], k->block[1], k->block[2],
+    k->smem, d->streams[__EZCU_DEV_CPT_STREAM], 
+    k->args, NULL),
+  "failed to launch CUDA kernel '%s'", name);
+  EZCU_CHECK(cuCtxSynchronize(), "failed to synchronize the device context");
+  EZCU_CHECK(cuCtxPopCurrent(&d->ctx), "failed to pop the context");
+  EZCU_DEBUG("end  exec (sync) kernel  : %s", name);
+  EZCU_DEBUG("");
 }
 
 inline double ezcu_knl_timed_exec(const char *name, ezcu_dev_t d) {
-    ezcu_knl_t k = __ezcu_knl_find(name);
-    EZCU_DEBUG("start exec (timed) kernel : %s", name);
-    EZCU_CHECK(cuCtxPushCurrent(d->ctx), "failed to push the context");
-    urb_tree_walk(&k->mems, NULL, __ezcu_mem_sync);
-    ezcu_timer_tick();
-    EZCU_CHECK(cuLaunchKernel(k->id, 
-                              k->grid[0], k->grid[1], k->grid[2],
-                              k->block[0], k->block[1], k->block[2],
-                              k->smem, d->streams[__EZCU_DEV_CPT_STREAM], 
-                              k->args, NULL),
-               "failed to launch CUDA kernel '%s'", name);
-    EZCU_CHECK(cuCtxSynchronize(), "failed to synchronize the device context");
-    EZCU_CHECK(cuCtxPopCurrent(&d->ctx), "failed to pop the context"); 
-    EZCU_DEBUG("end  exec (timed) kernel  : %s", name);  
-    EZCU_DEBUG("");
-    return ezcu_timer_read();
+  ezcu_knl_t k = __ezcu_knl_find(name);
+  EZCU_DEBUG("start exec (timed) kernel : %s", name);
+  EZCU_CHECK(cuCtxPushCurrent(d->ctx), "failed to push the context");
+  urb_tree_walk(&k->mems, NULL, __ezcu_mem_sync);
+  ezcu_timer_tick();
+  EZCU_CHECK(cuLaunchKernel(k->id, 
+    k->grid[0], k->grid[1], k->grid[2],
+    k->block[0], k->block[1], k->block[2],
+    k->smem, d->streams[__EZCU_DEV_CPT_STREAM], 
+    k->args, NULL),
+  "failed to launch CUDA kernel '%s'", name);
+  EZCU_CHECK(cuCtxSynchronize(), "failed to synchronize the device context");
+  EZCU_CHECK(cuCtxPopCurrent(&d->ctx), "failed to pop the context"); 
+  EZCU_DEBUG("end  exec (timed) kernel  : %s", name);  
+  EZCU_DEBUG("");
+  return ezcu_timer_read();
 }
 
 inline void ezcu_knl_run(const char *name, ezcu_dev_t d, ...) {
-    ezcu_knl_t k = __ezcu_knl_find(name);
-    EZCU_DEBUG("start run (async) kernel : %s", name);
-    EZCU_CHECK(cuCtxPushCurrent(d->ctx), "failed to push the context");
+  ezcu_knl_t k = __ezcu_knl_find(name);
+  EZCU_DEBUG("start run (async) kernel : %s", name);
+  EZCU_CHECK(cuCtxPushCurrent(d->ctx), "failed to push the context");
 
-    va_list list;
-    va_start(list, d);
-    __ezcu_knl_set_args_valist(k, list);
-    va_end(list);
-    
-    urb_tree_walk(&k->mems, NULL, __ezcu_mem_sync);
-    EZCU_CHECK(cuLaunchKernel(k->id, 
-                              k->grid[0], k->grid[1], k->grid[2],
-                              k->block[0], k->block[1], k->block[2],
-                              k->smem, d->streams[__EZCU_DEV_CPT_STREAM], 
-                              k->args, NULL),
-               "failed to launch CUDA kernel '%s'", name);
-    EZCU_CHECK(cuCtxPopCurrent(&d->ctx), "failed to pop the context");
-    EZCU_DEBUG("end   run (async) kernel : %s", name);
-    EZCU_DEBUG("");
+  va_list list;
+  va_start(list, d);
+  __ezcu_knl_set_args_valist(k, list);
+  va_end(list);
+
+  urb_tree_walk(&k->mems, NULL, __ezcu_mem_sync);
+  EZCU_CHECK(
+    cuLaunchKernel(k->id, 
+                   k->grid[0], k->grid[1], k->grid[2],
+                   k->block[0], k->block[1], k->block[2],
+                   k->smem, d->streams[__EZCU_DEV_CPT_STREAM], 
+                   k->args, NULL),
+                   "failed to launch CUDA kernel '%s'", name);
+  EZCU_CHECK(cuCtxPopCurrent(&d->ctx), "failed to pop the context");
+  EZCU_DEBUG("end   run (async) kernel : %s", name);
+  EZCU_DEBUG("");
 }
 
 inline void ezcu_knl_sync_run(const char *name, ezcu_dev_t d, ...) {
-    ezcu_knl_t k = __ezcu_knl_find(name);
-    EZCU_DEBUG("start run (sync) kernel  : %s", name);
-    EZCU_CHECK(cuCtxPushCurrent(d->ctx), "failed to push the context");
+  ezcu_knl_t k = __ezcu_knl_find(name);
+  EZCU_DEBUG("start run (sync) kernel  : %s", name);
+  EZCU_CHECK(cuCtxPushCurrent(d->ctx), "failed to push the context");
 
-    va_list list;
-    va_start(list, d);
-    __ezcu_knl_set_args_valist(k, list);
-    va_end(list);
-    
-    urb_tree_walk(&k->mems, NULL, __ezcu_mem_sync);
-    EZCU_CHECK(cuLaunchKernel(k->id, 
-                              k->grid[0], k->grid[1], k->grid[2],
-                              k->block[0], k->block[1], k->block[2],
-                              k->smem, d->streams[__EZCU_DEV_CPT_STREAM], 
-                              k->args, NULL),
-               "failed to launch CUDA kernel '%s'", name);
-    EZCU_CHECK(cuCtxSynchronize(), "failed to synchronize the device context");
-    EZCU_CHECK(cuCtxPopCurrent(&d->ctx), "failed to pop the context");   
-    EZCU_DEBUG("end   run (sync) kernel  : %s", name);
-    EZCU_DEBUG("");
+  va_list list;
+  va_start(list, d);
+  __ezcu_knl_set_args_valist(k, list);
+  va_end(list);
+
+  urb_tree_walk(&k->mems, NULL, __ezcu_mem_sync);
+  EZCU_CHECK(
+    cuLaunchKernel(k->id, 
+                   k->grid[0], k->grid[1], k->grid[2],
+                   k->block[0], k->block[1], k->block[2],
+                   k->smem, d->streams[__EZCU_DEV_CPT_STREAM], 
+                   k->args, NULL),
+                   "failed to launch CUDA kernel '%s'", name);
+  EZCU_CHECK(cuCtxSynchronize(), "failed to synchronize the device context");
+  EZCU_CHECK(cuCtxPopCurrent(&d->ctx), "failed to pop the context");   
+  EZCU_DEBUG("end   run (sync) kernel  : %s", name);
+  EZCU_DEBUG("");
 }
 
 inline double ezcu_knl_timed_run(const char *name, ezcu_dev_t d, ...) {
-    ezcu_knl_t k = __ezcu_knl_find(name);
-    EZCU_DEBUG("start run (timed) kernel : %s", name);
-    EZCU_CHECK(cuCtxPushCurrent(d->ctx), "failed to push the context");
+  ezcu_knl_t k = __ezcu_knl_find(name);
+  EZCU_DEBUG("start run (timed) kernel : %s", name);
+  EZCU_CHECK(cuCtxPushCurrent(d->ctx), "failed to push the context");
 
-    va_list list;
-    va_start(list, d);
-    __ezcu_knl_set_args_valist(k, list);
-    va_end(list);
-    
-    urb_tree_walk(&k->mems, NULL, __ezcu_mem_sync);
-    ezcu_timer_tick();
-    
-    EZCU_CHECK(cuLaunchKernel(k->id, 
-                              k->grid[0], k->grid[1], k->grid[2],
-                              k->block[0], k->block[1], k->block[2],
-                              k->smem, d->streams[__EZCU_DEV_CPT_STREAM], 
-                              k->args, NULL),
-               "failed to launch CUDA kernel '%s'", name);
-    EZCU_CHECK(cuCtxSynchronize(), "failed to synchronize the device context");
-    EZCU_CHECK(cuCtxPopCurrent(&d->ctx), "failed to pop the context"); 
-    EZCU_DEBUG("end   run (timed) kernel  : %s", name);
-    EZCU_DEBUG("");
-    return ezcu_timer_read();
+  va_list list;
+  va_start(list, d);
+  __ezcu_knl_set_args_valist(k, list);
+  va_end(list);
+
+  urb_tree_walk(&k->mems, NULL, __ezcu_mem_sync);
+  ezcu_timer_tick();
+
+  EZCU_CHECK(
+    cuLaunchKernel(k->id, 
+                   k->grid[0], k->grid[1], k->grid[2],
+                   k->block[0], k->block[1], k->block[2],
+                   k->smem, d->streams[__EZCU_DEV_CPT_STREAM], 
+                   k->args, NULL),
+                   "failed to launch CUDA kernel '%s'", name);
+  EZCU_CHECK(cuCtxSynchronize(), "failed to synchronize the device context");
+  EZCU_CHECK(cuCtxPopCurrent(&d->ctx), "failed to pop the context"); 
+  EZCU_DEBUG("end   run (timed) kernel  : %s", name);
+  EZCU_DEBUG("");
+  return ezcu_timer_read();
 }

@@ -66,65 +66,32 @@ message(STATUS "... CMAKE_BUILD_TYPE : ${CMAKE_BUILD_TYPE}")
 ##   CUDA_CUDA_LIBRARY  : contains the CUDA driver library
 find_package (CUDA REQUIRED)
 
-# if (CUDA_FOUND)
-#     message(STATUS "... CUDA package found  : version ${CUDA_VERSION_STRING}")
-# 	message(STATUS "... CUDA headers paths  : ${CUDA_INCLUDE_DIRS}")
-# 	include_directories(${CUDA_INCLUDE_DIRS})
-# else (CUDA_FOUND)
-# 	message(FATAL_ERROR 
-# 			"... Unable to find your CUDA implementation headers:\n"
-# 			"... Set the CUDA_INCLUDE_DIRS variable to locate the headers.\n")
-# endif (CUDA_FOUND)
-	
-# if (${CUDA_LIBRARIES} EQUAL 'CUDA_LIBRARIES-NOTFOUND')
-# 	message(FATAL_ERROR 
-# 			"... Unable to find your CUDA runtime libraries:\n"
-# 			"... Set the CUDA_LIBRARIES_DIRS variable to locate the library.\n"
-# 			"... You may also add the library path to the LD_LIBRARY_PATH env.")
-# else (${CUDA_LIBRARIES} EQUAL 'CUDA_LIBRARIES-NOTFOUND')
-#     get_filename_component(CUDA_LIBRARIES_DIRS ${CUDA_LIBRARIES} DIRECTORY)
-# 	message(STATUS "... CUDA library paths  : ${CUDA_LIBRARIES_DIRS}")
-# 	message(STATUS "... CUDA libraries      : ${CUDA_LIBRARIES}")
-# 	find_library(NVRTC_LIBRARY nvrtc ${CUDA_LIBRARIES_DIRS})
-# 	message(STATUS "... NVRTC library       : ${NVRTC_LIBRARY}")
-# endif (${CUDA_LIBRARIES} EQUAL 'CUDA_LIBRARIES-NOTFOUND')
-
-# if (${CUDA_CUDA_LIBRARY} EQUAL 'CUDA_CUDA_LIBRARY-NOTFOUND')
-#     message(FATAL_ERROR 
-#             "... Unable to find your CUDA driver library:\n"
-#             "... Set the CUDA_CUDA_LIBRARY variable to locate the library.\n"
-#             "... You may also add the library path to the LD_LIBRARY_PATH env.")
-# else (${CUDA_CUDA_LIBRARY} EQUAL 'CUDA_CUDA_LIBRARY-NOTFOUND')
-#     message(STATUS "... CUDA driver library : ${CUDA_CUDA_LIBRARY}")
-# endif (${CUDA_CUDA_LIBRARY} EQUAL 'CUDA_CUDA_LIBRARY-NOTFOUND')
-
-## Set(CUDA_LIBRARIES "${CUDA_LIBRARIES} ${CUDA_CUDA_LIBRARY}")
-## important! don't want -std=c++0x etc. getting added to nvcc
-#set(CUDA_PROPAGATE_HOST_FLAGS OFF)
-
-## So that we can build source files that have a separate .cu/.cuh
-##   https://devtalk.nvidia.com/default/topic/\
-##   543152/consistency-of-functions-pointer/
-#set(CUDA_SEPARABLE_COMPILATION ON)
-
-## Set CUDA verbose compilation
-#set(CUDA_VERBOSE_BUILD ON)
-
-## set the compilation flags.
+## set the compiler options flags.
 include(${CMAKE_MODULE_PATH}/compiler_options.cmake)
+
+## include the CUDA headers.
 include_directories(${CUDA_INCLUDE_DIRS})
 
+## additional options.
+if (use_verbose)
+  set(CMAKE_C_FLAGS   "${CMAKE_C_FLAGS}   -D__VERBOSE")
+  set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -D__VERBOSE")
+endif (use_verbose)
+if (use_tty)
+  set(CMAKE_C_FLAGS   "${CMAKE_C_FLAGS}   -D__LOG_STD")
+  set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -D__LOG_STD")
+endif (use_tty)
+if (use_mpi)
+  set(CMAKE_C_FLAGS   "${CMAKE_C_FLAGS}   -D__MPI")
+  set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -D__MPI")
+endif (use_mpi)
 
-# #LIST(APPEND CUDA_NVCC_FLAGS -Xcompiler)
-# #LIST(APPEND CUDA_NVCC_FLAGS -lineinfo)
-# if(DEFINED ENV{EZCU_BUILD_OPTIONS})
-#   LIST(APPEND CUDA_NVCC_FLAGS "$ENV{EZCU_BUILD_OPTIONS}")
-# endif (DEFINED ENV{EZCU_BUILD_OPTIONS})
-
-# ## Generate the ptx objects: mandatory before calling ezcu_load.
-# if (DEFINED ENV{EZCU_CC})
-#     set (EZCU_CC $ENV{EZCU_CC})
-# endif (DEFINED ENV{EZCU_CC})
+## add CUDA supported architectures and extra compile options.
+include(${CMAKE_MODULE_PATH}/cuda_arch_options.cmake)
+set(CMAKE_C_FLAGS   
+  "${CMAKE_C_FLAGS} -D__EZCU_BUILD_OPTIONS=\"\\\"${CMAKE_CUDA_FLAGS}\\\"\"")
+set(CMAKE_CXX_FLAGS
+  "${CMAKE_CXX_FLAGS} -D__EZCU_BUILD_OPTIONS=\"\\\"${CMAKE_CUDA_FLAGS}\\\"\"")
 
 ## use the urb_tree library if the user sets its path 
 ## or download and install it as an external project.

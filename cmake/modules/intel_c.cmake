@@ -1,5 +1,5 @@
 set(CMAKE_C_FLAGS_DEBUG   
-    "${CMAKE_C_FLAGS_DEBUG} -D__EZCU_DEBUG -g -O0 -debug all")
+    "${CMAKE_C_FLAGS_DEBUG} -D__DEBUG -g -O0 -debug all")
 set(CMAKE_C_FLAGS_DEBUG   
     "${CMAKE_C_FLAGS_DEBUG} -fp-stack-check -fp-model strict")
 set(CMAKE_C_FLAGS_RELEASE 

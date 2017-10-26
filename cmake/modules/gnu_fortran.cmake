@@ -1,5 +1,5 @@
 set(CMAKE_Fortran_FLAGS_DEBUG   
-    "${CMAKE_Fortran_FLAGS_DEBUG} -cpp -D__EZCU_DEBUG -Wall -O0 -g")
+    "${CMAKE_Fortran_FLAGS_DEBUG} -cpp -D__DEBUG -Wall -O0 -g")
 set(CMAKE_Fortran_FLAGS_RELEASE 
     "${CMAKE_Fortran_FLAGS_RELEASE} -cpp -w -ffree-line-length-none")
 set(CMAKE_Fortran_FLAGS_RELEASE 
