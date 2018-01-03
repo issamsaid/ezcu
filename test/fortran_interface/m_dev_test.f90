@@ -50,45 +50,20 @@ contains
     
     logical function find() result(status)
         type(ezcu_dev_t), pointer :: dev0
-        call ezcu_dev_find(DEFAULT, dev0)
+        call ezcu_dev_find(0, dev0)
         status = associated(dev0)
     end function find
-
-    logical function all_devs() result(status)
-        type(ezcu_dev_t), pointer :: dev0
-        type(ezcu_dev_t), pointer :: dev1
-        type(ezcu_dev_t), pointer :: dev2
-        call ezcu_dev_find(ior(ALL, FIRST), dev0);
-        call ezcu_dev_find(ior(ALL, FIRST), dev1);
-        call ezcu_dev_find(FIRST, dev2);
-        status = &
-              associated(dev0, dev1) .and. &
-              associated(dev1, dev2) .and. &
-              associated(dev2, dev0) 
-    end function all_devs
 
     logical function default_dev() result(status)
         type(ezcu_dev_t), pointer :: dev0
         type(ezcu_dev_t), pointer :: dev2
-        call ezcu_dev_find(DEFAULT, dev0);
-        call ezcu_dev_find(FIRST, dev2);
+        call ezcu_dev_find(0, dev0);
+        call ezcu_dev_find(0, dev2);
         status = associated(dev0, dev2)  
     end function default_dev
 
-    logical function gpu_dev() result(status)
-        type(ezcu_dev_t), pointer :: dev0
-        type(ezcu_dev_t), pointer :: dev1
-        if (ezcu_has(GPU)) then
-            call ezcu_dev_find(ior(ACCELERATOR, FIRST), dev0);
-            call ezcu_dev_find(ior(GPU, FIRST), dev1);
-            status = associated(dev0, dev1) 
-        else
-            status = .true.
-        endif 
-    end function gpu_dev
-
     subroutine setup()
-        call ezcu_init(ALL)
+        call ezcu_init(DEFAULT)
     end subroutine setup
 
     subroutine teardown()
@@ -98,12 +73,8 @@ contains
     subroutine dev_test()
         call run(setup, teardown, find, &
               "dev_test.find")
-        call run(setup, teardown, all_devs, &
-              "dev_test.all_devs")
         call run(setup, teardown, default_dev, &
               "dev_test.default_dev")
-        call run(setup, teardown, gpu_dev, &
-              "dev_test.gpu_dev")
     end subroutine dev_test
 
 end module m_dev_test

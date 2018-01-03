@@ -43,9 +43,9 @@ module m_ezcu_dev
 
     interface
         type(c_ptr) &
-        function c_ezcu_dev_find(flags) bind(c, name="ezcu_dev_find")
-            use iso_c_binding, only: c_ptr, c_int64_t
-            integer(kind=c_int64_t), value, intent(in) :: flags
+        function c_ezcu_dev_find(idx) bind(c, name="ezcu_dev_find")
+            use iso_c_binding, only: c_ptr, c_int
+            integer(kind=c_int), value, intent(in) :: idx
         end function c_ezcu_dev_find
 
         subroutine c_ezcu_dev_wait(c_dev_ptr) bind(c, name = "ezcu_dev_wait")
@@ -60,10 +60,10 @@ module m_ezcu_dev
 
 contains
 
-    subroutine ezcu_dev_find(flags, d)
-        integer(kind=c_int64_t),  value, intent(in) :: flags
+    subroutine ezcu_dev_find(idx, d)
+        integer(kind=4),             value, intent(in) :: idx
         type(ezcu_dev_t),       pointer, intent(inout) :: d
-        call c_f_pointer(c_ezcu_dev_find(flags), d)
+        call c_f_pointer(c_ezcu_dev_find(idx), d)
     end subroutine ezcu_dev_find
     
     subroutine ezcu_dev_wait(d)

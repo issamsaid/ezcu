@@ -49,7 +49,7 @@ CPPGUARD_BEGIN();
 
 extern ezcu_env_t ezcu;
 
-#define __EZCU_DEV_GET(id, device_attr, value)                \
+#define __EZCU_DEV_GET(id, device_attr, value)            \
 EZCU_CHECK(cuDeviceGetAttribute(&value, device_attr, id), \
  "failed to query device attribute")
 
@@ -64,57 +64,6 @@ __ezcu_dev_query() {
 __EZCU_PRIVATE int
 __ezcu_dev_get_cc_hex(int minor, int major) {
   return ((major << 4) + minor);
-}
-
-__EZCU_PRIVATE int
-__ezcu_dev_select_by_vendor(CUdevice *dev_ids, 
-  CUdevice in_devices, ezcu_vendor_flags_t f) {
-  if (f != NVIDIA) {
-    EZCU_WARN("for the time being only NVIDIA is supported by ezcu");
-    return 0;
-  } else{ return in_devices; }
-}
-
-__EZCU_PRIVATE int
-__ezcu_dev_select_by_dev_type(CUdevice *dev_ids, int in_devices, 
-  CUdevice *out_ids, ezcu_dev_type_flags_t f) {
-  int i;
-  if (f == CPU) {
-    EZCU_WARN("for the time being only GPUs are CUDA capable devices");
-    return 0;
-  } else { 
-    for(i=0; i<in_devices; i++) out_ids[i] = dev_ids[i];
-      return in_devices; 
-  }
-}
-
-__EZCU_PRIVATE int
-__ezcu_dev_select_by_dev_prop(CUdevice *dev_ids, int in_devices, 
-  CUdevice *out_ids, ezcu_dev_prop_flags_t f) {
-  int i, out_devices = 0;
-  int minor, major;
-  CUdevice d;
-  for (i = 0; i < in_devices; ++i) {
-    d = dev_ids[i];
-    __EZCU_DEV_GET(d, 
-     CU_DEVICE_ATTRIBUTE_COMPUTE_CAPABILITY_MAJOR, major);      
-    __EZCU_DEV_GET(d, 
-     CU_DEVICE_ATTRIBUTE_COMPUTE_CAPABILITY_MINOR, minor);
-    if (__ezcu_dev_get_cc_hex(minor, major) >= ezcu_flags_to_dev_prop(f)) {
-      out_ids[out_devices++] = dev_ids[i];
-    }
-  }  
-  return out_devices;
-}
-
-__EZCU_PRIVATE int
-__ezcu_dev_select_by_dev_index(CUdevice *dev_ids, int in_devices, 
- CUdevice *out_id, ezcu_dev_index_flags_t f) {
-  int findex = ezcu_flags_to_dev_index(f);
-  if ( findex < in_devices) {
-    *out_id = dev_ids[findex];
-    return 1;
-  } else { return 0; }
 }
 
 ///
@@ -175,15 +124,15 @@ __ezcu_dev_release(void *pointer) {
       "failed to sync stream");
      EZCU_ABORT(cuStreamDestroy(d->streams[i]), 
       "failed to destroy stream");
-   }
+    }
 
-   EZCU_CHECK(cuCtxSynchronize(), "failed to sync the context");
-   free(d->streams);
-   EZCU_CHECK(cuCtxPopCurrent(&d->ctx), "failed to pop the device context");
-   EZCU_ABORT(cuCtxDestroy(d->ctx), 
-    "failed to destroy context (%p)", d->ctx);
-   free(d); d = NULL;
- }
+    EZCU_CHECK(cuCtxSynchronize(), "failed to sync the context");
+    free(d->streams);
+    EZCU_CHECK(cuCtxPopCurrent(&d->ctx), "failed to pop the device context");
+    EZCU_ABORT(cuCtxDestroy(d->ctx), 
+                          "failed to destroy context (%p)", d->ctx);
+    free(d); d = NULL;
+  }
 }
 
 ///

@@ -59,161 +59,23 @@ namespace {
 
   TEST_F(FlagsTest, flags_have) {
     int i=0;
-    ezcu_flags_t flags, flags_tab[] = 
-    { DEFAULT, AMD, APPLE, NVIDIA, INTEL,   
-      ALL, GPU, CPU, ACCELERATOR,
+    ezcu_flags_t flags_tab[] = 
+    { DEFAULT, 
       HWA, HOST, ZERO_COPY, PINNED,
       READ_ONLY, WRITE_ONLY, READ_WRITE,
-      FIRST, SECOND, THIRD, FOURTH, 
-      FIFTH, SIXTH, SEVENTH, EIGHTH,
-      CC20, CC30, CC35, CC50, CC60,
       CHAR, INT, UNSIGNED_INT, UNSIGNED_LONG,
       LONG, SIZET, FLOAT, DOUBLE, SHORT, 0xFFFFFFFFFFFFFFFF };
     while(flags_tab[i] != 0xFFFFFFFFFFFFFFFF) {
       ASSERT_TRUE(EZCU_FLAGS_HAVE(flags_tab[i], flags_tab[i]));
       i++;    
     }
-
-    flags = EZCU_FLAGS_DEV_INDEXES_MASK;
-    ASSERT_TRUE(EZCU_FLAGS_HAVE(flags, FIRST & 0x000FF00000000000));
-    ASSERT_TRUE(EZCU_FLAGS_HAVE(flags, SECOND & 0x000FF00000000000));
-    ASSERT_TRUE(EZCU_FLAGS_HAVE(flags, THIRD & 0x000FF00000000000));
-    ASSERT_TRUE(EZCU_FLAGS_HAVE(flags, FOURTH & 0x000FF00000000000));
-    ASSERT_TRUE(EZCU_FLAGS_HAVE(flags, FIFTH & 0x000FF00000000000));
-    ASSERT_TRUE(EZCU_FLAGS_HAVE(flags, SIXTH & 0x000FF00000000000));
-    ASSERT_TRUE(EZCU_FLAGS_HAVE(flags, SEVENTH & 0x000FF00000000000));
-    ASSERT_TRUE(EZCU_FLAGS_HAVE(flags, EIGHTH & 0x000FF00000000000));
-
-    flags = EZCU_FLAGS_MEM_TYPES_MASK;
-    ASSERT_TRUE(EZCU_FLAGS_HAVE(flags, 
-      (CHAR & 0x0000FFF00000000)));
-    ASSERT_TRUE(EZCU_FLAGS_HAVE(flags, 
-      (INT & 0x0000FFF00000000)));
-    ASSERT_TRUE(EZCU_FLAGS_HAVE(flags, 
-      (UNSIGNED_INT & 0x0000FFF00000000)));
-    ASSERT_TRUE(EZCU_FLAGS_HAVE(flags, 
-      (UNSIGNED_LONG & 0x0000FFF00000000)));
-    ASSERT_TRUE(EZCU_FLAGS_HAVE(flags, 
-      (LONG & 0x0000FFF00000000)));
-    ASSERT_TRUE(EZCU_FLAGS_HAVE(flags, 
-      (SIZET & 0x0000FFF00000000)));
-    ASSERT_TRUE(EZCU_FLAGS_HAVE(flags, 
-      (FLOAT & 0x0000FFF00000000)));
-    ASSERT_TRUE(EZCU_FLAGS_HAVE(flags, 
-      (DOUBLE & 0x0000FFF00000000)));
-    ASSERT_TRUE(EZCU_FLAGS_HAVE(flags, 
-      (SHORT & 0x0000FFF00000000)));
-
-    flags = EZCU_FLAGS_DEV_PROPS_MASK;
-    ASSERT_TRUE(EZCU_FLAGS_HAVE(flags, CC20 & 0x00F00FF000000000));
-    ASSERT_TRUE(EZCU_FLAGS_HAVE(flags, CC30 & 0x00F00FF000000000));
-    ASSERT_TRUE(EZCU_FLAGS_HAVE(flags, CC35 & 0x00F00FF000000000));
-    ASSERT_TRUE(EZCU_FLAGS_HAVE(flags, CC50 & 0x00F00FF000000000));
-    ASSERT_TRUE(EZCU_FLAGS_HAVE(flags, CC60 & 0x00F00FF000000000));
   }
 
   TEST_F(FlagsTest, check_default) {
     ezcu_flags_t flags = DEFAULT;
     ezcu_flags_check_default(flags);
-    flags = AMD | DEFAULT;
+    flags = ZERO_COPY | DEFAULT;
     ASSERT_DEATH(ezcu_flags_check_default(flags), ".*");
-  }
-
-  TEST_F(FlagsTest, check_vendors) {
-    int i=0;
-    ezcu_flags_t flags=DEFAULT, 
-    vendors[] = { INTEL, AMD, APPLE, NVIDIA, 0xFFFFFFFFFFFFFFFF };
-    ezcu_flags_check_vendors(flags);
-    while(vendors[i] != 0xFFFFFFFFFFFFFFFF) {
-      ASSERT_DEATH(ezcu_flags_check_vendors(vendors[i]|DEFAULT), ".*");
-      i++;    
-    }
-    flags = NVIDIA;
-    ezcu_flags_check_vendors(flags);
-    flags = AMD | NVIDIA;
-    ASSERT_DEATH(ezcu_flags_check_vendors(flags), ".*");
-  }
-
-  TEST_F(FlagsTest, check_dev_types) {
-    int i=0;
-    ezcu_flags_t flags=DEFAULT, 
-    tab[] = { ALL, CPU, ACCELERATOR, GPU, 0xFFFFFFFFFFFFFFFF };
-    ezcu_flags_check_dev_types(flags);
-    while(tab[i] != 0xFFFFFFFFFFFFFFFF) {
-      ASSERT_DEATH(ezcu_flags_check_dev_types(tab[i]|DEFAULT), ".*");
-      i++;    
-    }
-    flags = ALL;
-    ezcu_flags_check_dev_types(flags);
-    ASSERT_TRUE(EZCU_FLAGS_HAVE(flags, ALL));
-    ASSERT_TRUE(EZCU_FLAGS_HAVE(flags, CPU));
-    ASSERT_TRUE(EZCU_FLAGS_HAVE(flags, GPU));
-    ASSERT_TRUE(EZCU_FLAGS_HAVE(flags, ACCELERATOR));
-    flags = CPU;
-    ezcu_flags_check_dev_types(flags);
-    flags = GPU;
-    ezcu_flags_check_dev_types(flags);
-    ASSERT_TRUE(EZCU_FLAGS_HAVE(flags, GPU));
-        //ASSERT_TRUE(EZCU_FLAGS_HAVE(flags, ACCELERATOR));
-
-    flags = ACCELERATOR;
-    ezcu_flags_check_dev_types(flags);
-    flags = CPU | GPU;
-    ezcu_flags_check_dev_types(flags);
-    flags = ALL | ACCELERATOR;
-    ezcu_flags_check_dev_types(flags);
-    flags = ALL | CPU;
-    ezcu_flags_check_dev_types(flags);
-  }
-
-  TEST_F(FlagsTest, check_dev_indexes) {
-    int i=0;
-    ezcu_flags_t flags=DEFAULT, 
-    tab[] = { FIRST, SECOND, THIRD, FOURTH, 
-              FIFTH, SIXTH,  SEVENTH, EIGHTH, 0xFFFFFFFFFFFFFFFF };
-    ezcu_flags_check_dev_indexes(flags);
-    while(tab[i] != 0xFFFFFFFFFFFFFFFF) {
-      ASSERT_DEATH(ezcu_flags_check_dev_indexes(tab[i]|DEFAULT), ".*");
-      i++;    
-    }        
-    flags = FIRST;
-    ezcu_flags_check_dev_indexes(flags);
-    flags = FIRST | SECOND;
-    ezcu_flags_check_dev_indexes(flags);
-    flags = FIRST | SECOND | THIRD;
-    ezcu_flags_check_dev_indexes(flags);
-    flags = FIRST | SECOND | THIRD | FOURTH;
-    ezcu_flags_check_dev_indexes(flags);
-    flags = FIRST | SECOND | THIRD | FOURTH | FIFTH;
-    ezcu_flags_check_dev_indexes(flags);
-    flags = FIRST | SECOND | THIRD | FOURTH | FIFTH | SIXTH;
-    ezcu_flags_check_dev_indexes(flags);
-    flags = FIRST | SECOND | THIRD | FOURTH | FIFTH | SIXTH | SEVENTH;
-    ezcu_flags_check_dev_indexes(flags);
-    flags = FIRST | SECOND | THIRD | FOURTH \
-    | FIFTH | SIXTH | SEVENTH | EIGHTH;
-    ezcu_flags_check_dev_indexes(flags);
-  }
-
-  TEST_F(FlagsTest, check_dev_props) {
-    int i=0;
-    ezcu_flags_t flags=DEFAULT, 
-    tab[] = {CC20, CC30, CC35, CC50, CC60, 0xFFFFFFFFFFFFFFFF };
-    ezcu_flags_check_dev_props(flags);
-    while(tab[i] != 0xFFFFFFFFFFFFFFFF) {
-      ASSERT_DEATH(ezcu_flags_check_dev_props(tab[i]|DEFAULT), ".*");
-      i++;    
-    }
-    flags = CC20;
-    ezcu_flags_check_dev_props(flags);
-    flags = CC20 | CC30;
-    ezcu_flags_check_dev_props(flags);
-    flags = CC35 | CC30 | CC20;
-    ezcu_flags_check_dev_props(flags);
-    flags = CC50 | CC20 | CC35 | CC30;
-    ezcu_flags_check_dev_props(flags);
-    flags = CC60 | CC50 | CC20 | CC35 | CC30;
-    ezcu_flags_check_dev_props(flags);
   }
  
   TEST_F(FlagsTest, check_mem_locations) {
@@ -327,85 +189,21 @@ namespace {
     }
   }
 
-  TEST_F(FlagsTest, flags_to_vendors_flags) {
-    ezcu_vendor_flags_t v;
-    ezcu_flags_t flags = ALL | AMD | READ_ONLY;
-    ASSERT_EQ(ezcu_flags_to_vendors_flags(flags, &v), 1);
-    ASSERT_EQ(v, AMD);
-    flags = DEFAULT;
-    ASSERT_EQ(ezcu_flags_to_vendors_flags(flags, &v), 1);
-    ASSERT_EQ(v, NVIDIA);
-    flags = ALL | READ_ONLY | NVIDIA;
-    ASSERT_EQ(ezcu_flags_to_vendors_flags(flags, &v), 1);
-    ASSERT_EQ(v, NVIDIA);
-  }
-
-  TEST_F(FlagsTest, flags_to_dev_types_flags) {
-    ezcu_dev_type_flags_t v[EZCU_NB_DEV_TYPES];
-    ezcu_flags_t flags = CPU | AMD | READ_ONLY;
-    ASSERT_EQ(ezcu_flags_to_dev_types_flags(flags, v), 1);
-    ASSERT_EQ(v[0], CPU);
-    flags = DEFAULT;
-    ASSERT_EQ(ezcu_flags_to_dev_types_flags(flags, v), 4);
-    ASSERT_EQ(v[0], ALL);
-    flags = CPU | READ_ONLY | NVIDIA | GPU;
-    ASSERT_EQ(ezcu_flags_to_dev_types_flags(flags, v), 2);
-    ASSERT_EQ(v[0], CPU);
-    ASSERT_EQ(v[1], GPU);
-  }
-
-  TEST_F(FlagsTest, flags_to_dev_props_flags) {
-    ezcu_dev_prop_flags_t v[EZCU_NB_DEV_PROPS];
-    ezcu_flags_t flags = CC50 | AMD | READ_ONLY;
-    ASSERT_EQ(ezcu_flags_to_dev_props_flags(flags, v), 4);
-    ASSERT_EQ(v[3], CC50);
-    flags = DEFAULT;
-    ASSERT_EQ(ezcu_flags_to_dev_props_flags(flags, v), 1);
-    ASSERT_EQ(v[0], CC20);
-    flags = CC20 | READ_ONLY | NVIDIA | GPU | CC50;
-    ASSERT_EQ(ezcu_flags_to_dev_props_flags(flags, v), 4);
-    ASSERT_EQ(v[0], CC20);
-    ASSERT_EQ(v[3], CC50);
-  }
-
-  TEST_F(FlagsTest, flags_to_dev_index) {
-    int i=0, N=8;
-    ezcu_dev_index_flags_t 
-    tab[] = { FIRST, SECOND, THIRD, FOURTH, 
-     FIFTH, SIXTH,  SEVENTH, EIGHTH};
-     int val[] = { 0, 1, 2, 3, 4, 5, 6, 7};
-     while(i < N) {
-      ASSERT_EQ(ezcu_flags_to_dev_index(tab[i]), val[i]);
-      i++;    
-    }        
-  }
-
-  TEST_F(FlagsTest, flags_to_dev_prop) {
-    int i=0, N=5;
-    ezcu_dev_prop_flags_t 
-    tab[] = { CC20, CC30, CC35, CC50, CC60};
-    int val[] = { 0x20, 0x30, 0x35, 0x50, 0x60};
-    while(i < N) {
-      ASSERT_EQ(ezcu_flags_to_dev_prop(tab[i]), val[i]);
-      i++;    
-    }        
-  }
-
   TEST_F(FlagsTest, flags_to_mem_unit_size) {
     int i=0, N=8;
     ezcu_mem_types_flags_t 
     tab[] = { CHAR, SHORT, INT, UNSIGNED_INT, LONG, 
               UNSIGNED_LONG, FLOAT, DOUBLE, SIZET};
     size_t val[] = { sizeof(char), 
-     sizeof(short), 
-     sizeof(int), 
-     sizeof(unsigned int),
-     sizeof(long),
-     sizeof(unsigned long),
-     sizeof(float),
-     sizeof(double),
-     sizeof(size_t)};
-     while(i < N) {
+                     sizeof(short), 
+                     sizeof(int), 
+                     sizeof(unsigned int),
+                     sizeof(long),
+                     sizeof(unsigned long),
+                     sizeof(float),
+                     sizeof(double),
+                     sizeof(size_t)};
+    while(i < N) {
       ASSERT_EQ(ezcu_flags_to_mem_unit_size(tab[i]), val[i]);
       i++;    
     }        
@@ -413,13 +211,13 @@ namespace {
 
   TEST_F(FlagsTest, flags_dev_to_str) {
     char tmp_0[__EZCU_STR_SIZE];
-    ezcu_flags_dev_to_str(ACCELERATOR, tmp_0);
-    ASSERT_STREQ(tmp_0, "  GPU | ACCELERATOR");
-    ezcu_flags_dev_to_str(GPU, tmp_0);
-    ASSERT_STREQ(tmp_0, "  GPU");
-    ezcu_flags_dev_to_str(CPU, tmp_0);
-    ASSERT_STREQ(tmp_0, "  CPU");
-    ezcu_flags_dev_to_str(ALL, tmp_0);
-    ASSERT_STREQ(tmp_0, "  ALL | GPU | CPU | ACCELERATOR");
+    ezcu_flags_mem_to_str(HWA, tmp_0);
+    ASSERT_STREQ(tmp_0, "  HWA");
+    ezcu_flags_mem_to_str(HWA | ZERO_COPY, tmp_0);
+    ASSERT_STREQ(tmp_0, "  HWA | ZERO_COPY");
+    ezcu_flags_mem_to_str(HWA | PINNED, tmp_0);
+    ASSERT_STREQ(tmp_0, "  HWA | PINNED");
+    ezcu_flags_mem_to_str(HWA | PINNED | READ_WRITE, tmp_0);
+    ASSERT_STREQ(tmp_0, "  HWA | PINNED | READ_WRITE");
   }
 }  // namespace

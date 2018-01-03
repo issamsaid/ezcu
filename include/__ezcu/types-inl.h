@@ -82,7 +82,7 @@ __host__ struct __ezcu_mem_t {
 /// This structure is a high level description of an CUDA kernel.
 ///
 __host__ struct __ezcu_knl_t {
-  unsigned int grid[__EZCU_KNL_MAX_GRID_DIM];  ///< the grid dimensions.
+  unsigned int  grid[__EZCU_KNL_MAX_GRID_DIM]; ///< the grid dimensions.
   unsigned int block[__EZCU_KNL_MAX_GRID_DIM]; ///< the block dimensions.
   unsigned int num_args;              ///< the number of arguments.
   unsigned int smem;                  ///< the amount of shared memory.
@@ -106,10 +106,6 @@ __host__ struct __ezcu_env_t {
   FILE*   fderr;                 ///< file descriptor for error reporting.
   int      nids;                 ///< number of selected devices.
   CUdevice *ids;                 ///< selected devices.
-  int      nccs;                 ///< number of selected architectures.
-  int      *ccs;                 ///< selected architectures.
-  bool initialized[EZCU_NB_VENDORS];
-  CUdevice lookup[EZCU_NB_DEV_TYPES][EZCU_NB_DEV_PROPS][EZCU_NB_DEV_INDEXES];
 };
 
 CPPGUARD_END();

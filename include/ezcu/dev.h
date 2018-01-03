@@ -46,10 +46,10 @@ CPPGUARD_BEGIN()
 ///
 /// This routine selects a ezcu device, based on bitwise flags, from a list of 
 /// the CUDA devices initially created when launching the ezcu library.
-/// @param flags the bitwise flags provided by the user.
+/// @param i the device index.
 /// @return The device descriptor corresponding to the user request.
 ///
-ezcu_dev_t  ezcu_dev_find(ezcu_flags_t flags);
+ezcu_dev_t  ezcu_dev_find(int i);
 
 ///
 /// @brief Wait until a given device finishes all its operations.

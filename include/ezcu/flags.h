@@ -43,92 +43,12 @@
 CPPGUARD_BEGIN()
 
 ///
-/// @brief Define a bitfield type to be used to select ezcu resources.
+/// @brief Define a bit-field type to be used to select ezcu resources.
 ///
 typedef uint64_t ezcu_flags_t;
 
 /// @brief The ezcu default flag (orthogonal).
 #define DEFAULT 0x1000000000000000 ///< The ezcu default behavior.  
-
-///
-/// Device selection flags.
-///
-///
-/// @brief Vendor flags (orthogonal).
-typedef enum {
-  AMD     = 0x0800000000000000, ///< AMD devices.
-  APPLE   = 0x0400000000000001, ///< APPLE devices.
-  INTEL   = 0x0200000000000002, ///< INTEL devices.
-  NVIDIA  = 0x0100000000000003  ///< NVIDIA platform.
-} ezcu_vendor_flags_t;
-
-/// @brief Device vendors mask.
-#define EZCU_FLAGS_VENDORS_MASK \
-  ((AMD | APPLE | NVIDIA | INTEL) & 0x0F00000000000000)
-
-/// @brief The number of the device vendors.
-#define EZCU_NB_VENDORS 4
-
-/// @brief Device types flags (hierarchical, inclusive).
-/// ALL:         can be anything.
-/// ACCELERATOR: can be a GPU.
-typedef enum { 
-  ALL         = 0x00F0000000000000,  ///< All devices in list.
-  CPU         = 0x0080000000000001,  ///< CPU devices in list.
-  ACCELERATOR = 0x0070000000000002,  ///< Accelerators in list.
-  GPU         = 0x0040000000000003   ///< GPU devices in list.
-} ezcu_dev_type_flags_t;
-
-/// @brief Device types mask.
-#define EZCU_FLAGS_DEV_TYPES_MASK \
-  ((ALL | CPU | ACCELERATOR | GPU) & 0x00F0000000000000)
-
-/// @brief The number of device types.
-#define EZCU_NB_DEV_TYPES 4
-
-/// @brief Device indexes flags (inclusive).
-typedef enum {
-  FIRST       = 0x0000100000000000, ///< The 1st device in list.
-  SECOND      = 0x0000200000000101, ///< The 2nd device in list.
-  THIRD       = 0x0000400000000202, ///< The 3rd device in list.
-  FOURTH      = 0x0000800000000303, ///< The 4th device in list.
-  FIFTH       = 0x0001000000000404, ///< The 5th device in list.
-  SIXTH       = 0x0002000000000505, ///< The 6th device in list.
-  SEVENTH     = 0x0004000000000606, ///< The 7th device in list.
-  EIGHTH      = 0x0008000000000707  ///< The 8th device in list.
-} ezcu_dev_index_flags_t;
-
-/// @brief Device indexes mask.
-#define EZCU_FLAGS_DEV_INDEXES_MASK       \
-  ((FIRST | SECOND | THIRD   | FOURTH | \
-    FIFTH | SIXTH  | SEVENTH | EIGHTH) & 0x000FF00000000000)
-
-/// @brief The number of device types.
-#define EZCU_NB_DEV_INDEXES 8
-
-/// @brief Devices properties flags (hierarchal, inclusive).
-/// CC60 supports CC50 - CC20
-/// CC50 supports CC35 - CC20
-/// CC35 supports CC30 - CC20
-/// CC30 supports CC20
-/// NB: those are for GPUs so we set the GPU bit as well .
-typedef enum {
-  CC20    = 0x004000F000002000, ///< Compute capability 2.0.  
-  CC30    = 0x004001F000003001, ///< Compute capability 3.0.
-  CC35    = 0x004003F000003502, ///< Compute capability 3.5.
-  CC50    = 0x004007F000005003, ///< Compute capability 5.0.
-  CC60    = 0x00400FF000006004  ///< Compute capability 6.0.        
-  /// reserved              
-  /// reserved              
-  /// reserved              
-} ezcu_dev_prop_flags_t;
-
-/// @brief Device properties mask.
-#define EZCU_FLAGS_DEV_PROPS_MASK \
-  ((CC20 | CC30 | CC35 | CC50 | CC60) & 0x00F00FF000000000)
-                          
-/// @brief The number of device props.
-#define EZCU_NB_DEV_PROPS 5
 
 ///
 /// Memory manipulation flags.
@@ -178,7 +98,7 @@ typedef enum {
 } ezcu_mem_types_flags_t;
 
 /// @brief Memory data-types mask.
-#define EZCU_FLAGS_MEM_TYPES_MASK              \
+#define EZCU_FLAGS_MEM_TYPES_MASK            \
   ((CHAR          | INT    |                 \
     UNSIGNED_INT  | LONG   | UNSIGNED_LONG | \
     SIZET | FLOAT | DOUBLE | SHORT) & 0x0000FFF000000000)
@@ -191,7 +111,7 @@ typedef enum {
 
 /// @brief Macro to check whether a set of flags contains a given mask.
 #define EZCU_FLAGS_HAVE(flags, mask) \
-  (((flags & 0xFFFFFFFF00000000) & \
+  (((flags & 0xFFFFFFFF00000000) &   \
     (mask & 0xFFFFFFFF00000000)) == (mask & 0xFFFFFFFF00000000))
 
 ///
@@ -201,46 +121,6 @@ typedef enum {
 /// @return Nothing.
 ///
 void ezcu_flags_help_default();
-
-///
-/// @brief Print a help message about the vendors ezcu flags.
-///
-/// @param None.
-/// @return Nothing.
-///
-void ezcu_flags_help_vendors();
-
-///
-/// @brief Print a help message about the device types ezcu flags.
-///
-/// @param None.
-/// @return Nothing.
-///
-void ezcu_flags_help_dev_types();
-
-///
-/// @brief Print a help message about the device indexes ezcu flags.
-///
-/// @param None.
-/// @return Nothing.
-///
-void ezcu_flags_help_dev_indexes();
-
-///
-/// @brief Print a help message about the device properties ezcu flags.
-///
-/// @param None.
-/// @return Nothing.
-///
-void ezcu_flags_help_dev_props();
-
-///
-/// @brief Print a help message about the devices ezcu flags.
-///
-/// @param None.
-/// @return Nothing.
-///
-void ezcu_flags_help_dev();
 
 ///
 /// @brief Print a help message about the memory locations ezcu flags.
@@ -299,46 +179,6 @@ void ezcu_flags_help();
 void ezcu_flags_check_default(ezcu_flags_t flags);
 
 ///
-/// @brief Make sure that the vendors flags are valid.
-///
-/// @param flags are the user defined flags.
-/// @return Nothing.
-///
-void ezcu_flags_check_vendors(ezcu_flags_t flags);
-
-///
-/// @brief Make sure that the device types flags are valid.
-///
-/// @param flags are the user defined flags.
-/// @return Nothing.
-///
-void ezcu_flags_check_dev_types(ezcu_flags_t flags);
-
-///
-/// @brief Make sure that the device indexes flags are valid.
-///
-/// @param flags are the user defined flags.
-/// @return Nothing.
-///
-void ezcu_flags_check_dev_indexes(ezcu_flags_t flags);
-
-///
-/// @brief Make sure that the device properties flags are valid.
-///
-/// @param flags are the user defined flags.
-/// @return Nothing.
-///
-void ezcu_flags_check_dev_props(ezcu_flags_t flags);
-
-///
-/// @brief Make sure that the device flags are valid.
-///
-/// @param flags are the user defined flags.
-/// @return Nothing.
-///
-void ezcu_flags_check_dev(ezcu_flags_t flags);
-
-///
 /// @brief Make sure that the memory locations flags are valid.
 ///
 /// @param flags are the user defined flags.
@@ -379,22 +219,6 @@ void ezcu_flags_check_mem_types(ezcu_flags_t flags);
 void ezcu_flags_check_mem(ezcu_flags_t flags);
 
 ///
-/// @brief Make sure that the flags are valid.
-///
-/// @param flags are the user defined flags.
-/// @return Nothing.
-///
-void ezcu_flags_check_all(ezcu_flags_t flags);
-
-///
-/// @brief Return the string that represents devices flags.
-///
-/// @param flags are the user defined flags.
-/// @return Nothing.
-///
-void ezcu_flags_dev_to_str(ezcu_flags_t flags, char *string);
-
-///
 /// @brief Return the string that represents memory flags.
 ///
 /// @param flags are the user defined flags.
@@ -403,79 +227,20 @@ void ezcu_flags_dev_to_str(ezcu_flags_t flags, char *string);
 void ezcu_flags_mem_to_str(ezcu_flags_t flags, char *string);
 
 ///
-/// @brief Return the vendor flags found in a set of ezcu flags.
-///
-/// @param flags are the user defined flags.
-/// @param v will contain the found vendor flags. 
-/// @return An integer that represents the number of vendors flags found (1).
-///
-int ezcu_flags_to_vendors_flags(ezcu_flags_t flags, ezcu_vendor_flags_t *v);
-
-///
-/// @brief Return the device types flags found in a set of ezcu flags.
-///
-/// @param flags are the user defined flags.
-/// @param tab is the array that will contain the found device types flags. 
-/// @return An integer that represents the number of device types flags found.
-///
-int ezcu_flags_to_dev_types_flags(ezcu_flags_t flags, 
-                                  ezcu_dev_type_flags_t *tab);
-
-///
-/// @brief Return the device properties flags found in a set of ezcu flags.
-///
-/// @param flags are the user defined flags.
-/// @param tab is the array that will contain the found device properties flags. 
-/// @return An integer that represents the number of properties flags found.
-///
-int ezcu_flags_to_dev_props_flags(ezcu_flags_t flags, 
-                                  ezcu_dev_prop_flags_t *tab);
-
-///
-/// @brief Return the device indexes flags found in a set of ezcu flags.
-///
-/// @param flags are the user defined flags.
-/// @param tab is the array that will contain the found device indexes flags. 
-/// @return An integer that represents the number of device indexes flags found.
-///
-int ezcu_flags_to_dev_indexes_flags(ezcu_flags_t flags, 
-                                    ezcu_dev_index_flags_t *tab);
-
-///
-/// @brief Demestify a set of ezcu flags for devices selection.
-///
-/// @param flags are the user defined flags.
-/// @param tab is the array that will contain the found device indexes flags. 
-/// @return An integer that represents the number of device indexes flags found.
-///
-void ezcu_flags_parse_dev(ezcu_flags_t flags, ezcu_vendor_flags_t *v,
-                          ezcu_dev_type_flags_t  *dt, int *ndt,
-                          ezcu_dev_prop_flags_t  *dp, int *ndp,
-                          ezcu_dev_index_flags_t *di, int *ndi);
-
-///
-/// @brief Return the index based on a user defined flag.
-///
-/// @param f is the user defined flag.
-/// @return An integer that represents the device index.
-///
-int ezcu_flags_to_dev_index(ezcu_dev_index_flags_t f);
-
-///
-/// @brief Return the device properties values based on a user defined flag.
-///
-/// @param f is the user defined flag.
-/// @return An integer that represents the device property.
-///
-int ezcu_flags_to_dev_prop(ezcu_dev_prop_flags_t f);
-
-///
 /// @brief Return the memory unit size based on a user defined flag.
 ///
 /// @param flags are the user defined flags.
 /// @return An integer that represents the memory unit size.
 ///
 size_t ezcu_flags_to_mem_unit_size(ezcu_mem_types_flags_t flags);
+
+///
+/// @brief Make sure that the flags are valid.
+///
+/// @param flags are the user defined flags.
+/// @return Nothing.
+///
+void ezcu_flags_check(ezcu_flags_t flags);
 
 CPPGUARD_END()
 

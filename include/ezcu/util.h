@@ -46,7 +46,7 @@ CPPGUARD_BEGIN();
 /// @brief Convert a string to ezcu resources flags.
 ///
 /// This routine takes as an input a string and converts it to ezcu flags that 
-/// are used to pick and allocate CUDA resourses. This routine is useful when
+/// are used to pick and allocate CUDA resources. This routine is useful when
 /// parsing command line argument of a program using ezcu.
 /// @param str is the input string provided by the user.
 /// @return the corresponding ezcu flags.
@@ -54,27 +54,13 @@ CPPGUARD_BEGIN();
 ezcu_flags_t ezcu_str2flags(const char *str);
 
 ///
-/// @brief Check whether the ezcu envirenment contains a given CUDA resource.
-///
-/// This routine checks whether an CUDA device, CUDA vendor or platform is 
-/// selected by the user when initializing ezcu. The given CUDA resource is 
-/// described by a set of ezcu flags. 
-/// @see ezcu/flags.h
-/// @param flags are the ezcu flags to describe the desired CUDA resource.
-/// @return A boolean to confirm or not that the resource is active.
-///
-bool ezcu_has(ezcu_flags_t flags);
-
-///
-/// @brief Return the count of a category of CUDA resources that is activated
-/// by ezcu.
+/// @brief Return the count of CUDA devices loaded by ezcu.
 ///
 /// This routine returns mainly the number of CUDA devices that are activated
-/// by ezcu and correspond to a set of ezcu flags provided by the user.
-/// @param flags are the ezcu flags to describe the desired CUDA devices.
+/// by ezcu.
 /// @return The number of the corresponding activated devices.
 ///
-size_t ezcu_count(ezcu_flags_t flags);
+size_t ezcu_count();
 
 CPPGUARD_END();
 

@@ -1,6 +1,6 @@
 ///
 /// @copyright Copyright (c) 2016-, Issam SAID <said.issam@gmail.com>
-/// All rights reserved.
+/// DEFAULT rights reserved.
 ///
 /// Redistribution and use in source and binary forms, with or without
 /// modification, are permitted provided that the following conditions
@@ -17,7 +17,7 @@
 ///
 /// THIS SOFTWARE IS PROVIDED "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES,
 /// INCLUDING, BUT NOT LIMITED TO, WARRANTIES OF MERCHANTABILITY AND FITNESS
-/// FOR A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE copyright holder OR
+/// FOR A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHDEFAULT THE copyright holder OR
 /// ITS CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL,
 /// EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO,
 /// PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR
@@ -45,31 +45,17 @@ namespace {
   };
 
   TEST_F(UtilTest, ezcu_str2flags) {
-    ezcu_init(ALL);
-    ASSERT_EQ(ezcu_str2flags("HWA"), HWA);
-    ASSERT_EQ(ezcu_str2flags("HOST"), HOST);
-    ASSERT_EQ(ezcu_str2flags("CPU"), CPU);
-    ASSERT_EQ(ezcu_str2flags("GPU"), GPU);
-    ASSERT_EQ(ezcu_str2flags("ACCELERATOR"), ACCELERATOR);
-    ASSERT_EQ(ezcu_str2flags("ALL"), ALL);
+    ezcu_init(DEFAULT);
+    ASSERT_EQ(static_cast<ezcu_mem_locs_flags_t>(ezcu_str2flags("HWA")), HWA);
+    ASSERT_EQ(static_cast<ezcu_mem_locs_flags_t>(ezcu_str2flags("HOST")), HOST);
     ezcu_release();
   }
 
   TEST_F(UtilTest, ezcu_count) {
     size_t n, s;
-    ezcu_init(ALL);
+    ezcu_init(DEFAULT);
     n = __ezcu_dev_query();
-    s = ezcu_count(ALL);
-    ASSERT_EQ(n, s);
-    ezcu_release();
-
-    ezcu_init(ACCELERATOR);
-    s = ezcu_count(ACCELERATOR);
-    ASSERT_EQ(n, s);
-    ezcu_release();
-
-    ezcu_init(GPU);
-    s = ezcu_count(GPU);
+    s = ezcu_count();
     ASSERT_EQ(n, s);
     ezcu_release();
   }

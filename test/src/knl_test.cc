@@ -59,7 +59,7 @@ namespace {
       ezcu_init(DEFAULT);
       ezcu_timer_uset(MILLI_SECONDS);
       ezcu_load(PREFIX"/knl_test.cu", NULL);
-      d = ezcu_dev_find(DEFAULT);
+      d = ezcu_dev_find(0);
     }
     virtual void TearDown() { ezcu_release(); }
   };

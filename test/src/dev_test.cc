@@ -41,54 +41,23 @@ namespace {
 
   class DevTest : public ::testing::Test {
   protected:
-    virtual void SetUp() { ezcu_init(FIRST); }
+    virtual void SetUp() { ezcu_init(DEFAULT); }
 
     virtual void TearDown() { ezcu_release(); }
   };
 
   TEST_F(DevTest, find_default) {
-    size_t n       = ezcu_count(ALL);
-    ezcu_dev_t d0  = ezcu_dev_find(DEFAULT);
-    ezcu_dev_t d2  = ezcu_dev_find(FIRST);
-    ASSERT_EQ(d0, d2);
+    size_t n = ezcu_count();
     ASSERT_GE(n, (size_t)1);
   }
   
-  TEST_F(DevTest, find_all) {
-    ezcu_dev_t d1  = ezcu_dev_find(ALL | FIRST);
-    ezcu_dev_t d2  = ezcu_dev_find(FIRST);
-    ASSERT_EQ(d1, d2);
-  }
-
-  TEST_F(DevTest, find_cpu) {
-        //ASSERT_DEATH(ezcu_dev_find(CPU), ".*");
-  }
-
-  TEST_F(DevTest, find_gpu) {
-    ezcu_dev_t gpu1 = ezcu_dev_find(GPU | FIRST);
-    ezcu_dev_t gpu2 = ezcu_dev_find(GPU | FIRST);
-    ASSERT_EQ(gpu1, gpu2);
-  }
-
-  TEST_F(DevTest, find_accelerator) {
-    ezcu_dev_t gpu1 = ezcu_dev_find(ACCELERATOR | FIRST);
-    ezcu_dev_t gpu2 = ezcu_dev_find(GPU | FIRST);
-    ASSERT_EQ(gpu1, gpu2);
-  }
-
-  TEST_F(DevTest, find_by_index) {
-    ezcu_dev_t first  = ezcu_dev_find(FIRST);
-    ezcu_dev_t def    = ezcu_dev_find(DEFAULT);
-    ASSERT_EQ(first, def);
-  }
-
   TEST_F(DevTest, info) {
-    ezcu_dev_t first = ezcu_dev_find(FIRST);
+    ezcu_dev_t first = ezcu_dev_find(0);
     __ezcu_dev_info(first);
   }
 
   TEST_F(DevTest, wait) {
-    ezcu_dev_t first = ezcu_dev_find(FIRST);
+    ezcu_dev_t first = ezcu_dev_find(0);
     ezcu_dev_wait(first);
   }
 

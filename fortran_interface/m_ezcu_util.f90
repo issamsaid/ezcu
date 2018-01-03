@@ -35,32 +35,24 @@
 !! @see ezcu/util.h
 !<
 module m_ezcu_util
-    use, intrinsic :: iso_c_binding
-    use m_ezcu_flags
-    use m_ezcu_types
+  use, intrinsic :: iso_c_binding
+  use m_ezcu_flags
+  use m_ezcu_types
 
+  implicit none
+
+  private
+
+  interface
+  integer(kind=c_int) &
+  function ezcu_count(flags) bind(c, name="ezcu_count")
+    use, intrinsic :: iso_c_binding, only: c_int64_t, c_int
     implicit none
+    integer(kind=c_int64_t), intent(in), value :: flags 
+  end function ezcu_count
 
-    private
+  end interface
 
-    interface
-        logical(kind=c_bool) &
-        function ezcu_has(flags) bind(c, name="ezcu_has")
-            use, intrinsic :: iso_c_binding, only: c_bool, c_int64_t
-            implicit none
-            integer(kind=c_int64_t), intent(in), value :: flags 
-        end function ezcu_has
-
-        integer(kind=c_int) &
-        function ezcu_count(flags) bind(c, name="ezcu_count")
-            use, intrinsic :: iso_c_binding, only: c_int64_t, c_int
-            implicit none
-            integer(kind=c_int64_t), intent(in), value :: flags 
-        end function ezcu_count
-
-    end interface
-
-    public :: ezcu_has
-    public :: ezcu_count
- 
+  public :: ezcu_count
+  
 end module m_ezcu_util

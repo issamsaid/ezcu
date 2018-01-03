@@ -80,7 +80,7 @@ contains
         allocate(src(N), dst(N))
         src = 1.2
         
-        call ezcu_dev_find(DEFAULT, d)
+        call ezcu_dev_find(0, d)
         call ezcu_mem_wrap(src, d, ior(HWA, READ_ONLY))
         call ezcu_mem_wrap(dst, d, ior(HWA, WRITE_ONLY))
         call ezcu_mem_update(src, WRITE_ONLY)
@@ -110,7 +110,7 @@ contains
         allocate(src(N), dst(N))
         src = 1.2
 
-        call ezcu_dev_find(DEFAULT, d)
+        call ezcu_dev_find(0, d)
         call ezcu_mem_wrap(src, d, ior(HWA, READ_ONLY))
         call ezcu_mem_wrap(dst, d, ior(HWA, WRITE_ONLY))
         call ezcu_mem_update(src, WRITE_ONLY)
@@ -138,7 +138,7 @@ contains
         allocate(src(N), dst(N))
         src = 1.2
        
-        call ezcu_dev_find(DEFAULT, d)
+        call ezcu_dev_find(0, d)
         call ezcu_mem_wrap(src, d, ior(ior(HOST, ZERO_COPY), READ_WRITE))
         call ezcu_mem_wrap(dst, d, ior(ior(HOST, ZERO_COPY), WRITE_ONLY))
         call ezcu_mem_update(src, WRITE_ONLY)
@@ -169,7 +169,7 @@ contains
         allocate(dst(N))
         src = 1.2
         
-        call ezcu_dev_find(DEFAULT, d)
+        call ezcu_dev_find(0, d)
         call ezcu_mem_wrap(src, d, ior(ior(HWA, PINNED), READ_ONLY))
         call ezcu_mem_wrap(dst, d, ior(ior(HWA, PINNED), WRITE_ONLY))
 
@@ -221,7 +221,7 @@ contains
         cpu = 0.
         call init_buffer(src, nt)
 
-        call ezcu_dev_find(DEFAULT, d)
+        call ezcu_dev_find(0, d)
         call ezcu_mem_wrap(src, d, ior(HWA, READ_ONLY))
         call ezcu_mem_wrap(fld, d, ior(HWA, READ_WRITE))
                 
@@ -267,8 +267,8 @@ contains
 
 
     subroutine setup()
-        call ezcu_init(ALL)
-        call ezcu_dev_find(DEFAULT, d)
+        call ezcu_init(DEFAULT)
+        call ezcu_dev_find(0, d)
         call ezcu_load(PREFIX//"/knl_test.cu")
     end subroutine setup
 
@@ -280,17 +280,17 @@ contains
         call run(setup, teardown, set_wrk, &
                "knl_test.set_wrk")
         call run(setup, teardown, set_arg, &
-              "knl_test.set_arg")
+               "knl_test.set_arg")
         call run(setup, teardown, sync_run, &
-            "knl_test.sync_run")
+               "knl_test.sync_run")
         call run(setup, teardown, async_run, &
-            "knl_test.async_run")
+               "knl_test.async_run")
         call run(setup, teardown, sync_run_hzc, &
-            "knl_test.sync_run_hzc")
+               "knl_test.sync_run_hzc")
         call run(setup, teardown, sync_run_pinned, &
-            "knl_test.sync_run_pinned")
+               "knl_test.sync_run_pinned")
         call run(setup, teardown, test_precision_one_thread, &
-            "knl_test.test_precision_one_thread")
+               "knl_test.test_precision_one_thread")
     end subroutine knl_test
 
 end module m_knl_test

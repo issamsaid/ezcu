@@ -3,7 +3,7 @@
 !! All rights reserved.
 !!
 !! Redistribution and use in source and binary forms, with or without
-!! modification, are permetted provided that the following conditions
+!! modification, are permitted provided that the following conditions
 !! are met:
 !!
 !! 1. Redistributions of source code must retain the above copyright
@@ -181,8 +181,8 @@ contains
     end function access_buffer_4d
 
     subroutine setup()
-        call ezcu_init(ALL)
-        call ezcu_dev_find(DEFAULT, d)
+        call ezcu_init(DEFAULT)
+        call ezcu_dev_find(0, d)
     end subroutine setup
 
     subroutine teardown()

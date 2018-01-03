@@ -53,7 +53,7 @@ namespace {
       unsigned int grid[3], block[3];
       virtual void SetUp() {
         ezcu_init(DEFAULT);
-        d = ezcu_dev_find(DEFAULT);
+        d = ezcu_dev_find(0);
         N = 128;
         grid[0]  = N/16;
         grid[1]  = N/16;

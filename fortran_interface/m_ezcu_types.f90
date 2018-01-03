@@ -32,50 +32,50 @@
 !! @see ezcu/types.h
 !<
 module m_ezcu_types
-    use, intrinsic :: iso_c_binding
+  use, intrinsic :: iso_c_binding
 
-    implicit none
+  implicit none
 
-    private
+  private
 
-    public :: ezcu_dev_t
-    type, bind(c) :: ezcu_dev_t
-        type(c_ptr) :: id
-        type(c_ptr) :: streams
-    end type ezcu_dev_t
+  public :: ezcu_dev_t
+  type, bind(c) :: ezcu_dev_t
+    type(c_ptr) :: id
+    type(c_ptr) :: streams
+  end type ezcu_dev_t
 
-    public :: ezcu_mem_t
-    type, bind(c) :: ezcu_mem_t
-        integer(c_int64_t) :: flags
-        integer(c_size_t)  :: size
-        integer(c_size_t)  :: unit_size
-        type(c_ptr)        :: id
-        type(c_ptr)        :: h
-        integer(c_int)     :: refs
-    end type ezcu_mem_t
+  public :: ezcu_mem_t
+  type, bind(c) :: ezcu_mem_t
+    integer(c_int64_t) :: flags
+    integer(c_size_t)  :: size
+    integer(c_size_t)  :: unit_size
+    type(c_ptr)        :: id
+    type(c_ptr)        :: h
+    integer(c_int)     :: refs
+  end type ezcu_mem_t
 
-    public :: ezcu_knl_t
+  public :: ezcu_knl_t
     type, bind(c) :: ezcu_knl_t
-        integer(c_int) :: grid(3)
-        integer(c_int) :: block(3)
-        integer(c_int) :: num_args
-        integer(c_int) :: smem
-        type(c_ptr)    :: id
-        type(c_ptr)    :: args
-        type(c_ptr)    :: args_types
-        type(c_ptr)    :: vals
-        type(c_ptr)    :: mems
-    end type ezcu_knl_t
+    integer(c_int) :: grid(3)
+    integer(c_int) :: block(3)
+    integer(c_int) :: num_args
+    integer(c_int) :: smem
+    type(c_ptr)    :: id
+    type(c_ptr)    :: args
+    type(c_ptr)    :: args_types
+    type(c_ptr)    :: vals
+    type(c_ptr)    :: mems
+  end type ezcu_knl_t
 
-    enum, bind(c)
-        enumerator :: NANO_SECONDS  = 1
-        enumerator :: MICRO_SECONDS = 1000
-        enumerator :: MILLI_SECONDS = 1000000
-        enumerator :: SECONDS       = 1000000000
-    end enum
+  enum, bind(c)
+    enumerator :: NANO_SECONDS  = 1
+    enumerator :: MICRO_SECONDS = 1000
+    enumerator :: MILLI_SECONDS = 1000000
+    enumerator :: SECONDS       = 1000000000
+  end enum
 
-    public :: NANO_SECONDS
-    public :: MICRO_SECONDS
-    public :: MILLI_SECONDS
-    public :: SECONDS
+  public :: NANO_SECONDS
+  public :: MICRO_SECONDS
+  public :: MILLI_SECONDS
+  public :: SECONDS
 end module m_ezcu_types
