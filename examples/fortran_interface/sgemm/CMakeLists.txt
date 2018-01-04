@@ -42,7 +42,6 @@ add_executable(sgemm_fortran ${F_SRCS})
 target_link_libraries (sgemm_fortran ezcu_fortran)
 target_link_libraries (sgemm_fortran ezcu)
 target_link_libraries (sgemm_fortran ${CUDA_CUDA_LIBRARY})
-target_link_libraries (sgemm_fortran ${NVRTC_LIBRARY})
 target_link_libraries (sgemm_fortran liburb_tree)
 add_dependencies(sgemm_fortran ezcu_fortran)
 
@@ -53,6 +52,6 @@ add_dependencies(sgemm_fortran ezcu_fortran)
 ##    set to TRUE has undefined behavior. 
 ##  
 ## Inform the build location of the target. 
-set (VAR "${CMAKE_BINARY_DIR}/examples/fortran_interface/sgemm_fortran")                              
+set (VAR "${CMAKE_BINARY_DIR}/examples/fortran_interface/sgemm/sgemm_fortran")                              
 set (EZCU_FORTRAN_EXAMPLES_FILES 
      "${EZCU_FORTRAN_EXAMPLES_FILES}" "${VAR}" PARENT_SCOPE)

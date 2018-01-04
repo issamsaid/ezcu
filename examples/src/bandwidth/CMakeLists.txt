@@ -42,7 +42,6 @@ add_executable(bandwidth ${C_SRCS})
 target_link_libraries (bandwidth libuparser)
 target_link_libraries (bandwidth ezcu)
 target_link_libraries (bandwidth ${CUDA_CUDA_LIBRARY})
-target_link_libraries (bandwidth ${NVRTC_LIBRARY})
 target_link_libraries (bandwidth liburb_tree)
 add_dependencies(bandwidth ezcu)
 
@@ -53,5 +52,5 @@ add_dependencies(bandwidth ezcu)
 ##    set to TRUE has undefined behavior. 
 ##  
 ## Inform the build location of the target. 
-set (VAR "${CMAKE_BINARY_DIR}/examples/src/bandwidth")                              
+set (VAR "${CMAKE_BINARY_DIR}/examples/src/bandwidth/bandwidth")                              
 set (EZCU_C_EXAMPLES_FILES "${EZCU_C_EXAMPLES_FILES}" "${VAR}" PARENT_SCOPE)

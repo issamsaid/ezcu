@@ -10,6 +10,7 @@ lib
 lib/*
 */lib/
 */lib/*
+/install
 
 # The binary dirs
 bin/

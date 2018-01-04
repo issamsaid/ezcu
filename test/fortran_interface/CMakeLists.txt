@@ -34,7 +34,7 @@ cmake_minimum_required(VERSION 3.8 FATAL_ERROR)
 
 project(ezcu_test_fortran LANGUAGES Fortran)
 
-include_directories(${CMAKE_SOURCE_DIR}/modules)
+include_directories(${CMAKE_BINARY_DIR}/modules)
 
 file(GLOB F_SRCS "*.f90")
 
@@ -60,6 +60,3 @@ add_dependencies(ezcu_test_fortran ezcu_fortran)
 ## First: inform the build location of the target. 
 set(EZCU_TEST_FORTRAN_BUILD_EXE 
 	  "${CMAKE_BINARY_DIR}/test/fortran_interface/ezcu_test_fortran")
-
-## Then : inform the location where the target is to be installed. 
-set (EZCU_TEST_FORTRAN_INSTALL_DIR ${CMAKE_SOURCE_DIR}/test/bin)

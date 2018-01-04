@@ -39,8 +39,7 @@ add_definitions(-DPREFIX=\"${CMAKE_SOURCE_DIR}/examples/cuda\")
 
 add_executable(stencil_3d ${C_SRCS})
 target_link_libraries (stencil_3d ezcu)
-target_link_libraries (stencil_3d ${CUDA_CUDA_LIBRARY})
-target_link_libraries (stencil_3d ${NVRTC_LIBRARY})
+target_link_libraries (stencil_3d ${CUDA_CUDA_LIBRARY}) 
 target_link_libraries (stencil_3d liburb_tree)
 add_dependencies(stencil_3d ezcu)
 
@@ -51,5 +50,5 @@ add_dependencies(stencil_3d ezcu)
 ##    set to TRUE has undefined behavior. 
 ##  
 ## Inform the build location of the target. 
-set (VAR "${CMAKE_BINARY_DIR}/examples/src/stencil_3d")                              
+set (VAR "${CMAKE_BINARY_DIR}/examples/src/stencil_3d/stencil_3d")                              
 set (EZCU_C_EXAMPLES_FILES "${EZCU_C_EXAMPLES_FILES}" "${VAR}" PARENT_SCOPE)

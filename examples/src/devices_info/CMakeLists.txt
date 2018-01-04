@@ -39,7 +39,6 @@ file(GLOB C_SRCS "*.c")
 add_executable(devices_info ${C_SRCS})
 target_link_libraries (devices_info ezcu)
 target_link_libraries (devices_info ${CUDA_CUDA_LIBRARY})
-target_link_libraries (devices_info ${NVRTC_LIBRARY})
 target_link_libraries (devices_info liburb_tree)
 add_dependencies(devices_info ezcu)
 
@@ -50,5 +49,5 @@ add_dependencies(devices_info ezcu)
 ##    set to TRUE has undefined behavior. 
 ##  
 ## Inform the build location of the target. 
-set (VAR "${CMAKE_BINARY_DIR}/examples/src/device_info")                              
+set (VAR "${CMAKE_BINARY_DIR}/examples/src/devices_info/devices_info")                              
 set (EZCU_C_EXAMPLES_FILES "${EZCU_C_EXAMPLES_FILES}" "${VAR}" PARENT_SCOPE)

@@ -42,7 +42,6 @@ add_executable(devices_info_fortran ${F_SRCS})
 target_link_libraries (devices_info_fortran ezcu_fortran)
 target_link_libraries (devices_info_fortran ezcu)
 target_link_libraries (devices_info_fortran ${CUDA_CUDA_LIBRARY})
-target_link_libraries (devices_info_fortran ${NVRTC_LIBRARY})
 target_link_libraries (devices_info_fortran liburb_tree)
 add_dependencies(devices_info_fortran ezcu_fortran)
 
@@ -53,6 +52,7 @@ add_dependencies(devices_info_fortran ezcu_fortran)
 ##    set to TRUE has undefined behavior. 
 ##  
 ## Inform the build location of the target. 
-set (VAR "${CMAKE_BINARY_DIR}/examples/fortran_interface/device_info_fortran")        
+set (VAR
+		 "${CMAKE_BINARY_DIR}/examples/fortran_interface/devices_info/devices_info_fortran")        
 set (EZCU_FORTRAN_EXAMPLES_FILES 
      "${EZCU_FORTRAN_EXAMPLES_FILES}" "${VAR}" PARENT_SCOPE)

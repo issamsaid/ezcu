@@ -41,7 +41,10 @@ cmake_policy(SET CMP0054 OLD)
 include(ExternalProject)
 
 ## overwrite the install prefix.
-set (CMAKE_INSTALL_PREFIX "${CMAKE_SOURCE_DIR}")
+
+if (NOT CMAKE_INSTALL_PREFIX)
+	set (CMAKE_INSTALL_PREFIX "${CMAKE_SOURCE_DIR}/install")
+endif (NOT CMAKE_INSTALL_PREFIX)
 
 ## add extra cmake modules dir.
 set (CMAKE_MODULE_PATH "${CMAKE_SOURCE_DIR}/cmake/modules")
@@ -145,61 +148,51 @@ add_subdirectory(examples EXCLUDE_FROM_ALL)
 ## build the ezcu documentation.
 add_subdirectory(doc EXCLUDE_FROM_ALL)
 
+##
 ## workarounds for the lack of post_install steps:
 ## add the path to urb_tree which we need during post install.
+##
+
+## setup the install dir.
+install(CODE "set(EZCU_INSTALL_DIR \"${CMAKE_INSTALL_PREFIX}\")")
+
+## get the urb_tree path.
 get_target_property(URB_TREE_LIB liburb_tree IMPORTED_LOCATION)
 install(CODE "set(URB_TREE_LIB \"${URB_TREE_LIB}\")")
 
 ## add the paths of the ezcu_fortran target which we need during post-install.
 get_directory_property(EZCU_FORTRAN_BUILD_LIB DIRECTORY 
                        fortran_interface DEFINITION EZCU_FORTRAN_BUILD_LIB)
-get_directory_property(EZCU_FORTRAN_INSTALL_DIR DIRECTORY 
-                       fortran_interface DEFINITION EZCU_FORTRAN_INSTALL_DIR)
+get_directory_property(EZCU_FORTRAN_MODULE_DIR DIRECTORY 
+                       fortran_interface DEFINITION EZCU_FORTRAN_MODULE_DIR)
 install(CODE "set(EZCU_FORTRAN_BUILD_LIB \"${EZCU_FORTRAN_BUILD_LIB}\")")
-install(CODE "set(EZCU_FORTRAN_INSTALL_DIR \"${EZCU_FORTRAN_INSTALL_DIR}\")")
+install(CODE "set(EZCU_FORTRAN_MODULE_DIR \"${EZCU_FORTRAN_MODULE_DIR}\")")
 
 ## add the paths of the ezcu_test target which we need during post-install.
 get_directory_property(EZCU_TEST_BUILD_EXE DIRECTORY 
                        test/src DEFINITION EZCU_TEST_BUILD_EXE)
-get_directory_property(EZCU_TEST_INSTALL_DIR DIRECTORY 
-                       test/src DEFINITION EZCU_TEST_INSTALL_DIR)
 install(CODE "set(EZCU_TEST_BUILD_EXE \"${EZCU_TEST_BUILD_EXE}\")")
-install(CODE "set(EZCU_TEST_INSTALL_DIR \"${EZCU_TEST_INSTALL_DIR}\")")
 
 ## add the paths of ezcu_test_fortran which we need during post-install.
 get_directory_property(EZCU_TEST_FORTRAN_BUILD_EXE DIRECTORY 
                        test/fortran_interface 
                        DEFINITION EZCU_TEST_FORTRAN_BUILD_EXE)
-get_directory_property(EZCU_TEST_FORTRAN_INSTALL_DIR DIRECTORY 
-                       test/fortran_interface 
-                       DEFINITION EZCU_TEST_FORTRAN_INSTALL_DIR)
 install(CODE 
         "set(EZCU_TEST_FORTRAN_BUILD_EXE \"${EZCU_TEST_FORTRAN_BUILD_EXE}\")")
-install(CODE 
-        "set(EZCU_TEST_FORTRAN_INSTALL_DIR \"${EZCU_TEST_FORTRAN_INSTALL_DIR}\")")
 
 ## add the paths of the c_examples target which we need during post-install.
 get_directory_property(EZCU_C_EXAMPLES_FILES DIRECTORY 
                        examples/src DEFINITION EZCU_C_EXAMPLES_FILES)
-get_directory_property(EZCU_C_EXAMPLES_INSTALL_DIR DIRECTORY 
-                       examples/src DEFINITION EZCU_C_EXAMPLES_INSTALL_DIR)
 install(CODE 
         "set(EZCU_C_EXAMPLES_FILES \"${EZCU_C_EXAMPLES_FILES}\")")
-install(CODE 
-        "set(EZCU_C_EXAMPLES_INSTALL_DIR \"${EZCU_C_EXAMPLES_INSTALL_DIR}\")")
 
 ## add the paths of the fortran_examples target which 
 ## we need during post-install.
 get_directory_property(EZCU_FORTRAN_EXAMPLES_FILES DIRECTORY 
                        examples/fortran_interface 
                        DEFINITION EZCU_FORTRAN_EXAMPLES_FILES)
-get_directory_property(EZCU_FORTRAN_EXAMPLES_INSTALL_DIR DIRECTORY 
-                       examples/fortran_interface 
-                       DEFINITION EZCU_FORTRAN_EXAMPLES_INSTALL_DIR)
 install(CODE 
         "set(EZCU_FORTRAN_EXAMPLES_FILES \"${EZCU_FORTRAN_EXAMPLES_FILES}\")")
-install(CODE 
-        "set(EZCU_FORTRAN_EXAMPLES_INSTALL_DIR \"${EZCU_FORTRAN_EXAMPLES_INSTALL_DIR}\")")
 
 ## add a subdirectory that contains the post-install scripts.
 add_subdirectory(${CMAKE_SOURCE_DIR}/cmake/post_install)

@@ -35,7 +35,7 @@ cmake_minimum_required(VERSION 3.8 FATAL_ERROR)
 project(fortran_examples LANGUAGES Fortran)
 
 ## include the ezcu Fortran modules.
-include_directories(${CMAKE_SOURCE_DIR}/modules)
+include_directories(${CMAKE_BINARY_DIR}/modules)
 
 ## add a custom target that includes the build of all the Fortran examples.
 add_custom_target(fortran_examples)
@@ -55,7 +55,4 @@ endforeach()
 ##    set to TRUE has undefined behavior. 
 ##  
 ## first: inform the build location of the target. 
-#set (EZCU_FORTRAN_EXAMPLES_FILES ${EZCU_FORTRAN_EXAMPLES_FILES})
-
-## then : inform the location where the target is to be installed. 
-#set (EZCU_FORTRAN_EXAMPLES_INSTALL_DIR ${CMAKE_SOURCE_DIR}/examples/bin)
+set (EZCU_FORTRAN_EXAMPLES_FILES ${EZCU_FORTRAN_EXAMPLES_FILES})

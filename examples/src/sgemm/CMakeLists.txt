@@ -42,7 +42,6 @@ add_executable(sgemm ${C_SRCS})
 
 target_link_libraries (sgemm ezcu)
 target_link_libraries (sgemm ${CUDA_CUDA_LIBRARY})
-target_link_libraries (sgemm ${NVRTC_LIBRARY})
 target_link_libraries (sgemm liburb_tree)
 add_dependencies(sgemm ezcu)
 
@@ -53,5 +52,5 @@ add_dependencies(sgemm ezcu)
 ##    set to TRUE has undefined behavior. 
 ##  
 ## Inform the build location of the target. 
-set (VAR "${CMAKE_BINARY_DIR}/examples/src/sgemm")
+set (VAR "${CMAKE_BINARY_DIR}/examples/src/sgemm/sgemm")
 set (EZCU_C_EXAMPLES_FILES "${EZCU_C_EXAMPLES_FILES}" "${VAR}" PARENT_SCOPE)

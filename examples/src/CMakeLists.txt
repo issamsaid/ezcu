@@ -61,6 +61,3 @@ endforeach()
 ##  
 ## first: inform the build location of the target. 
 set (EZCU_C_EXAMPLES_FILES ${EZCU_C_EXAMPLES_FILES})
-
-## then : inform the location where the target is to be installed. 
-set (EZCU_C_EXAMPLES_INSTALL_DIR ${CMAKE_SOURCE_DIR}/examples/bin)

@@ -36,7 +36,7 @@ project (ezcu_fortran LANGUAGES Fortran)
 
 ## build the ezcu Fortran static library.
 file(GLOB F_SRCS "*.f90")
-set(CMAKE_Fortran_MODULE_DIRECTORY "${CMAKE_SOURCE_DIR}/modules")
+set(CMAKE_Fortran_MODULE_DIRECTORY "${CMAKE_BINARY_DIR}/modules")
 add_library(ezcu_fortran STATIC ${F_SRCS})
 set_target_properties(ezcu_fortran PROPERTIES OUTPUT_NAME "ezcu_fortran")
 add_dependencies(ezcu_fortran ezcu)
@@ -50,6 +50,5 @@ add_dependencies(ezcu_fortran ezcu)
 ## First: inform the build location of the target. 
 set(EZCU_FORTRAN_BUILD_LIB
 		"${CMAKE_BINARY_DIR}/fortran_interface/libezcu_fortran.a")
+set(EZCU_FORTRAN_MODULE_DIR "${CMAKE_Fortran_MODULE_DIRECTORY}")
 
-## Then : inform the location where the target is to be installed. 
-set(EZCU_FORTRAN_INSTALL_DIR ${CMAKE_SOURCE_DIR}/lib)
