@@ -63,3 +63,9 @@ string(REGEX REPLACE " " ";" CUDA_ARCH ${CUDA_ARCH})
 foreach(target ${CUDA_ARCH})
 	set(CMAKE_CUDA_FLAGS "${CMAKE_CUDA_FLAGS} ${${target}}")
 endforeach(target ${CUDA_ARCH})
+
+## set the host compiler if any
+if (CMAKE_CUDA_HOST_COMPILER)
+	set(CMAKE_CUDA_FLAGS "-ccbin=${CMAKE_CUDA_HOST_COMPILER} ${CMAKE_CUDA_FLAGS}")
+endif (CMAKE_CUDA_HOST_COMPILER)
+

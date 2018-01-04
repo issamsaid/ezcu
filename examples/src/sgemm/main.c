@@ -61,7 +61,7 @@ int main(void) {
     ///
     ///< Initialize ezcu with selecting the default GPU.
     ///
-    ezcu_init(GPU);
+    ezcu_init();
 
     ///
     ///< Load the OpenCL kernel that runs the multiplication.
@@ -71,7 +71,7 @@ int main(void) {
     ///
     ///< Get a pointer to the desired device (in this case the default GPU).
     ///
-    device = ezcu_dev_find(DEFAULT);
+    device = ezcu_dev_find(0);
 
     a = (float*)malloc(N*N*sizeof(float));
     b = (float*)malloc(N*N*sizeof(float));

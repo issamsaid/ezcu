@@ -50,5 +50,5 @@ add_dependencies(devices_info ezcu)
 ##    set to TRUE has undefined behavior. 
 ##  
 ## Inform the build location of the target. 
-# get_target_property(VAR devices_info LOCATION)
-# set (EZCU_C_EXAMPLES_FILES "${EZCU_C_EXAMPLES_FILES}" "${VAR}" PARENT_SCOPE)
+set (VAR "${CMAKE_BINARY_DIR}/examples/src/device_info")                              
+set (EZCU_C_EXAMPLES_FILES "${EZCU_C_EXAMPLES_FILES}" "${VAR}" PARENT_SCOPE)

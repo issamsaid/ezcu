@@ -50,12 +50,15 @@ add_dependencies(ezcu liburb_tree)
 set_target_properties(ezcu PROPERTIES OUTPUT_NAME "ezcu")
 install(TARGETS ezcu ARCHIVE DESTINATION lib)
 
-# ## Add the paths to ezcu which we need during post install.
-# get_target_property(EZCU_BUILD_LIB ezcu LOCATION)
-# get_filename_component(EZCU_BUILD_DIR ${EZCU_BUILD_LIB} DIRECTORY)
-# string(REPLACE ${EZCU_BUILD_DIR} 
-#        ${CMAKE_SOURCE_DIR}/lib EZCU_INSTALL_LIB 
-#        ${EZCU_BUILD_LIB})
+## add the paths to ezcu which we need during post install.
+set(EZCU_BUILD_LIB "${CMAKE_BINARY_DIR}/src/libezcu.a")
 
-# install(CODE "set(EZCU_BUILD_LIB \"${EZCU_BUILD_LIB}\")")
-# install(CODE "set(EZCU_INSTALL_LIB \"${EZCU_INSTALL_LIB}\")")
+get_filename_component(EZCU_BUILD_DIR ${EZCU_BUILD_LIB} DIRECTORY)
+
+string(REPLACE
+			 ${EZCU_BUILD_DIR} 
+       ${CMAKE_SOURCE_DIR}/lib EZCU_INSTALL_LIB 
+       ${EZCU_BUILD_LIB})
+
+install(CODE "set(EZCU_BUILD_LIB \"${EZCU_BUILD_LIB}\")")
+install(CODE "set(EZCU_INSTALL_LIB \"${EZCU_INSTALL_LIB}\")")

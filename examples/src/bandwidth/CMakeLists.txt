@@ -53,5 +53,5 @@ add_dependencies(bandwidth ezcu)
 ##    set to TRUE has undefined behavior. 
 ##  
 ## Inform the build location of the target. 
-# get_target_property(VAR bandwidth LOCATION)
-# set (EZCU_C_EXAMPLES_FILES "${EZCU_C_EXAMPLES_FILES}" "${VAR}" PARENT_SCOPE)
+set (VAR "${CMAKE_BINARY_DIR}/examples/src/bandwidth")                              
+set (EZCU_C_EXAMPLES_FILES "${EZCU_C_EXAMPLES_FILES}" "${VAR}" PARENT_SCOPE)

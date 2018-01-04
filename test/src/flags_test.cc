@@ -48,9 +48,12 @@ namespace {
         ezcu->mems  = &urb_sentinel;
         ezcu->fdout = stdout;
         ezcu->fderr = stderr;
+				::testing::FLAGS_gtest_death_test_style = "threadsafe";
+				testing::internal::CaptureStdout();
       }
       virtual void TearDown() { 
         if (ezcu) {
+				  std::string output = testing::internal::GetCapturedStdout();
           free(ezcu); 
           ezcu = NULL;
         }

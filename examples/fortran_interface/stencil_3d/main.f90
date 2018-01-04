@@ -52,7 +52,7 @@ program stencil_3d_fortran
     !!
     !!< Initialize ezcu with selecting the default GPU.
     !!
-    call ezcu_init(GPU)
+    call ezcu_init()
 
     !!                 
     !!< Load and build the CUDA kernel from ptx.
@@ -62,7 +62,7 @@ program stencil_3d_fortran
     !!
     !!< Get a pointer to the desired device (in this case the default GPU).
     !!
-    call ezcu_dev_find(DEFAULT, device)
+    call ezcu_dev_find(0, device)
 
     allocate(u(N+8, N+8, N+8))
     allocate(v(N+8, N+8, N+8))

@@ -41,7 +41,7 @@ namespace {
 
   class DevTest : public ::testing::Test {
   protected:
-    virtual void SetUp() { ezcu_init(DEFAULT); }
+    virtual void SetUp() { ezcu_init(); }
 
     virtual void TearDown() { ezcu_release(); }
   };

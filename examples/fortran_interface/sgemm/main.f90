@@ -52,7 +52,7 @@ program sgemm_fortran
     !!
     !!< Initialize ezcu with selecting the default GPU.
     !!
-    call ezcu_init(GPU)
+    call ezcu_init()
 
     !!                 
     !!< Load and build the CUDA kernel from ptx.
@@ -62,7 +62,7 @@ program sgemm_fortran
     !!
     !!< Get a pointer to the desired device (in this case the default GPU).
     !!
-    call ezcu_dev_find(DEFAULT, device)
+    call ezcu_dev_find(0, device)
 
     allocate(a(N,N))
     allocate(b(N,N))

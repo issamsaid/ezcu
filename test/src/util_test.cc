@@ -40,23 +40,37 @@ namespace {
 
   class UtilTest : public ::testing::Test {
   protected:
-    virtual void SetUp() {}
-    virtual void TearDown() {}
+    virtual void SetUp() {
+    	ezcu_init();
+		}
+    virtual void TearDown() {
+    	ezcu_release();
+		}
   };
 
   TEST_F(UtilTest, ezcu_str2flags) {
-    ezcu_init(DEFAULT);
-    ASSERT_EQ(static_cast<ezcu_mem_locs_flags_t>(ezcu_str2flags("HWA")), HWA);
-    ASSERT_EQ(static_cast<ezcu_mem_locs_flags_t>(ezcu_str2flags("HOST")), HOST);
-    ezcu_release();
+		ezcu_flags_t flags[] = {HWA, HOST, PINNED, ZERO_COPY,
+																		 READ_ONLY, READ_WRITE, WRITE_ONLY,
+																		 CHAR, INT, LONG, FLOAT, DOUBLE, SIZET,
+																		 UNSIGNED_INT, UNSIGNED_LONG, SHORT, 
+																		 POINTER};
+		const char * strs[] = {"HWA", "HOST", "PINNED", "ZERO_COPY",              
+                     "READ_ONLY", "READ_WRITE", "WRITE_ONLY",         
+                     "CHAR", "INT", "LONG", "FLOAT", "DOUBLE", "SIZET",     
+                     "UNSIGNED_INT", "UNSIGNED_LONG", "SHORT", 
+									   "POINTER", "STOP"};
+    int i=0;
+		while(strcmp(strs[i], "STOP")) {
+			ASSERT_EQ(
+				static_cast<ezcu_flags_t>(ezcu_str2flags(strs[i])), flags[i]);
+			i++;
+		}
   }
 
   TEST_F(UtilTest, ezcu_count) {
     size_t n, s;
-    ezcu_init(DEFAULT);
     n = __ezcu_dev_query();
     s = ezcu_count();
     ASSERT_EQ(n, s);
-    ezcu_release();
   }
 }  // namespace

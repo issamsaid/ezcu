@@ -59,7 +59,7 @@ ezcu_env_t ezcu = NULL;
 /// 
 /// @brief Initialize the ezcu environment. 
 ///
-__host__ void ezcu_init(ezcu_flags_t flags) {
+__host__ void ezcu_init() {
   int i;
   char tmp_0[__EZCU_STR_SIZE];
 #ifndef __LOG_STD   

@@ -45,16 +45,10 @@ CPPGUARD_BEGIN()
 /// 
 /// @brief Initialize the CUDA environment. 
 ///
-/// This routine selects the CUDA platform and the devices indicated
-/// by the user, with the help of bitwise flags, and wraps them into an
-/// CUDA context. Flags are used by ezcu to select the platform vendor
-/// (AMD, APPLE, INTEL or NVIDIA) or to select the device type (CPU, GPU,
-/// ACCELERATOR).
-/// @see flags.h for more information.
-/// @param flags is the indication used to select the appropriate hardware.
+/// This routine selects the CUDA platform and the devices.
 /// @return Nothing.
 ///
-void ezcu_init(ezcu_flags_t flags);
+void ezcu_init();
 
 ///
 /// @brief Release the CUDA resources and quits the ezcu library.

@@ -58,7 +58,8 @@ add_dependencies(ezcu_test_fortran ezcu_fortran)
 ##    set to TRUE has undefined behavior. 
 ##  
 ## First: inform the build location of the target. 
-#get_target_property(EZCU_TEST_FORTRAN_BUILD_EXE ezcu_test_fortran LOCATION)
+set(EZCU_TEST_FORTRAN_BUILD_EXE 
+	  "${CMAKE_BINARY_DIR}/test/fortran_interface/ezcu_test_fortran")
 
 ## Then : inform the location where the target is to be installed. 
-#set (EZCU_TEST_FORTRAN_INSTALL_DIR ${CMAKE_SOURCE_DIR}/test/bin)
+set (EZCU_TEST_FORTRAN_INSTALL_DIR ${CMAKE_SOURCE_DIR}/test/bin)

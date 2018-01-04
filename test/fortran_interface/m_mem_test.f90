@@ -181,7 +181,7 @@ contains
     end function access_buffer_4d
 
     subroutine setup()
-        call ezcu_init(DEFAULT)
+        call ezcu_init()
         call ezcu_dev_find(0, d)
     end subroutine setup
 

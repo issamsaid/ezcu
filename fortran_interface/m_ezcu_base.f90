@@ -42,12 +42,6 @@ module m_ezcu_base
     private
 
     interface
-        subroutine c_ezcu_init(flags) bind(c, name = "ezcu_init")
-            use, intrinsic :: iso_c_binding, only: c_int64_t
-            implicit none
-            integer(kind=c_int64_t), intent(in), value :: flags
-        end subroutine c_ezcu_init
-
         subroutine c_ezcu_load(filename, options) &
             bind(c, name = "ezcu_load_fort")
             use, intrinsic :: iso_c_binding, only: c_char
@@ -58,6 +52,9 @@ module m_ezcu_base
     end interface
 
     interface
+        subroutine ezcu_init() bind(c, name = "ezcu_init")
+        end subroutine ezcu_init
+
         subroutine ezcu_release() bind(c, name = "ezcu_release")
         end subroutine ezcu_release
 
@@ -71,15 +68,6 @@ module m_ezcu_base
     public :: ezcu_info
 
 contains
-    
-    subroutine ezcu_init(flags)
-        integer(kind=c_int64_t), optional, intent(in) :: flags
-        if (present(flags)) then
-            call c_ezcu_init(flags)
-        else
-            call c_ezcu_init(DEFAULT)
-        end if
-    end subroutine ezcu_init
     
     subroutine ezcu_load(filename, options)
         character(len=*),           intent(in) :: filename

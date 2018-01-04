@@ -158,11 +158,11 @@ __ezcu_knl_compile(const char *filename, const char *options) {
   char nvcc_cmd[__EZCU_BUFFER_SIZE], cpy[__EZCU_STR_SIZE];
   const char *env_opts = getenv("EZCU_BUILD_OPTIONS");
   sprintf(cpy, "%s", filename);
-  sprintf(nvcc_cmd, "%s %s", "nvcc -v -fatbin -odir", dirname(cpy));
+  sprintf(nvcc_cmd, "%s %s", "nvcc -fatbin -odir", dirname(cpy));
 #ifdef __DEBUG
   sprintf(nvcc_cmd, "%s %s", nvcc_cmd, "-g -G");
 #endif
-  sprintf(nvcc_cmd, "%s %s", nvcc_cmd, "-lineinfo -Xptxas -v,-Werror");
+  sprintf(nvcc_cmd, "%s %s", nvcc_cmd, "-lineinfo -Xptxas -O2,-Werror");
   /// if (__EZCU_BUILD_OPTIONS != "")
   sprintf(nvcc_cmd, "%s %s", nvcc_cmd, __EZCU_BUILD_OPTIONS);
   if (options != NULL)

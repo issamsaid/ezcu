@@ -34,6 +34,9 @@ cmake_minimum_required (VERSION 3.8 FATAL_ERROR)
 
 project (ezcu_distribution LANGUAGES C CXX Fortran CUDA)
 
+## cmake old policies 
+cmake_policy(SET CMP0054 OLD)
+
 ## enable ExternalProject CMake module.
 include(ExternalProject)
 
@@ -88,6 +91,8 @@ endif (use_mpi)
 
 ## add CUDA supported architectures and extra compile options.
 include(${CMAKE_MODULE_PATH}/cuda_arch_options.cmake)
+message(STATUS "... CMAKE_CUDA_FLAGS : ${CMAKE_CUDA_FLAGS}")
+
 set(CMAKE_C_FLAGS   
   "${CMAKE_C_FLAGS} -D__EZCU_BUILD_OPTIONS=\"\\\"${CMAKE_CUDA_FLAGS}\\\"\"")
 set(CMAKE_CXX_FLAGS

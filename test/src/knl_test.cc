@@ -56,7 +56,7 @@ namespace {
   protected:
     ezcu_dev_t d;
     virtual void SetUp() {
-      ezcu_init(DEFAULT);
+      ezcu_init();
       ezcu_timer_uset(MILLI_SECONDS);
       ezcu_load(PREFIX"/knl_test.cu", NULL);
       d = ezcu_dev_find(0);
@@ -305,8 +305,8 @@ namespace {
     ezcu_timer_tick();
     for (i=0; i<ITER; ++i)
       ezcu_knl_sync_exec("test_knl_1", d);
-    fprintf(stdout, 
-      "... time: %f %s\n", ezcu_timer_read()/ITER, ezcu_timer_uget());
+    //fprintf(stdout, 
+    //  "... time: %f %s\n", ezcu_timer_read()/ITER, ezcu_timer_uget());
     ezcu_mem_update(hdst, READ_ONLY);
     for (i = 0; i < N; ++i) ASSERT_FLOAT_EQ(hdst[i], i);
       free(hsrc);
@@ -336,8 +336,8 @@ namespace {
     ezcu_timer_tick();
     for (i=0; i<ITER; ++i) ezcu_knl_exec("test_knl_1", d);
       ezcu_dev_wait(d);
-    fprintf(stdout, 
-      "... time: %f %s\n", ezcu_timer_read()/ITER, ezcu_timer_uget());
+    //fprintf(stdout, 
+    //  "... time: %f %s\n", ezcu_timer_read()/ITER, ezcu_timer_uget());
     ezcu_mem_update(hdst, READ_ONLY);
     for (i = 0; i < N; ++i) ASSERT_FLOAT_EQ(hdst[i], i);
     free(hsrc);
@@ -478,12 +478,12 @@ namespace {
     ezcu_timer_tick();
     ezcu_mem_update(uo, READ_ONLY);
     comm = ezcu_timer_read();
-    fprintf(stdout, 
-      "... avertage time: %8.2f (%8.2f) %s, %8.2f (%8.2f) Gflop/s\n",
-      time/ITER, comm + time/ITER, ezcu_timer_uget(),
-      flops*1.e-9*ITER*dim[0]*dim[1]*dim[2]/(time*ezcu_timer_coef()),
-      flops*1.e-9*dim[0]*dim[1]*dim[2]/
-      ((comm+(time/ITER))*ezcu_timer_coef()));
+    //fprintf(stdout, 
+    //  "... avertage time: %8.2f (%8.2f) %s, %8.2f (%8.2f) Gflop/s\n",
+    //  time/ITER, comm + time/ITER, ezcu_timer_uget(),
+    //  flops*1.e-9*ITER*dim[0]*dim[1]*dim[2]/(time*ezcu_timer_coef()),
+    //  flops*1.e-9*dim[0]*dim[1]*dim[2]/
+    //  ((comm+(time/ITER))*ezcu_timer_coef()));
     check_stencil_3d(dim, s, coefx, coefy, coefz, ui, uo, epsilon);
     free(ui);
     free(uo);
@@ -561,12 +561,12 @@ namespace {
     ezcu_timer_tick();
     ezcu_mem_update(uo, READ_ONLY);
     comm = ezcu_timer_read();
-    fprintf(stdout, 
-            "... avertage time: %8.2f (%8.2f) %s, %8.2f (%8.2f) Gflop/s\n",
-            time/ITER, comm + time/ITER, ezcu_timer_uget(),
-            flops*1.e-9*ITER*dim[0]*dim[1]*dim[2]/(time*ezcu_timer_coef()),
-            flops*1.e-9*dim[0]*dim[1]*dim[2]/
-            ((comm+(time/ITER))*ezcu_timer_coef()));
+    //fprintf(stdout, 
+    //        "... avertage time: %8.2f (%8.2f) %s, %8.2f (%8.2f) Gflop/s\n",
+    //        time/ITER, comm + time/ITER, ezcu_timer_uget(),
+    //        flops*1.e-9*ITER*dim[0]*dim[1]*dim[2]/(time*ezcu_timer_coef()),
+    //        flops*1.e-9*dim[0]*dim[1]*dim[2]/
+    //         ((comm+(time/ITER))*ezcu_timer_coef()));
     check_stencil_3d(dim, s, coefx, coefy, coefz, ui, uo, epsilon);
     free(ui);
     free(uo);
@@ -645,12 +645,12 @@ namespace {
     ezcu_timer_tick();
     ezcu_mem_update(uo, READ_ONLY);
     comm = ezcu_timer_read();
-    fprintf(stdout, 
-            "... avertage time: %8.2f (%8.2f) %s, %8.2f (%8.2f) Gflop/s\n",
-            time/ITER, comm + time/ITER, ezcu_timer_uget(),
-            flops*1.e-9*ITER*dim[0]*dim[1]*dim[2]/(time*ezcu_timer_coef()),
-            flops*1.e-9*dim[0]*dim[1]*dim[2]/
-            ((comm+(time/ITER))*ezcu_timer_coef()));
+    //fprintf(stdout, 
+    //        "... avertage time: %8.2f (%8.2f) %s, %8.2f (%8.2f) Gflop/s\n",
+    //        time/ITER, comm + time/ITER, ezcu_timer_uget(),
+    //        flops*1.e-9*ITER*dim[0]*dim[1]*dim[2]/(time*ezcu_timer_coef()),
+    //        flops*1.e-9*dim[0]*dim[1]*dim[2]/
+    //        ((comm+(time/ITER))*ezcu_timer_coef()));
     check_stencil_3d(dim, s, coefx, coefy, coefz, ui, uo, epsilon);
     free(ui);
     free(uo);
@@ -729,12 +729,12 @@ namespace {
     ezcu_timer_tick();
     ezcu_mem_update(uo, READ_ONLY);
     comm = ezcu_timer_read();
-    fprintf(stdout, 
-            "... avertage time: %8.2f (%8.2f) %s, %8.2f (%8.2f) Gflop/s\n",
-            time/ITER, comm + time/ITER, ezcu_timer_uget(),
-            flops*1.e-9*ITER*dim[0]*dim[1]*dim[2]/(time*ezcu_timer_coef()),
-            flops*1.e-9*dim[0]*dim[1]*dim[2]/
-                ((comm+(time/ITER))*ezcu_timer_coef()));
+    //fprintf(stdout, 
+    //        "... avertage time: %8.2f (%8.2f) %s, %8.2f (%8.2f) Gflop/s\n",
+    //        time/ITER, comm + time/ITER, ezcu_timer_uget(),
+    //        flops*1.e-9*ITER*dim[0]*dim[1]*dim[2]/(time*ezcu_timer_coef()),
+    //        flops*1.e-9*dim[0]*dim[1]*dim[2]/
+    //            ((comm+(time/ITER))*ezcu_timer_coef()));
     check_stencil_3d(dim, s, coefx, coefy, coefz, ui, uo, epsilon);
     free(ui);
     free(uo);
@@ -813,12 +813,12 @@ namespace {
         ezcu_timer_tick();
         ezcu_mem_update(uo, READ_ONLY);
         comm = ezcu_timer_read();
-        fprintf(stdout, 
-                "... avertage time: %8.2f (%8.2f) %s, %8.2f (%8.2f) Gflop/s\n",
-                time/ITER, comm + time/ITER, ezcu_timer_uget(),
-                flops*1.e-9*ITER*dim[0]*dim[1]*dim[2]/(time*ezcu_timer_coef()),
-                flops*1.e-9*dim[0]*dim[1]*dim[2]/
-                ((comm+(time/ITER))*ezcu_timer_coef()));
+        //fprintf(stdout, 
+        //        "... avertage time: %8.2f (%8.2f) %s, %8.2f (%8.2f) Gflop/s\n",
+        //        time/ITER, comm + time/ITER, ezcu_timer_uget(),
+        //        flops*1.e-9*ITER*dim[0]*dim[1]*dim[2]/(time*ezcu_timer_coef()),
+        //        flops*1.e-9*dim[0]*dim[1]*dim[2]/
+        //        ((comm+(time/ITER))*ezcu_timer_coef()));
         check_stencil_3d(dim, s, coefx, coefy, coefz, ui, uo, epsilon);
         free(ui);
         free(uo);
@@ -897,12 +897,12 @@ namespace {
         ezcu_timer_tick();
         ezcu_mem_update(uo, READ_ONLY);
         comm = ezcu_timer_read();
-        fprintf(stdout, 
-                "... avertage time: %8.2f (%8.2f) %s, %8.2f (%8.2f) Gflop/s\n",
-                time/ITER, comm + time/ITER, ezcu_timer_uget(),
-                flops*1.e-9*ITER*dim[0]*dim[1]*dim[2]/(time*ezcu_timer_coef()),
-                flops*1.e-9*dim[0]*dim[1]*dim[2]/
-                ((comm+(time/ITER))*ezcu_timer_coef()));
+        //fprintf(stdout, 
+        //        "... avertage time: %8.2f (%8.2f) %s, %8.2f (%8.2f) Gflop/s\n",
+        //        time/ITER, comm + time/ITER, ezcu_timer_uget(),
+        //        flops*1.e-9*ITER*dim[0]*dim[1]*dim[2]/(time*ezcu_timer_coef()),
+        //        flops*1.e-9*dim[0]*dim[1]*dim[2]/
+        //        ((comm+(time/ITER))*ezcu_timer_coef()));
         check_stencil_3d(dim, s, coefx, coefy, coefz, ui, uo, epsilon);
         free(ui);
         free(uo);
@@ -985,12 +985,12 @@ namespace {
         ezcu_dev_wait(d);
         ltime = ezcu_timer_read();
         
-        fprintf(stdout, "... direct  time: %8.2f %s\n", 
-                dtime, ezcu_timer_uget());
-        fprintf(stdout, "... loockup time: %8.2f %s\n", 
-                ltime, ezcu_timer_uget());
-        fprintf(stdout, "... overhead    : %8.2f %s (%4.1f %%)\n", 
-                ltime-dtime, ezcu_timer_uget(), 100.0*(ltime-dtime)/dtime);
+        //fprintf(stdout, "... direct  time: %8.2f %s\n", 
+        //        dtime, ezcu_timer_uget());
+        //fprintf(stdout, "... loockup time: %8.2f %s\n", 
+        //        ltime, ezcu_timer_uget());
+        //fprintf(stdout, "... overhead    : %8.2f %s (%4.1f %%)\n", 
+        //        ltime-dtime, ezcu_timer_uget(), 100.0*(ltime-dtime)/dtime);
         free(ui);
         free(uo);
         free(coefx);

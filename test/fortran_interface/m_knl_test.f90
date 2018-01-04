@@ -267,7 +267,7 @@ contains
 
 
     subroutine setup()
-        call ezcu_init(DEFAULT)
+        call ezcu_init()
         call ezcu_dev_find(0, d)
         call ezcu_load(PREFIX//"/knl_test.cu")
     end subroutine setup

@@ -63,7 +63,7 @@ int main(void) {
     ///
     ///< Initialize ezcu with selecting the default GPU.
     ///
-    ezcu_init(GPU);
+    ezcu_init();
 
     ///
     ///< Load the CUDA kernel that runs the stencil computations.
@@ -73,7 +73,7 @@ int main(void) {
     ///
     ///< Get a pointer to the desired device (in this case the default GPU).
     ///
-    device = ezcu_dev_find(DEFAULT);
+    device = ezcu_dev_find(0);
 
     u      = (float*)malloc((N+8)*(N+8)*(N+8)*sizeof(float));
     v      = (float*)malloc((N+8)*(N+8)*(N+8)*sizeof(float));

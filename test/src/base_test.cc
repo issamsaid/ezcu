@@ -50,7 +50,7 @@ namespace {
 
   TEST_F(BaseTest, init_default) {
     ASSERT_TRUE(ezcu == NULL);
-    ezcu_init(DEFAULT);
+    ezcu_init();
     ASSERT_TRUE(ezcu != NULL);
     ezcu_release();
     ASSERT_TRUE(ezcu == NULL);
@@ -58,13 +58,13 @@ namespace {
 
   TEST_F(BaseTest, init_default_singleton) {
     ASSERT_TRUE(ezcu == NULL);
-    ezcu_init(DEFAULT);
+    ezcu_init();
     ASSERT_TRUE(ezcu != NULL);
-    ezcu_init(DEFAULT);
-    ezcu_init(DEFAULT);
-    ezcu_init(DEFAULT);
-    ezcu_init(DEFAULT);
-    ezcu_init(DEFAULT);
+    ezcu_init();
+    ezcu_init();
+    ezcu_init();
+    ezcu_init();
+    ezcu_init();
     ASSERT_TRUE(ezcu != NULL);
     ezcu_release();
     ASSERT_TRUE(ezcu == NULL);
@@ -72,7 +72,7 @@ namespace {
 
   TEST_F(BaseTest, release_default_singleton) {
     ASSERT_TRUE(ezcu == NULL);
-    ezcu_init(DEFAULT);
+    ezcu_init();
     ASSERT_TRUE(ezcu != NULL);
     ezcu_release();
     ezcu_release();
@@ -86,14 +86,14 @@ namespace {
 
   TEST_F(BaseTest, load) {
     ASSERT_TRUE(ezcu == NULL);
-    ezcu_init(DEFAULT);
+    ezcu_init();
     ezcu_load(PREFIX"/knl_test.cu", NULL);
     ezcu_release();
     ASSERT_TRUE(ezcu == NULL);
   }
 
   TEST_F(BaseTest, info) {
-    ezcu_init(DEFAULT);
+    ezcu_init();
     ezcu_info();
     ezcu_release();
   }
@@ -101,7 +101,7 @@ namespace {
   TEST_F(BaseTest, stress_init_release) {
     int i;        
     for (i=0; i<N; i++) {
-      ezcu_init(DEFAULT);
+      ezcu_init();
       ezcu_info();
       ezcu_release();
     }

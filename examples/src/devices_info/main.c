@@ -45,7 +45,7 @@ int main(void) {
     fprintf(stdout, "... start of the ezcu devices info example\n");
 
     ///< Initialize ezcu with all possible devices.
-    ezcu_init(ALL);
+    ezcu_init();
 
     ///< Show the information of the loaded devices.
     ezcu_info();

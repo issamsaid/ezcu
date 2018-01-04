@@ -53,6 +53,6 @@ add_dependencies(sgemm_fortran ezcu_fortran)
 ##    set to TRUE has undefined behavior. 
 ##  
 ## Inform the build location of the target. 
-# get_target_property(VAR sgemm_fortran LOCATION)
-# set (EZCU_FORTRAN_EXAMPLES_FILES 
-#     "${EZCU_FORTRAN_EXAMPLES_FILES}" "${VAR}" PARENT_SCOPE)
+set (VAR "${CMAKE_BINARY_DIR}/examples/fortran_interface/sgemm_fortran")                              
+set (EZCU_FORTRAN_EXAMPLES_FILES 
+     "${EZCU_FORTRAN_EXAMPLES_FILES}" "${VAR}" PARENT_SCOPE)

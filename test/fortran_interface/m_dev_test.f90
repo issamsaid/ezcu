@@ -63,7 +63,7 @@ contains
     end function default_dev
 
     subroutine setup()
-        call ezcu_init(DEFAULT)
+        call ezcu_init()
     end subroutine setup
 
     subroutine teardown()

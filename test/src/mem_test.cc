@@ -52,7 +52,7 @@ namespace {
       size_t N;
       unsigned int grid[3], block[3];
       virtual void SetUp() {
-        ezcu_init(DEFAULT);
+        ezcu_init();
         d = ezcu_dev_find(0);
         N = 128;
         grid[0]  = N/16;
@@ -386,9 +386,9 @@ namespace {
     ezcu_mem_update(tab_east,  READ_ONLY);
     ezcu_mem_update(tab_front, READ_ONLY);
     ezcu_mem_update(tab_back,  READ_ONLY);
-    fprintf(stdout, "... time pack       : %f %s\n", 
-      ezcu_timer_read(), ezcu_timer_uget());
-        // Z
+    //fprintf(stdout, "... time pack       : %f %s\n", 
+    //  ezcu_timer_read(), ezcu_timer_uget());
+    // Z
     for (z=4; z < 8; ++z) {
       for (y=4; y < nh+4; ++y) {
         for (x=4; x < nw+4; ++x) {
@@ -449,10 +449,10 @@ namespace {
     ezcu_knl_sync_exec("kselect", d);
     ezcu_timer_tick();
     ezcu_mem_update(buf, READ_ONLY);
-    fprintf(stdout, "... time full update: %f %s\n", 
-      ezcu_timer_read(), ezcu_timer_uget());
+    //fprintf(stdout, "... time full update: %f %s\n", 
+    //        ezcu_timer_read(), ezcu_timer_uget());
 
-        // Unpack
+    // Unpack
     grid[0]  = N/16;
     grid[1]  = N/16;
     block[0] = 16;
@@ -515,10 +515,10 @@ namespace {
     ezcu_knl_exec("unpack_front", d);
     ezcu_knl_exec("unpack_back",  d);
     ezcu_dev_wait(d);
-    fprintf(stdout, "... time unpack     : %f %s\n", 
-      ezcu_timer_read(), ezcu_timer_uget());
+    //fprintf(stdout, "... time unpack     : %f %s\n", 
+    //  ezcu_timer_read(), ezcu_timer_uget());
     ezcu_mem_update(cpy, READ_ONLY);
-        /// Z
+    /// Z
     for (z=4; z < 8; ++z) {
       for (y=4; y < nh+4; ++y) {
         for (x=4; x < nw+4; ++x) {
@@ -727,9 +727,9 @@ namespace {
     ezcu_mem_update(tab_east,  READ_ONLY);
     ezcu_mem_update(tab_front, READ_ONLY);
     ezcu_mem_update(tab_back,  READ_ONLY);
-    fprintf(stdout, "... time pack       : %f %s\n", 
-      ezcu_timer_read(), ezcu_timer_uget());
-        // Z
+    //fprintf(stdout, "... time pack       : %f %s\n", 
+    //  ezcu_timer_read(), ezcu_timer_uget());
+    // Z
     for (z=4; z < 8; ++z) {
       for (y=4; y < nh+4; ++y) {
         for (x=4; x < nw+4; ++x) {
@@ -746,7 +746,7 @@ namespace {
         }
       }
     }
-        // X
+    // X
     for (z=4; z < nd+4; ++z) {
       for (y=4; y < nh+4; ++y) {
         for (x=4; x < 8; ++x) {
@@ -788,10 +788,10 @@ namespace {
     ezcu_knl_sync_run("kselect", d, buf, nw, nh, nd);
     ezcu_timer_tick();
     ezcu_mem_update(buf, READ_ONLY);
-    fprintf(stdout, "... time full update: %f %s\n", 
-      ezcu_timer_read(), ezcu_timer_uget());
+    //fprintf(stdout, "... time full update: %f %s\n", 
+    //  ezcu_timer_read(), ezcu_timer_uget());
 
-        // Unpack
+    // Unpack
     grid[0]  = N/16;
     grid[1]  = N/16;
     block[0] = 16;
@@ -854,10 +854,10 @@ namespace {
     ezcu_knl_exec("unpack_front", d);
     ezcu_knl_exec("unpack_back",  d);
     ezcu_dev_wait(d);
-    fprintf(stdout, "... time unpack     : %f %s\n", 
-      ezcu_timer_read(), ezcu_timer_uget());
+    //fprintf(stdout, "... time unpack     : %f %s\n", 
+    //  ezcu_timer_read(), ezcu_timer_uget());
     ezcu_mem_update(cpy, READ_ONLY);
-        /// Z
+    /// Z
     for (z=4; z < 8; ++z) {
       for (y=4; y < nh+4; ++y) {
         for (x=4; x < nw+4; ++x) {
@@ -1070,8 +1070,8 @@ namespace {
     ezcu_mem_update(tab_east,  READ_ONLY);
     ezcu_mem_update(tab_front, READ_ONLY);
     ezcu_mem_update(tab_back,  READ_ONLY);
-    fprintf(stdout, "... time pack       : %f %s\n", 
-    ezcu_timer_read(), ezcu_timer_uget());
+    //fprintf(stdout, "... time pack       : %f %s\n", 
+    //ezcu_timer_read(), ezcu_timer_uget());
     // Z
     for (z=4; z < 8; ++z) {
       for (y=4; y < nh+4; ++y) {
@@ -1131,10 +1131,10 @@ namespace {
     ezcu_knl_sync_run("kselect", d, buf, nw, nh, nd);
     ezcu_timer_tick();
     ezcu_mem_update(buf, READ_ONLY);
-    fprintf(stdout, "... time full update: %f %s\n", 
-      ezcu_timer_read(), ezcu_timer_uget());
+    //fprintf(stdout, "... time full update: %f %s\n", 
+    //  ezcu_timer_read(), ezcu_timer_uget());
 
-        // Unpack
+    // Unpack
     grid[0]  = N/16;
     grid[1]  = N/16;
     block[0] = 16;
@@ -1197,10 +1197,10 @@ namespace {
     ezcu_knl_exec("unpack_front", d);
     ezcu_knl_exec("unpack_back",  d);
     ezcu_dev_wait(d);
-    fprintf(stdout, "... time unpack     : %f %s\n", 
-      ezcu_timer_read(), ezcu_timer_uget());
+    //fprintf(stdout, "... time unpack     : %f %s\n", 
+    //  ezcu_timer_read(), ezcu_timer_uget());
     ezcu_mem_update(cpy, READ_ONLY);
-        /// Z
+    /// Z
     for (z=4; z < 8; ++z) {
       for (y=4; y < nh+4; ++y) {
         for (x=4; x < nw+4; ++x) {

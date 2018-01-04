@@ -53,6 +53,30 @@ ezcu_flags_t ezcu_str2flags(const char* str) {
     flags = WRITE_ONLY;
   else if (strcmp(str, "READ_WRITE") == 0)
     flags = READ_WRITE;
+  else if (strcmp(str, "HWA") == 0)
+    flags = HWA;
+  else if (strcmp(str, "HOST") == 0)
+    flags = HOST;
+  else if (strcmp(str, "CHAR") == 0)
+    flags = CHAR;
+  else if (strcmp(str, "FLOAT") == 0)
+    flags = FLOAT;
+  else if (strcmp(str, "DOUBLE") == 0)
+    flags = DOUBLE;
+  else if (strcmp(str, "INT") == 0)
+    flags = INT;
+  else if (strcmp(str, "UNSIGNED_INT") == 0)
+  	flags = UNSIGNED_INT;        
+  else if (strcmp(str, "LONG") == 0)
+  	flags = LONG;              
+  else if (strcmp(str, "UNSIGNED_LONG") == 0)
+  	flags = UNSIGNED_LONG;        
+  else if (strcmp(str, "SIZET") == 0)
+  	flags = SIZET;               
+  else if (strcmp(str, "POINTER") == 0)
+  	flags = POINTER;                 
+  else if (strcmp(str, "SHORT") == 0)
+  	flags = SHORT;
   else
     EZCU_EXIT("unknown ezcu_flags_t");
   return flags;

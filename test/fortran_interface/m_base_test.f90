@@ -55,7 +55,7 @@ module m_base_test
 
   logical function get_explicit_default() result(status)
     implicit none
-    call ezcu_init(DEFAULT)
+    call ezcu_init()
     call ezcu_release()
     status = .true.
   end function get_explicit_default

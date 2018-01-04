@@ -75,7 +75,7 @@ int main(int argc, char** argv) {
     ///
     ///< Initialize ezcu with selecting the default GPU.
     ///
-    ezcu_init(GPU);
+    ezcu_init();
 
     ///
     ///< Load the CUDA kernel that runs the memory copy.
@@ -85,7 +85,7 @@ int main(int argc, char** argv) {
     ///
     ///< Get a pointer to the desired device (in this case the default GPU).
     ///
-    device = ezcu_dev_find(DEFAULT);
+    device = ezcu_dev_find(0);
 
     a = (float*)malloc(N*sizeof(float));
     b = (float*)malloc(N*sizeof(float));

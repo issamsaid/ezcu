@@ -40,7 +40,7 @@ program devices_info_fortran
     !!
     !!< Initialize ezcu with selecting all devices.
     !!
-    call ezcu_init(ALL)
+    call ezcu_init()
     
     !!
     !!< Show information about the CUDA resources.

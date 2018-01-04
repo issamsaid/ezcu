@@ -48,7 +48,8 @@ add_dependencies(ezcu_fortran ezcu)
 ##    set to TRUE has undefined behavior. 
 ##  
 ## First: inform the build location of the target. 
-#get_target_property(EZCU_FORTRAN_BUILD_LIB ezcu_fortran LOCATION)
+set(EZCU_FORTRAN_BUILD_LIB
+		"${CMAKE_BINARY_DIR}/fortran_interface/libezcu_fortran.a")
 
 ## Then : inform the location where the target is to be installed. 
 set(EZCU_FORTRAN_INSTALL_DIR ${CMAKE_SOURCE_DIR}/lib)

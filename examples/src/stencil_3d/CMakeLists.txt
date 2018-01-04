@@ -51,5 +51,5 @@ add_dependencies(stencil_3d ezcu)
 ##    set to TRUE has undefined behavior. 
 ##  
 ## Inform the build location of the target. 
-# get_target_property(VAR stencil_3d LOCATION)
-# set (EZCU_C_EXAMPLES_FILES "${EZCU_C_EXAMPLES_FILES}" "${VAR}" PARENT_SCOPE)
+set (VAR "${CMAKE_BINARY_DIR}/examples/src/stencil_3d")                              
+set (EZCU_C_EXAMPLES_FILES "${EZCU_C_EXAMPLES_FILES}" "${VAR}" PARENT_SCOPE)

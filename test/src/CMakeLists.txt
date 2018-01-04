@@ -99,7 +99,7 @@ add_dependencies(ezcu_test ezcu)
 ##    set to TRUE has undefined behavior. 
 ##  
 ## First: inform the build location of the target. 
-#get_target_property(EZCU_TEST_BUILD_EXE ezcu_test LOCATION)
+set(EZCU_TEST_BUILD_EXE "${CMAKE_BINARY_DIR}/test/src/ezcu_test")
 
 ## Then : inform the location where the target is to be installed. 
-#set (EZCU_TEST_INSTALL_DIR ${CMAKE_SOURCE_DIR}/test/bin)
+set (EZCU_TEST_INSTALL_DIR ${CMAKE_SOURCE_DIR}/test/bin)

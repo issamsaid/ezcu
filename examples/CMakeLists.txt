@@ -74,5 +74,6 @@ add_subdirectory(src)
 add_subdirectory(fortran_interface)
 
 ## Add a custom target that includes the build of all the targets
+#cmake_policy(SET CMP0026 OLD)
 add_custom_target(build_examples)
 add_dependencies(build_examples c_examples fortran_examples)
