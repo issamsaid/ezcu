@@ -1,5 +1,4 @@
 # Cmake files
-build.sh
 build/
 build/*
 */build/
@@ -55,10 +54,6 @@ doc/doxygen.stamp
 
 # Fortran modules
 /modules
-
-# Release script
-release.sh
-tag.sh
 
 # CUDA generated files
 *generated*
