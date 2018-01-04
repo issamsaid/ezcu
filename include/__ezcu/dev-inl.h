@@ -160,6 +160,7 @@ __ezcu_dev_smversion2cores(int major, int minor) {
     { 0x52, 128}, /// Maxwell Generation (SM 5.2) GM20x class
     { 0x60, 64 }, /// Pascal  Generation (SM 6.0) GP100 class
     { 0x61, 128}, /// Pascal  Generation (SM 6.1) GP102 class
+    { 0x70, 64 }, /// Volta   Generation (SM 7.0) GV100 class
     {   -1, -1 }
   };
 
