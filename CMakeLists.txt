@@ -41,10 +41,7 @@ cmake_policy(SET CMP0054 OLD)
 include(ExternalProject)
 
 ## overwrite the install prefix.
-
-if (NOT CMAKE_INSTALL_PREFIX)
-	set (CMAKE_INSTALL_PREFIX "${CMAKE_SOURCE_DIR}/install")
-endif (NOT CMAKE_INSTALL_PREFIX)
+set (CMAKE_INSTALL_PREFIX "${CMAKE_SOURCE_DIR}")
 
 ## add extra cmake modules dir.
 set (CMAKE_MODULE_PATH "${CMAKE_SOURCE_DIR}/cmake/modules")
@@ -154,7 +151,7 @@ add_subdirectory(doc EXCLUDE_FROM_ALL)
 ##
 
 ## setup the install dir.
-install(CODE "set(EZCU_INSTALL_DIR \"${CMAKE_INSTALL_PREFIX}\")")
+install(CODE "set(EZCU_INSTALL_DIR \"${CMAKE_SOURCE_DIR}\")")
 
 ## get the urb_tree path.
 get_target_property(URB_TREE_LIB liburb_tree IMPORTED_LOCATION)

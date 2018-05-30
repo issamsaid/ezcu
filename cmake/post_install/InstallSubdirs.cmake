@@ -31,6 +31,13 @@
 ## @brief Install all the subdirectories when make install is invoked.
 ##
 
+## Install the ezcu library.
+if (EXISTS ${EZCU_BUILD_LIB})
+    message(STATUS "Post-install: install the library")
+    file(COPY ${EZCU_BUILD_LIB}
+         DESTINATION ${EZCU_INSTALL_DIR}/lib)
+endif (EXISTS ${EZCU_BUILD_LIB})
+
 ## Install the ezcu Fortran interface.
 if (EXISTS ${EZCU_FORTRAN_BUILD_LIB})
     message(STATUS "Post-install: install the Fortran interface")

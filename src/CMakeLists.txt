@@ -48,8 +48,8 @@ add_dependencies(ezcu liburb_tree)
 
 ## rename the library.
 set_target_properties(ezcu PROPERTIES OUTPUT_NAME "ezcu")
-install(TARGETS ezcu ARCHIVE DESTINATION lib)
-install(DIRECTORY ${CMAKE_SOURCE_DIR}/include/ DESTINATION include)
+# install(TARGETS ezcu ARCHIVE DESTINATION ${CMAKE_INSTALL_PREFIX}/lib)
+# install(DIRECTORY ${CMAKE_SOURCE_DIR}/include/ DESTINATION include)
 
 ## add the paths to ezcu which we need during post install.
 set(EZCU_BUILD_LIB "${CMAKE_BINARY_DIR}/src/libezcu.a")
